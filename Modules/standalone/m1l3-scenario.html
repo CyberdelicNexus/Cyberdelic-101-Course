@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M1L3 — Evaluating Experiences</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../core/styles.css">
+    <link rel="stylesheet" href="../../methods/scenario-based/scenario-based.css">
+    <style>
+        body { margin: 0; background: #03010f; overflow: hidden; }
+        #lesson-root { width: 100vw; height: 100vh; }
+    </style>
+</head>
+<body>
+    <div id="lesson-root"></div>
+
+    <script src="../../core/method-base.js"></script>
+    <script src="../../methods/scenario-based/scenario-based.js"></script>
+    <script src="../../core/lesson-runner.js"></script>
+
+    <script>
+        const manifest = {
+            "id": "m1l3_scenario",
+            "lessonId": "m1_l3_scenario",
+            "title": "Evaluating Experiences",
+            "theme": { "primaryColor": "#5900ff", "fontBody": "Rajdhani, sans-serif" },
+            "modules": [
+                {
+                    "id": "exp_evaluation_3.1",
+                    "title": "Evaluating Experiences",
+                    "type": "scenario-based",
+                    "content": {
+                        "scenes": [
+                            {"id":"intro","narrative":"<h3>Evaluating Experiences</h3><p>You are reviewing three different VR experiences to determine which ones align with cyberdelic principles vs. pure entertainment.</p>","choices":[{"id":"start","label":"Start Review","outcome":"zombie_bash"}]},
+                            {"id":"zombie_bash","narrative":"<h3>Experience A — 'Neon Strike'</h3><p><strong>Persona: The Action Gamer</strong></p><p>A high-speed rhythm game where you dodge obstacles and hit targets to a pulsing soundtrack. You are constantly monitoring your health bar and multiplier score.</p>","choices":[{"id":"pure_ent","label":"Pure Entertainment","outcome":"zombie_bash_pure_ent_feedback"},{"id":"cyber_ent","label":"Cyberdelic","outcome":"zombie_bash_cyber_ent_feedback"}]},
+                            {"id":"zombie_bash_pure_ent_feedback","narrative":"<h3>Feedback</h3><p>Correct. The attention is entirely outward, focused on reaction time, scoring, and external goals. While immersive, it is designed for 'flow' through external challenge, not inward reflection.</p>","choices":[{"id":"continue","label":"Continue to Experience B","outcome":"breath_viz"}]},
+                            {"id":"zombie_bash_cyber_ent_feedback","narrative":"<h3>Feedback</h3><p>Not quite. While the music and visuals are 'trippy,' the fundamental mechanics (scoring, dodging, external targets) pull the attention away from the self and toward the game state.</p>","choices":[{"id":"continue","label":"Continue to Experience B","outcome":"breath_viz"}]},
+                            {"id":"breath_viz","narrative":"<h3>Experience B — 'Lumen Breath'</h3><p><strong>Persona: The Meditator</strong></p><p>A serene environment where a glowing nebula expands and contracts in sync with your actual breathing, captured via a chest strap or controller movement. There are no scores or levels, only the visualization of your internal rhythm.</p>","choices":[{"id":"cyber_pure","label":"Cyberdelic","outcome":"breath_viz_cyber_pure_feedback"},{"id":"ent_pure","label":"Entertainment","outcome":"breath_viz_ent_pure_feedback"}]},
+                            {"id":"breath_viz_cyber_pure_feedback","narrative":"<h3>Feedback</h3><p>Correct. This is a classic cyberdelic loop. The technology acts as a mirror, reflecting your internal biological state (breath) back to you, turning your attention inward to maintain the experience.</p>","choices":[{"id":"continue","label":"Continue to Experience C","outcome":"mountain_climb"}]},
+                            {"id":"breath_viz_ent_pure_feedback","narrative":"<h3>Feedback</h3><p>Incorrect. Because the experience focuses on reflecting the user's internal state rather than providing external goals or distraction, it falls squarely into the cyberdelic category.</p>","choices":[{"id":"continue","label":"Continue to Experience C","outcome":"mountain_climb"}]},
+                            {"id":"mountain_climb","narrative":"<h3>Experience C — 'Zenith Reach'</h3><p><strong>Persona: The Explorer</strong></p><p>A photorealistic mountain climbing simulation. You feel the physical strain of the climb, but the goal is to reach the summit to unlock a cinematic view of the horizon.</p>","choices":[{"id":"ent_mountain","label":"Entertainment","outcome":"mountain_climb_ent_mountain_feedback"},{"id":"cyber_mountain","label":"Cyberdelic","outcome":"mountain_climb_cyber_mountain_feedback"}]},
+                            {"id":"mountain_climb_ent_mountain_feedback","narrative":"<h3>Feedback</h3><p>Correct. This is a high-fidelity simulation focused on an external achievement (reaching the summit). It aims for realism and goal-completion, characteristic of entertainment/simulation VR.</p>","choices":[{"id":"continue","label":"Complete Evaluation","outcome":"reflection"}]},
+                            {"id":"mountain_climb_cyber_mountain_feedback","narrative":"<h3>Feedback</h3><p>Incorrect. While it might be awe-inspiring, the primary direction of attention is toward the external goal (the summit) and the mechanics of climbing, not the observation of one's own consciousness.</p>","choices":[{"id":"continue","label":"Complete Evaluation","outcome":"reflection"}]},
+                            {"id":"reflection","narrative":"<h3>Reflection</h3><p>Across all three experiences, the deciding factor was never the visuals, the hardware, or even the intensity of the environment. The deciding factor was always the <em>direction of attention</em>. Entertainment pulls you outward into goals, scores, and fictional worlds. Cyberdelics use technology as a mirror, turning your awareness back toward your own inner state, breath, and consciousness.</p><p>Neon Strike engaged you externally. Lumen Breath made your biology visible to you. Zenith Reach aimed for an achievement. The same headset, three entirely different psychological orientations. That distinction is the foundation of cyberdelic design thinking.</p>","choices":[{"id":"continue","label":"Continue","outcome":"flow_next_module"}]}
+                        ]
+                    }
+                }
+            ]
+        };
+
+        LessonRunner.init('#lesson-root');
+        LessonRunner.loadLesson(manifest);
+    </script>
+</body>
+</html>

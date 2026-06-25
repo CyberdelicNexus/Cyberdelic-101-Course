@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M1L1 — Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../core/styles.css">
+    <link rel="stylesheet" href="../../methods/option-selector/option-selector.css">
+    <style>
+        body { margin: 0; background: #03010f; overflow: hidden; }
+        #lesson-root { width: 100vw; height: 100vh; }
+    </style>
+</head>
+<body>
+    <div id="lesson-root"></div>
+
+    <script src="../../core/method-base.js"></script>
+    <script src="../../methods/option-selector/option-selector.js"></script>
+    <script src="../../core/lesson-runner.js"></script>
+
+    <script>
+        const manifest = {
+            "id": "m1l1_quiz",
+            "lessonId": "m1_l1_quiz",
+            "title": "Module 1 Lesson 1 Quiz",
+            "theme": { "primaryColor": "#5900ff", "fontBody": "Rajdhani, sans-serif" },
+            "modules": [
+                {
+                    "id": "quiz_1.1_combined",
+                    "title": "Module 1 Lesson 1 Quiz",
+                    "type": "option-selector",
+                    "config": {
+                        "mode": "single",
+                        "style": "text",
+                        "questions": [
+                            {
+                                "question": "What does the 'cyber' in cyberdelics primarily refer to?",
+                                "options": [
+                                    {"id":"q1_1_a","label":"Cybersecurity and protecting digital information","correct":false},
+                                    {"id":"q1_1_b","label":"Digital technology and virtual environments as tools for experience","correct":true},
+                                    {"id":"q1_1_c","label":"Social media and online communication platforms","correct":false},
+                                    {"id":"q1_1_d","label":"Artificial intelligence and machine learning systems","correct":false}
+                                ],
+                                "synthesis": {
+                                    "q1_1_a": "<p>While 'cyber' is used in cybersecurity, that's not what it means in cyberdelics. Here, 'cyber' refers to the broader realm of digital technology, virtual environments, and human-computer interaction — the tools we use to facilitate consciousness exploration. Think cybernetics and feedback systems, not security. <strong>Try again.</strong></p>",
+                                    "q1_1_c": "<p>While social media exists in the digital realm, 'cyber' in cyberdelics specifically refers to immersive and biofeedback technologies used for consciousness exploration. Social platforms are about external communication, while cyberdelics focus on internal exploration using specialized tech. <strong>Try again.</strong></p>",
+                                    "q1_1_d": "<p>AI and machine learning might be tools within cyberdelic experiences, but 'cyber' here primarily refers to the immersive digital technologies (VR, AR, biofeedback) that create the environment for consciousness exploration. <strong>Try again.</strong></p>",
+                                    "q1_1_b": "<p>Exactly. 'Cyber' in cyberdelics refers to the digital technological realm — VR, AR, biofeedback devices, and computer-mediated experiences. It's about using technology as the medium for consciousness work. This connects back to cybernetics, the study of communication and control systems.</p>"
+                                }
+                            },
+                            {
+                                "question": "What does 'delic' (from psychedelic) literally mean?",
+                                "options": [
+                                    {"id":"q1_2_a","label":"Creating hallucinations or visual distortions","correct":false},
+                                    {"id":"q1_2_b","label":"Mind-manifesting or revealing consciousness","correct":true},
+                                    {"id":"q1_2_c","label":"Causing euphoria and pleasure","correct":false},
+                                    {"id":"q1_2_d","label":"Altering brain chemistry through substances","correct":false}
+                                ],
+                                "synthesis": {
+                                    "q1_2_a": "<p>This is a common misconception. 'Delic' comes from Greek words meaning 'mind-manifesting' or 'revealing the mind/soul.' It's about making consciousness visible and exploring inner dimensions, not just creating visual effects. <strong>Try again.</strong></p>",
+                                    "q1_2_c": "<p>While consciousness exploration might involve pleasurable states, 'delic' doesn't mean pleasure. It means 'mind-manifesting' — revealing and exploring consciousness. <strong>Try again.</strong></p>",
+                                    "q1_2_d": "<p>That's one method of creating mind-manifesting experiences, but 'delic' itself just means 'mind-manifesting.' It doesn't specify the method. <strong>Try again.</strong></p>",
+                                    "q1_2_b": "<p>Exactly right. 'Delic' comes from the Greek 'delos' (to manifest/reveal) and relates to 'psyche' (mind/soul). It's about revealing what's hidden in consciousness, expanding awareness, and making the invisible aspects of mind visible.</p>"
+                                }
+                            },
+                            {
+                                "question": "You're evaluating three different VR experiences. Which one demonstrates all three cyberdelic components?",
+                                "options": [
+                                    {"id":"q2_1_a","label":"A VR fitness game that tracks heart rate and makes workouts more engaging through gamification","correct":false},
+                                    {"id":"q2_1_b","label":"A VR meditation environment with biofeedback that adapts based on brainwave patterns, designed to facilitate deep contemplative states","correct":true},
+                                    {"id":"q2_1_c","label":"A beautifully designed VR nature walk with calming music for stress relief","correct":false},
+                                    {"id":"q2_1_d","label":"A VR social platform where users hang out in virtual spaces and attend events together","correct":false}
+                                ],
+                                "synthesis": {
+                                    "q2_1_a": "<p>This uses technology and biofeedback, but the purpose is fitness optimization, not consciousness exploration or personal transformation. Without transformational intent focused on consciousness, this is wellness tech rather than cyberdelic. <strong>Try again.</strong></p>",
+                                    "q2_1_c": "<p>While this uses VR technology and might help you relax, it's missing intentional cultivation of altered states and transformational purpose. Relaxation and transformation are different goals. <strong>Try again.</strong></p>",
+                                    "q2_1_d": "<p>This is social VR — designed for connection and fun, which are valuable but different from cyberdelic aims. <strong>Try again.</strong></p>",
+                                    "q2_1_b": "<p>Exactly right. This has all three components — technology (VR and EEG biofeedback), altered states (deep contemplative states intentionally cultivated), and transformational intent (designed for consciousness exploration). All three legs of the stool are present.</p>"
+                                }
+                            },
+                            {
+                                "question": "A company adds biofeedback sensors to their existing VR game. Does this automatically make it cyberdelic?",
+                                "options": [
+                                    {"id":"q2_2_a","label":"Yes, because it now has technology and biofeedback working together","correct":false},
+                                    {"id":"q2_2_b","label":"No, unless the experience is redesigned to intentionally facilitate altered states and serve transformational purposes","correct":true},
+                                    {"id":"q2_2_c","label":"Yes, because biofeedback sensors create altered states automatically","correct":false},
+                                    {"id":"q2_2_d","label":"It depends on whether the graphics are high quality and immersive","correct":false}
+                                ],
+                                "synthesis": {
+                                    "q2_2_a": "<p>Technology and biofeedback are necessary but not sufficient. You also need the experience to intentionally facilitate altered states AND have transformational purpose. All three components must be present. <strong>Try again.</strong></p>",
+                                    "q2_2_c": "<p>Biofeedback sensors measure physiological states, but they don't automatically create altered states of consciousness. The experience design must intentionally use that data to facilitate shifts in awareness. <strong>Try again.</strong></p>",
+                                    "q2_2_d": "<p>Visual quality and immersion don't determine whether something is cyberdelic. What matters is the design intent — whether the experience is purposefully created to explore consciousness and facilitate personal growth. <strong>Try again.</strong></p>",
+                                    "q2_2_b": "<p>Exactly. Simply adding biofeedback to a game doesn't make it cyberdelic. The entire experience must be designed with the intention of facilitating consciousness exploration and transformation.</p>"
+                                }
+                            },
+                            {
+                                "question": "A developer wants to create a cyberdelic experience. What should they prioritize in their design?",
+                                "options": [
+                                    {"id":"q3_1_a","label":"The highest resolution graphics and most realistic environments possible","correct":false},
+                                    {"id":"q3_1_b","label":"Facilitating inward exploration and consciousness shifts, with technology supporting that purpose","correct":true},
+                                    {"id":"q3_1_c","label":"Making the experience as entertaining and engaging as possible to keep users coming back","correct":false},
+                                    {"id":"q3_1_d","label":"Adding as many technological features as possible to seem cutting-edge","correct":false}
+                                ],
+                                "synthesis": {
+                                    "q3_1_a": "<p>Graphics quality doesn't determine whether something is cyberdelic. What matters is whether the experience facilitates inner exploration and transformation. <strong>Try again.</strong></p>",
+                                    "q3_1_c": "<p>Entertainment and engagement are different from transformation. Entertainment focuses on external stimulation, while cyberdelics focus on inner exploration and presence. <strong>Try again.</strong></p>",
+                                    "q3_1_d": "<p>More technology doesn't equal more cyberdelic. Technology serves the purpose — it isn't the purpose itself. <strong>Try again.</strong></p>",
+                                    "q3_1_b": "<p>Exactly right. The primary design goal should be facilitating consciousness exploration and transformation. The technology exists to serve that purpose. Start with the transformational intention, then choose the tools that best support it.</p>"
+                                }
+                            },
+                            {
+                                "question": "What's the key difference between a VR roller coaster and a VR meditation experience?",
+                                "options": [
+                                    {"id":"q3_2_a","label":"The meditation experience is slower-paced","correct":false},
+                                    {"id":"q3_2_b","label":"The roller coaster is more immersive and engaging","correct":false},
+                                    {"id":"q3_2_c","label":"The meditation experience is designed for inward exploration, while the roller coaster is designed for external entertainment","correct":true},
+                                    {"id":"q3_2_d","label":"The meditation experience requires biofeedback sensors","correct":false}
+                                ],
+                                "synthesis": {
+                                    "q3_2_a": "<p>Pacing alone doesn't determine what's cyberdelic. What matters is the intention behind the design. <strong>Try again.</strong></p>",
+                                    "q3_2_b": "<p>Both can be equally immersive. Immersion and engagement don't determine what's cyberdelic; purpose does. <strong>Try again.</strong></p>",
+                                    "q3_2_d": "<p>Not all cyberdelic experiences require biofeedback sensors. What makes something cyberdelic is the intention to facilitate consciousness exploration. <strong>Try again.</strong></p>",
+                                    "q3_2_c": "<p>Exactly. The fundamental difference is design intention. The meditation experience uses technology to facilitate turning attention inward. The roller coaster uses technology to create external thrills. Same medium, different messages.</p>"
+                                }
+                            },
+                            {
+                                "question": "Why is the 'none-substance' distinction important in cyberdelics?",
+                                "options": [
+                                    {"id":"q4_1_a","label":"Because technology is better and more powerful than substances in every way","correct":false},
+                                    {"id":"q4_1_b","label":"Because it emphasizes safety, precision control, and wider accessibility for consciousness exploration","correct":true},
+                                    {"id":"q4_1_c","label":"Because substances are illegal everywhere, so we have to use technology instead","correct":false},
+                                    {"id":"q4_1_d","label":"Because substances don't actually work, while technology does","correct":false}
+                                ],
+                                "synthesis": {
+                                    "q4_1_a": "<p>This isn't about one being 'better' than the other. Both paths have value. Cyberdelics focuses on technology because of specific benefits it offers, not to compete with other methods. <strong>Try again.</strong></p>",
+                                    "q4_1_c": "<p>Legal status varies widely around the world and isn't the primary reason for the focus on technology. The core reasons are functional — precision, safety, and skill-building. <strong>Try again.</strong></p>",
+                                    "q4_1_d": "<p>Both technology and substances have documented effects on consciousness. The 'none-substance' principle isn't about effectiveness; it's about the medium and the methodology. <strong>Try again.</strong></p>",
+                                    "q4_1_b": "<p>Exactly. By focusing on technology alone, cyberdelics offers a path for consciousness exploration that is highly controllable, repeatable, and accessible to a broad audience without the medical or legal complexities of pharmaceutical substances.</p>"
+                                }
+                            },
+                            {
+                                "question": "What does it mean that cyberdelics is an 'active' practice?",
+                                "options": [
+                                    {"id":"q4_2_a","label":"You have to move around physically while using the technology","correct":false},
+                                    {"id":"q4_2_b","label":"The technology helps you train your own mental skills (like focus or calm) rather than doing it for you","correct":true},
+                                    {"id":"q4_2_c","label":"You have to be an expert in technology to use the tools","correct":false},
+                                    {"id":"q4_2_d","label":"The experiences are always fast-paced and high-energy","correct":false}
+                                ],
+                                "synthesis": {
+                                    "q4_2_a": "<p>While some experiences might involve physical movement, 'active' in this context refers to mental engagement. <strong>Try again.</strong></p>",
+                                    "q4_2_c": "<p>Cyberdelic tools are designed to be intuitive and accessible to everyone, regardless of technical expertise. <strong>Try again.</strong></p>",
+                                    "q4_2_d": "<p>Many cyberdelic experiences are actually very calm and slow-paced. 'Active' refers to the mental effort and skill-building involved. <strong>Try again.</strong></p>",
+                                    "q4_2_b": "<p>Precisely. Unlike pharmaceutical interventions where the effect is passive, cyberdelic tools use biofeedback or interactive elements to help you learn how to navigate your own mind. This builds skills that you maintain after the experience is over. <strong>Quiz Complete.</strong></p>"
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        };
+
+        LessonRunner.init('#lesson-root');
+        LessonRunner.loadLesson(manifest);
+    </script>
+</body>
+</html>

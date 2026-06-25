@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M1L1 — Experience Evaluation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../core/styles.css">
+    <link rel="stylesheet" href="../../methods/scenario-based/scenario-based.css">
+    <style>
+        body { margin: 0; background: #03010f; overflow: hidden; }
+        #lesson-root { width: 100vw; height: 100vh; }
+    </style>
+</head>
+<body>
+    <div id="lesson-root"></div>
+
+    <script src="../../core/method-base.js"></script>
+    <script src="../../methods/scenario-based/scenario-based.js"></script>
+    <script src="../../core/lesson-runner.js"></script>
+
+    <script>
+        const manifest = {
+            "id": "m1l1_scenario",
+            "lessonId": "m1_l1_scenario",
+            "title": "Experience Evaluation",
+            "theme": { "primaryColor": "#5900ff", "fontBody": "Rajdhani, sans-serif" },
+            "modules": [
+                {
+                    "id": "scenario_1.1.3",
+                    "title": "Experience Evaluation",
+                    "type": "scenario-based",
+                    "content": {
+                        "scenes": [
+                            {"id":"intro","narrative":"<p>You're evaluating three VR experiences to determine which qualify as cyberdelic. Same hardware, different intentions. Let's see how your understanding holds up.</p>","choices":[{"id":"start","label":"Begin Evaluation","outcome":"exp1"}]},
+                            {"id":"exp1","narrative":"<h3>EXPERIENCE 1 . Virtual Temple Meditation</h3><p>A VR meditation environment where users sit in a virtual temple, follow guided breathwork, and practice present-moment awareness. The visuals are serene and minimal. Biofeedback adjusts the ambient lighting based on heart rate variability. The technology fades into the background as users turn attention inward.</p><p><strong>Is this cyberdelic?</strong></p>","choices":[{"id":"exp1_a","label":"No, because it uses technology instead of traditional meditation","outcome":"exp1_a_out"},{"id":"exp1_b","label":"Yes, it uses technology to facilitate altered states and transformation","outcome":"exp1_b_out"},{"id":"exp1_c","label":"Only if the graphics are high-resolution and photorealistic","outcome":"exp1_c_out"}]},
+                            {"id":"exp1_a_out","narrative":"<p>This misunderstands what cyberdelics is. The field isn't opposed to technology; it uses technology purposefully for consciousness exploration. This experience has all three components. digital technology (VR and biofeedback), intentional altered states (meditative awareness), and transformational intent (inner exploration and development). It's cyberdelic.</p><p><em>Reflection. Technology serving consciousness exploration is exactly what cyberdelics means.</em></p>","choices":[{"id":"next","label":"Next Experience","outcome":"exp2"}]},
+                            {"id":"exp1_b_out","narrative":"<p>Correct. This is a cyberdelic experience. It has all three essential components. technology as medium (VR and biofeedback), intentional cultivation of altered states (meditative awareness), and transformational purpose (consciousness exploration and inner development). The technology serves the inward journey.</p><p><em>Reflection. When technology facilitates consciousness work, that's cyberdelic.</em></p>","choices":[{"id":"next","label":"Next Experience","outcome":"exp2"}]},
+                            {"id":"exp1_c_out","narrative":"<p>Visual quality doesn't determine what's cyberdelic. This experience could have simple graphics and still be deeply cyberdelic because of its intention and design. What matters is the purpose. facilitating consciousness exploration, not the technical specifications of the visuals.</p><p><em>Reflection. Design intent, not technical specs, defines cyberdelic nature.</em></p>","choices":[{"id":"next","label":"Next Experience","outcome":"exp2"}]},
+                            {"id":"exp2","narrative":"<h3>EXPERIENCE 2 . VR Roller Coaster</h3><p>A thrilling VR roller coaster experience with loops, drops, and high-speed turns. Users experience adrenaline, excitement, and sensory intensity. The technology creates full immersion in an external adventure. Heart rate monitoring displays your excitement level as a score.</p><p><strong>Is this cyberdelic?</strong></p>","choices":[{"id":"exp2_a","label":"Yes, because it uses VR technology and affects consciousness","outcome":"exp2_a_out"},{"id":"exp2_b","label":"Yes, because biofeedback is monitoring heart rate","outcome":"exp2_b_out"},{"id":"exp2_c","label":"No, the purpose is entertainment rather than consciousness exploration","outcome":"exp2_c_out"}]},
+                            {"id":"exp2_a_out","narrative":"<p>Not quite. While it uses technology and creates an experience, it lacks two critical components. There's no intentional cultivation of altered states, only entertainment-induced excitement. And the purpose is external entertainment, not transformation or inner exploration. This is entertainment VR, not cyberdelic.</p><p><em>Reflection. Technology alone doesn't make something cyberdelic. Intention matters.</em></p>","choices":[{"id":"next","label":"Next Experience","outcome":"exp3"}]},
+                            {"id":"exp2_b_out","narrative":"<p>The presence of biofeedback sensors doesn't automatically make something cyberdelic. Here, heart rate is gamified as a score for entertainment, not used to facilitate consciousness exploration or altered states. The purpose is still external thrills, not transformational inner work.</p><p><em>Reflection. How technology is used matters more than which technologies are present.</em></p>","choices":[{"id":"next","label":"Next Experience","outcome":"exp3"}]},
+                            {"id":"exp2_c_out","narrative":"<p>Correct. Despite using the same VR headset and even biofeedback, this experience isn't cyberdelic. It lacks transformational intent and doesn't facilitate consciousness-exploring altered states. The technology serves entertainment and external engagement, not inner exploration. Same tools, different purpose.</p><p><em>Reflection. The medium is neutral; purpose determines whether it's cyberdelic.</em></p>","choices":[{"id":"next","label":"Next Experience","outcome":"exp3"}]},
+                            {"id":"exp3","narrative":"<h3>EXPERIENCE 3 . Social VR Hangout</h3><p>A VR platform where users hang out together in virtual spaces, chat, attend events, play casual games, and socialize. The technology creates presence and connection. Users feel like they're really together despite physical distance.</p><p><strong>Is this cyberdelic?</strong></p>","choices":[{"id":"exp3_a","label":"Yes, because connection and presence are forms of consciousness","outcome":"exp3_a_out"},{"id":"exp3_b","label":"No, it's designed for social connection rather than consciousness exploration","outcome":"exp3_b_out"},{"id":"exp3_c","label":"It depends on how self-aware users are during conversations","outcome":"exp3_c_out"}]},
+                            {"id":"exp3_a_out","narrative":"<p>While connection is valuable and VR creates meaningful presence, this experience lacks the intentional cultivation of altered states and transformational purpose that define cyberdelics. It's designed for social interaction and entertainment, not consciousness exploration or inner development. This is social VR, not cyberdelic.</p><p><em>Reflection. Not all meaningful VR experiences are cyberdelic. Intention matters.</em></p>","choices":[{"id":"finish","label":"Final Reflection","outcome":"reflection"}]},
+                            {"id":"exp3_b_out","narrative":"<p>Correct. This is social VR, not cyberdelics. While valuable for connection, it lacks the transformational intent and altered state cultivation that define cyberdelic experiences. The technology facilitates external social engagement rather than internal exploration.</p><p><em>Reflection. Different VR applications serve different purposes. Not all are cyberdelic.</em></p>","choices":[{"id":"finish","label":"Final Reflection","outcome":"reflection"}]},
+                            {"id":"exp3_c_out","narrative":"<p>User mindfulness doesn't change the experience's design intent. This platform is designed for social entertainment, not consciousness exploration. Even if someone brings awareness to their social interactions, that doesn't make the platform itself cyberdelic. The design purpose matters more than individual user intention.</p><p><em>Reflection. Individual awareness doesn't override design intention when categorizing experiences.</em></p>","choices":[{"id":"finish","label":"Final Reflection","outcome":"reflection"}]},
+                            {"id":"reflection","narrative":"<p>You've now evaluated three VR experiences using the same hardware. One is cyberdelic (the meditation temple). Two are not (the roller coaster, the social hangout). The technology is neutral, what makes something cyberdelic is the purpose it serves. When technology is designed to facilitate inward exploration and transformation, that's cyberdelics.</p>","choices":[{"id":"continue","label":"Explore The Principles","outcome":"complete"}]}
+                        ]
+                    }
+                }
+            ]
+        };
+
+        LessonRunner.init('#lesson-root');
+        LessonRunner.loadLesson(manifest);
+    </script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M1L2 — Consulting Scenarios</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../core/styles.css">
+    <link rel="stylesheet" href="../../methods/scenario-based/scenario-based.css">
+    <style>
+        body { margin: 0; background: #03010f; overflow: hidden; }
+        #lesson-root { width: 100vw; height: 100vh; }
+    </style>
+</head>
+<body>
+    <div id="lesson-root"></div>
+
+    <script src="../../core/method-base.js"></script>
+    <script src="../../methods/scenario-based/scenario-based.js"></script>
+    <script src="../../core/lesson-runner.js"></script>
+
+    <script>
+        const manifest = {
+            "id": "m1l2_scenario",
+            "lessonId": "m1_l2_scenario",
+            "title": "Consulting Scenarios",
+            "theme": { "primaryColor": "#5900ff", "fontBody": "Rajdhani, sans-serif" },
+            "modules": [
+                {
+                    "id": "complementary_scenario_2.3",
+                    "title": "Consulting Scenarios",
+                    "type": "scenario-based",
+                    "content": {
+                        "scenes": [
+                            {"id":"intro","narrative":"<h3>Consulting Challenge</h3><p>You're consulting with three different people seeking consciousness exploration. Each has unique circumstances. Which approach would you recommend?</p>","choices":[{"id":"client1","label":"Begin Consultations","outcome":"client1"}]},
+                            {"id":"client1","narrative":"<h3>CLIENT 1. Medical Considerations</h3><p>Someone reaches out wanting to explore consciousness for healing and personal growth. They have a heart condition and take blood pressure medication. They're concerned about safety but deeply motivated to begin this work.</p><p><strong>What would you recommend?</strong></p>","choices":[{"id":"c1_a","label":"Psychedelic therapy","outcome":"c1_unsafe"},{"id":"c1_b","label":"Cyberdelic VR sessions with biofeedback","outcome":"c1_correct"},{"id":"c1_c","label":"No exploration possible","outcome":"c1_limiting"}]},
+                            {"id":"c1_unsafe","narrative":"<h3>Medical Danger</h3><p>This isn't safe. The medical contraindications are real, psychedelics can interact with heart medications and affect cardiovascular function. Recommending this approach without medical clearance could cause serious harm. This is exactly the situation where cyberdelics offer a safer alternative path.</p><p><em>Reflection. Medical considerations matter. When substances pose risks, cyberdelics provide an accessible and safe alternative.</em></p>","choices":[{"id":"retry","label":"Re-evaluate","outcome":"client1"}]},
+                            {"id":"c1_limiting","narrative":"<h3>Unnecessary Limitation</h3><p>This unnecessarily limits their options. While traditional psychedelics may not be appropriate, cyberdelics offer a valid alternative path. There's no reason to exclude someone from consciousness exploration when safer technological approaches exist.</p><p><em>Reflection. The emergence of cyberdelics means more people can access this work safely. No one should be turned away without exploring alternatives.</em></p>","choices":[{"id":"retry","label":"Re-evaluate","outcome":"client1"}]},
+                            {"id":"c1_correct","narrative":"<h3>Appropriate Recommendation</h3><p>This is the appropriate recommendation. Cyberdelic approaches don't involve chemical metabolism or cardiovascular effects from substances. They can facilitate deep consciousness exploration and transformation safely for someone with heart conditions.</p><p><em>Reflection. Different circumstances call for different tools. This is exactly where cyberdelics expand access to consciousness work.</em></p>","choices":[{"id":"next","label":"Consult Next Client","outcome":"client2"}]},
+                            {"id":"client2","narrative":"<h3>CLIENT 2. Intensive Healing Work</h3><p>Someone seeks support for deep trauma work. They have no medical contraindications, access to legal psychedelic therapy, and are looking for the most intensive catalytic approach available. They're prepared for challenging experiences.</p><p><strong>What would you recommend?</strong></p>","choices":[{"id":"c2_a","label":"Only cyberdelic sessions","outcome":"c2_limiting"},{"id":"c2_b","label":"Psychedelic-assisted therapy","outcome":"c2_correct"},{"id":"c2_c","label":"Both in combination","outcome":"c2_combined"}]},
+                            {"id":"c2_limiting","narrative":"<h3>Limiting Options</h3><p>While cyberdelics could certainly help, you may be limiting their options unnecessarily. With no contraindications and access to legal psychedelic therapy, they have the full toolkit available. For intensive trauma work, psychedelic-assisted therapy has extensive research support and may offer the catalytic depth they're seeking.</p><p><em>Reflection. When all options are available, consider what best serves the specific goal, not what's most accessible by default.</em></p>","choices":[{"id":"retry","label":"Re-evaluate","outcome":"client2"}]},
+                            {"id":"c2_correct","narrative":"<h3>Strong Match</h3><p>This is a strong recommendation given their circumstances. With no contraindications, legal access, and a desire for intensive work, psychedelic therapy is well-suited to their needs. Context pointed clearly here.</p><p><em>Reflection. Both approaches are valid. Context is what determines the recommendation, not preference for one path over the other.</em></p>","choices":[{"id":"next","label":"Consult Next Client","outcome":"client3"}]},
+                            {"id":"c2_combined","narrative":"<h3>Synergistic Approach</h3><p>This could work exceptionally well. They could use psychedelic sessions for intensive catalytic work, with cyberdelic sessions supporting integration and ongoing practice between major sessions. Many people find value in combining approaches strategically, one for depth, one for continuity.</p><p><em>Reflection. The complementary relationship means both can be used together, not just chosen between.</em></p>","choices":[{"id":"next","label":"Consult Next Client","outcome":"client3"}]},
+                            {"id":"client3","narrative":"<h3>CLIENT 3. Regular Practice</h3><p>Someone wants to establish a regular consciousness exploration practice alongside their existing meditation routine. They're interested in technology, want frequent sessions (weekly), and prefer experiences they can adjust in real-time.</p><p><strong>What would you recommend?</strong></p>","choices":[{"id":"c3_a","label":"Weekly psychedelic sessions","outcome":"c3_impractical"},{"id":"c3_b","label":"Regular cyberdelic sessions","outcome":"c3_correct"},{"id":"c3_c","label":"Monthly microdosing","outcome":"c3_alignment"}]},
+                            {"id":"c3_impractical","narrative":"<h3>Impractical Choice</h3><p>This isn't practical or advisable. Psychedelics develop tolerance with frequent use, and weekly sessions would likely diminish in effectiveness. Additionally, the intensity and duration make them poorly suited to regular frequent practice.</p><p><em>Reflection. Frequency and control considerations matter when choosing between approaches.</em></p>","choices":[{"id":"retry","label":"Re-evaluate","outcome":"client3"}]},
+                            {"id":"c3_alignment","narrative":"<h3>Alignment Issue</h3><p>While microdosing could support regular practice, it doesn't address their interest in immersive experiences they can adjust in real-time. Given their specific preferences, technology, control, and frequent immersive sessions, cyberdelics are more directly aligned.</p><p><em>Reflection. Listen to what someone actually wants and needs, not just what might technically work in a general sense.</em></p>","choices":[{"id":"retry","label":"Re-evaluate","outcome":"client3"}]},
+                            {"id":"c3_correct","narrative":"<h3>Perfect Alignment</h3><p>This aligns perfectly with their needs. Cyberdelics don't involve tolerance issues, can be done frequently, offer real-time adjustability, and integrate naturally with existing practice.</p><p><em>Reflection. Different use cases call for different tools. Regular, repeatable practice is where cyberdelics particularly shine.</em></p>","choices":[{"id":"finish","label":"Final Reflections","outcome":"summary"}]},
+                            {"id":"summary","narrative":"<h3>Consultation Complete</h3><p>You've just seen three different people with three different appropriate recommendations. Sometimes cyberdelics. Sometimes psychedelics. Sometimes both. The best approach depends on medical factors, goals, preferences, legal access, and life circumstances.</p><p><strong>This is what complementary means — having options, and knowing which one fits when.</strong></p>","choices":[{"id":"next","label":"Reflect on This Lesson","outcome":"reflection"}]},
+                            {"id":"reflection","narrative":"<h3>Reflection</h3><p>Three consultations, three different right answers. No path was universally superior, what mattered in every case was <em>fit</em>. When substances pose medical risks, cyberdelics open a door. When intensive catalytic work is the goal and all options are available, psychedelics may be ideal. When frequency, control, and repeatability matter most, cyberdelics are unmatched.</p><p>The practitioner's skill lies not in preferring one path but in accurately reading which tool serves the person, the moment, and the goal.</p>","choices":[{"id":"continue","label":"View Synthesis","outcome":"flow_next_module"}]}
+                        ]
+                    }
+                }
+            ]
+        };
+
+        LessonRunner.init('#lesson-root');
+        LessonRunner.loadLesson(manifest);
+    </script>
+</body>
+</html>

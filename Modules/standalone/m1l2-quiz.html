@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M1L2 — Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../core/styles.css">
+    <link rel="stylesheet" href="../../methods/option-selector/option-selector.css">
+    <style>
+        body { margin: 0; background: #03010f; overflow: hidden; }
+        #lesson-root { width: 100vw; height: 100vh; }
+    </style>
+</head>
+<body>
+    <div id="lesson-root"></div>
+
+    <script src="../../core/method-base.js"></script>
+    <script src="../../methods/option-selector/option-selector.js"></script>
+    <script src="../../core/lesson-runner.js"></script>
+
+    <script>
+        const manifest = {
+            "id": "m1l2_quiz",
+            "lessonId": "m1_l2_quiz",
+            "title": "Module 1 Lesson 2 Quiz",
+            "theme": { "primaryColor": "#5900ff", "fontBody": "Rajdhani, sans-serif" },
+            "modules": [
+                {
+                    "id": "quiz_1.2_combined",
+                    "title": "Module 1 Lesson 2 Quiz",
+                    "type": "option-selector",
+                    "config": {
+                        "mode": "single",
+                        "style": "text",
+                        "questions": [
+                            {
+                                "question": "What do psychedelics and cyberdelics primarily share?",
+                                "options": [
+                                    {"id":"q1_1_a","label":"The specific method used","correct":false},
+                                    {"id":"q1_1_c","label":"Legal status","correct":false},
+                                    {"id":"q1_1_b","label":"The intention to facilitate transformation","correct":true},
+                                    {"id":"q1_1_d","label":"Requirement for medical supervision","correct":false}
+                                ],
+                                "synthesis": {
+                                    "q1_1_a": "<p>The method is actually where they differ. Psychedelics use chemical substances, while cyberdelics use digital technology. What they share is the intention and potential outcomes. <strong>Try again.</strong></p>",
+                                    "q1_1_c": "<p>Legal status is actually where they differ significantly. What they share is transformational intent and potential outcomes, not legal status. <strong>Try again.</strong></p>",
+                                    "q1_1_d": "<p>Medical supervision requirements differ between the two approaches. What they share is transformational purpose, not supervision requirements. <strong>Try again.</strong></p>",
+                                    "q1_1_b": "<h3>Correct!</h3><p>Exactly. Both psychedelics and cyberdelics share the core intention of facilitating consciousness exploration, personal transformation, and spiritual development. The method differs (substances vs. technology), but the purpose aligns.</p>"
+                                }
+                            },
+                            {
+                                "question": "Can properly designed cyberdelic experiences produce mystical experiences comparable to psychedelics?",
+                                "options": [
+                                    {"id":"q1_2_a","label":"No, only substances work","correct":false},
+                                    {"id":"q1_2_c","label":"Maybe, but less profound","correct":false},
+                                    {"id":"q1_2_d","label":"Depends on belief system","correct":false},
+                                    {"id":"q1_2_b","label":"Yes, research shows comparable scores","correct":true}
+                                ],
+                                "synthesis": {
+                                    "q1_2_a": "<p>Research shows this isn't accurate. Studies comparing psychedelic and cyberdelic experiences demonstrate that properly designed cyberdelic protocols can produce mystical experiences with comparable intensity and outcomes. <strong>Try again.</strong></p>",
+                                    "q1_2_c": "<p>Research doesn't support the idea that cyberdelic experiences are inherently less profound. Profundity depends on design quality and context, not the medium itself. <strong>Try again.</strong></p>",
+                                    "q1_2_d": "<p>While belief and expectation play roles, research shows cyberdelic experiences can produce measurable mystical phenomena regardless of prior beliefs. <strong>Try again.</strong></p>",
+                                    "q1_2_b": "<h3>Correct!</h3><p>Empirical research demonstrates that well-designed cyberdelic experiences can produce mystical experiences, ego dissolution, and therapeutic breakthroughs comparable to traditional psychedelics, validated through standardized measures of mystical experience.</p>"
+                                }
+                            },
+                            {
+                                "question": "Which aspect primarily DIFFERS between psychedelics and cyberdelics?",
+                                "options": [
+                                    {"id":"q2_1_b","label":"The method used to create the experience","correct":true},
+                                    {"id":"q2_1_a","label":"The intention to facilitate transformation","correct":false},
+                                    {"id":"q2_1_c","label":"The potential for mystical experiences","correct":false},
+                                    {"id":"q2_1_d","label":"The need for integration and processing afterward","correct":false}
+                                ],
+                                "synthesis": {
+                                    "q2_1_a": "<p>Intention is actually what they share, not what differs. Both exist to facilitate consciousness exploration and personal transformation. <strong>Try again.</strong></p>",
+                                    "q2_1_c": "<p>Both approaches can facilitate mystical experiences — this is what they share, not what differs. <strong>Try again.</strong></p>",
+                                    "q2_1_d": "<p>Integration is important for both approaches. This is a shared characteristic, not a difference. <strong>Try again.</strong></p>",
+                                    "q2_1_b": "<h3>Correct!</h3><p>Exactly. The primary difference is the method — psychedelics use chemical substances to alter consciousness, while cyberdelics use digital technology. This methodological difference creates practical distinctions in legality, safety profiles, and control, but the core transformational intention remains the same.</p>"
+                                }
+                            },
+                            {
+                                "question": "Why might someone choose cyberdelics over psychedelics for consciousness exploration?",
+                                "options": [
+                                    {"id":"q2_2_a","label":"Because cyberdelics are always more powerful and effective","correct":false},
+                                    {"id":"q2_2_c","label":"Because technology is more spiritual than chemistry","correct":false},
+                                    {"id":"q2_2_b","label":"Medical contraindications, legal considerations, or personal preference","correct":true},
+                                    {"id":"q2_2_d","label":"To avoid all risks and challenges","correct":false}
+                                ],
+                                "synthesis": {
+                                    "q2_2_a": "<p>Neither approach is universally more powerful or effective — they're different tools for different contexts. <strong>Try again.</strong></p>",
+                                    "q2_2_c": "<p>Neither method is inherently more or less spiritual. Spirituality emerges from intention and experience, not from the medium used. <strong>Try again.</strong></p>",
+                                    "q2_2_d": "<p>While cyberdelics have different safety considerations, consciousness exploration through any method involves psychological and emotional challenges. Cyberdelics aren't risk-free — they're differently safe. <strong>Try again.</strong></p>",
+                                    "q2_2_b": "<h3>Quiz Complete!</h3><p>Exactly. People might choose cyberdelics for various valid reasons — health conditions, legal restrictions, preference for repeatable and controllable experiences, or genuine resonance with technological approaches. Different paths serve different needs. <strong>Quiz Complete.</strong></p>"
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        };
+
+        LessonRunner.init('#lesson-root');
+        LessonRunner.loadLesson(manifest);
+    </script>
+</body>
+</html>

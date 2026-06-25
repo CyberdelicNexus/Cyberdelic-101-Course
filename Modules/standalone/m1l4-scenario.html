@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M1L4 — The Advisor's Challenge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../core/styles.css">
+    <link rel="stylesheet" href="../../methods/scenario-based/scenario-based.css">
+    <style>
+        body { margin: 0; background: #03010f; overflow: hidden; }
+        #lesson-root { width: 100vw; height: 100vh; }
+    </style>
+</head>
+<body>
+    <div id="lesson-root"></div>
+
+    <script src="../../core/method-base.js"></script>
+    <script src="../../methods/scenario-based/scenario-based.js"></script>
+    <script src="../../core/lesson-runner.js"></script>
+
+    <script>
+        const manifest = {
+            "id": "m1l4_scenario",
+            "lessonId": "m1_l4_scenario",
+            "title": "The Advisor's Challenge",
+            "theme": { "primaryColor": "#5900ff", "fontBody": "Rajdhani, sans-serif" },
+            "modules": [
+                {
+                    "id": "advisor_scenarios_4.2",
+                    "title": "The Advisor's Challenge",
+                    "type": "scenario-based",
+                    "content": {
+                        "scenes": [
+                            {"id":"intro","narrative":"<h3>The Advisor's Challenge</h3><p>You're helping three people choose the right technology for their goals. Each has different needs, different experience levels, and different intentions. Which approach fits each one?</p>","choices":[{"id":"start","label":"Begin Scenarios","outcome":"person1_begin"}]},
+                            {"id":"person1_begin","narrative":"<h3>PERSON 1 — Starting Simple</h3><p><strong>Persona: The Newcomer</strong></p><p>Someone is new to both meditation and technology. They want to start a basic mindfulness practice and prefer something simple and accessible. They're not seeking intense experiences yet, just building a foundation they can maintain consistently. What would you recommend?</p>","choices":[{"id":"p1_a","label":"Full cyberdelic VR protocol with biofeedback","outcome":"person1_begin_p1_a_feedback"},{"id":"p1_b","label":"A simple meditation app like Headspace or Calm","outcome":"person1_begin_p1_b_feedback"},{"id":"p1_c","label":"Tell them they're not ready for consciousness work yet","outcome":"person1_begin_p1_c_feedback"}]},
+                            {"id":"person1_begin_p1_a_feedback","narrative":"<h3>Feedback</h3><p>This is likely overwhelming for someone seeking simplicity as their first entry point. While cyberdelic experiences can work for beginners in the right context, this person has specifically asked for something basic. Meeting people where they are is essential, and right now they're at the beginning.</p>","choices":[{"id":"continue","label":"Continue to Person 2","outcome":"person2_depth"}]},
+                            {"id":"person1_begin_p1_b_feedback","narrative":"<h3>Feedback</h3><p>Perfect match. This fits their stated preference for simplicity and accessibility. They start with guided meditations, build a consistent practice, and develop foundational skills. Starting simple is completely valid — it's not a lesser path.</p>","choices":[{"id":"continue","label":"Continue to Person 2","outcome":"person2_depth"}]},
+                            {"id":"person1_begin_p1_c_feedback","narrative":"<h3>Feedback</h3><p>This is unnecessary gatekeeping. Everyone starts somewhere, and simple meditation apps are entirely appropriate entry points to consciousness work. Beginning with basic tools doesn't indicate lack of readiness.</p>","choices":[{"id":"continue","label":"Continue to Person 2","outcome":"person2_depth"}]},
+                            {"id":"person2_depth","narrative":"<h3>PERSON 2 — Seeking Depth</h3><p><strong>Persona: The Practitioner</strong></p><p>Someone has five years of daily meditation practice. They've experienced some altered states through traditional sitting practice but want to go deeper. They're curious about technology that could facilitate more profound experiences while supporting and extending their existing practice. What would you recommend?</p>","choices":[{"id":"p2_a","label":"Stick with traditional meditation only, avoid technology","outcome":"person2_depth_p2_a_feedback"},{"id":"p2_b","label":"Cyberdelic VR with biofeedback designed for experienced practitioners","outcome":"person2_depth_p2_b_feedback"},{"id":"p2_c","label":"A basic meditation app to help them track their existing practice","outcome":"person2_depth_p2_c_feedback"}]},
+                            {"id":"person2_depth_p2_a_feedback","narrative":"<h3>Feedback</h3><p>This limits their options unnecessarily. They're specifically seeking technological support for deepening an already established practice. Technology and tradition can work together, not in opposition to each other.</p>","choices":[{"id":"continue","label":"Continue to Person 3","outcome":"person3_athletic"}]},
+                            {"id":"person2_depth_p2_b_feedback","narrative":"<h3>Feedback</h3><p>Excellent recommendation. Given their established practice and clear desire for depth, cyberdelic experiences can facilitate the kind of profound altered states they're seeking, amplifying rather than replacing their existing practice.</p>","choices":[{"id":"continue","label":"Continue to Person 3","outcome":"person3_athletic"}]},
+                            {"id":"person2_depth_p2_c_feedback","narrative":"<h3>Feedback</h3><p>This doesn't address their stated goal of going deeper. They already have an established practice and are specifically seeking technology to facilitate more profound altered states. A basic app would be a step backward.</p>","choices":[{"id":"continue","label":"Continue to Person 3","outcome":"person3_athletic"}]},
+                            {"id":"person3_athletic","narrative":"<h3>PERSON 3 — Athletic Performance Focus</h3><p><strong>Persona: The Athlete</strong></p><p>An athlete wants to use meditation technology to improve focus and reduce pre-competition anxiety. They're interested in measurable outcomes like better sleep, faster recovery, and sharper mental clarity. They're not seeking spiritual experiences or consciousness exploration for its own sake. What would you recommend?</p>","choices":[{"id":"p3_a","label":"Cyberdelic VR focused on consciousness exploration","outcome":"person3_athletic_p3_a_feedback"},{"id":"p3_b","label":"Wellness tech like biofeedback for stress management and recovery","outcome":"person3_athletic_p3_b_feedback"},{"id":"p3_c","label":"Tell them meditation technology won't help with athletic performance","outcome":"person3_athletic_p3_c_feedback"}]},
+                            {"id":"person3_athletic_p3_a_feedback","narrative":"<h3>Feedback</h3><p>This mismatch between tool and goal could leave them frustrated. Cyberdelics are designed for consciousness exploration and transformation, not performance optimization. There are better-matched tools for these specific measurable goals.</p>","choices":[{"id":"continue","label":"Complete Challenge","outcome":"reflection"}]},
+                            {"id":"person3_athletic_p3_b_feedback","narrative":"<h3>Feedback</h3><p>Perfect match. Wellness tech designed for performance optimization, stress reduction, and recovery directly addresses their stated goals without overshooting into territory they didn't ask for.</p>","choices":[{"id":"continue","label":"Complete Challenge","outcome":"reflection"}]},
+                            {"id":"person3_athletic_p3_c_feedback","narrative":"<h3>Feedback</h3><p>This is incorrect. Meditation and biofeedback absolutely support athletic performance. The question isn't whether it helps, but which type of technology best serves performance goals versus exploration goals.</p>","choices":[{"id":"continue","label":"Complete Challenge","outcome":"reflection"}]},
+                            {"id":"reflection","narrative":"<h3>Reflection</h3><p>Three people, three correct answers, none of them the same. The Newcomer needed simplicity and accessibility. The experienced Practitioner needed depth and amplification. The Athlete needed performance optimization, not consciousness exploration. Each answer required listening to the actual person in front of you, not applying a default recommendation.</p><p>This is the core skill cyberdelic practitioners develop — reading the difference between someone's stated goal, their readiness level, and which tool family genuinely serves them.</p>","choices":[{"id":"continue","label":"Continue","outcome":"flow_next_module"}]}
+                        ]
+                    }
+                }
+            ]
+        };
+
+        LessonRunner.init('#lesson-root');
+        LessonRunner.loadLesson(manifest);
+    </script>
+</body>
+</html>
