@@ -75,24 +75,15 @@
             screen.className = 'opening-screen';
 
             const mainTitle = manifest.title || 'Cyberdelics 101';
-
-            // Dynamically determine asset base path from script tag
-            let basePath = '../';
-            const scriptEl = document.querySelector('script[src*="lesson-runner.js"]');
-            if (scriptEl) {
-                basePath = scriptEl.getAttribute('src').split('core/lesson-runner.js')[0];
-            }
+            const eyebrow = manifest.eyebrow || manifest.module || 'Cyberdelics 101';
 
             screen.innerHTML = `
-                <div class="course-header">
-                    <img src="${basePath}assets/images/LessonTitleV2.jpg" class="header-bg" alt="Cyberdelic Academy Template">
-                    <div class="lesson-overlay">
-                        <h1 data-text="${mainTitle}">${mainTitle}</h1>
-
-                        <div class="overlay-actions">
-                            <button class="opening-begin-btn">Begin</button>
-                        </div>
-                    </div>
+                <div class="cover-orb cover-orb-1"></div>
+                <div class="cover-orb cover-orb-2"></div>
+                <div class="cover-center">
+                    <p class="cover-eyebrow">${eyebrow}</p>
+                    <h1 class="cover-title">${mainTitle}</h1>
+                    <button class="opening-begin-btn">Begin</button>
                 </div>
             `;
             this.container.appendChild(screen);
@@ -105,60 +96,6 @@
                     onStart();
                 }, 800);
             });
-
-            // Shrink the title font-size until the fullscreen button fits within the overlay
-            const h1El = screen.querySelector('.lesson-overlay h1');
-            const overlay = screen.querySelector('.lesson-overlay');
-
-            const fitTitleToOverlay = () => {
-                if (!h1El || !overlay || !btn) return;
-
-                // Reset to CSS-defined size before measuring
-                h1El.style.fontSize = '';
-
-                const MIN_FONT_PX = 10;
-                const PADDING_PX = 8; // keep btn this many px away from the bottom edge
-
-                let guard = 0;
-                while (guard++ < 200) {
-                    const overlayBottom = overlay.getBoundingClientRect().bottom;
-                    const btnBottom = btn.getBoundingClientRect().bottom;
-
-                    if (btnBottom + PADDING_PX <= overlayBottom) break;
-
-                    const currentSize = parseFloat(getComputedStyle(h1El).fontSize);
-                    if (currentSize <= MIN_FONT_PX) break;
-
-                    h1El.style.fontSize = (currentSize - 0.5) + 'px';
-                }
-            };
-
-            // Run after paint — but the header image may not have loaded yet,
-            // so the overlay has no real height on the very first rAF.
-            // We fire on rAF, on image load, and after a short timeout as a fallback.
-            requestAnimationFrame(fitTitleToOverlay);
-            setTimeout(fitTitleToOverlay, 150);
-            const _imgEl = screen.querySelector('.header-bg');
-            if (_imgEl) {
-                if (_imgEl.complete) {
-                    requestAnimationFrame(fitTitleToOverlay);
-                } else {
-                    _imgEl.addEventListener('load', () => requestAnimationFrame(fitTitleToOverlay), { once: true });
-                }
-            }
-
-            // Re-run on resize (e.g. window/panel resize changes vw-based dimensions)
-            const _resizeHandler = () => requestAnimationFrame(fitTitleToOverlay);
-            window.addEventListener('resize', _resizeHandler);
-
-            // Clean up listener when the screen is removed
-            const _observer = new MutationObserver(() => {
-                if (!document.contains(screen)) {
-                    window.removeEventListener('resize', _resizeHandler);
-                    _observer.disconnect();
-                }
-            });
-            _observer.observe(document.body, { childList: true, subtree: true });
         }
 
         nextModule() {
@@ -308,24 +245,29 @@
 
         _finishLesson() {
             if (window.LessonUI) {
-                window.LessonUI.update(null, 1.0); // Ensure progress reaches 100%
+                window.LessonUI.update(null, 1.0);
                 window.LessonUI.setBackAction(null);
             }
 
             const container = window.LessonUI ? window.LessonUI.getContentContainer() : this.container;
+
+            const nextLesson = this.currentLesson.nextLesson;
+            const nextHtml = nextLesson
+                ? `<div class="lesson-complete-next">
+                       <p class="lesson-complete-next-label">Coming Next</p>
+                       <p class="lesson-complete-next-title">${nextLesson.title}</p>
+                       ${nextLesson.description ? `<p class="lesson-complete-next-desc">${nextLesson.description}</p>` : ''}
+                   </div>`
+                : '<p class="lesson-complete-return-hint">Return to the course to continue your journey.</p>';
+
             container.innerHTML = `
                 <div class="lesson-complete-screen">
                     <div class="completed-icon">✔</div>
                     <h1 class="lesson-complete-title">LESSON COMPLETE</h1>
                     <p class="lesson-complete-subtitle">
-                        You have successfully finished:<br>
                         <strong>${this.currentLesson.title}</strong>
                     </p>
-                    <div class="lesson-complete-actions">
-                        <button class="btn-return" onclick="if(document.fullscreenElement) document.exitFullscreen(); location.reload();">
-                            RETURN <span>⮌</span>
-                        </button>
-                    </div>
+                    ${nextHtml}
                 </div>
             `;
             // ── NOTIFY FRAMER ─────────────────────────────────────────────

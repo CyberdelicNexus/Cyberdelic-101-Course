@@ -306,14 +306,23 @@
                 const container = this._getState().container;
                 const confirmBtn = container.querySelector('.os-confirm-btn');
 
+                // Visual feedback on selected option + response area
+                const _selectedEl = container.querySelector('.os-option-text.selected, .os-option.selected');
+                const _responseArea = container.querySelector('.os-response-area');
+
                 if (isCorrect) {
                     // CASE: CORRECT
                     if (this._config.mode === 'single') {
                         const selectedId = Array.from(this._selectedIds)[0];
-                        // Prioritize synthesis for feedback
                         this._showResponse(selectedId);
                     } else {
                         this._showSynthesizedResponse(false);
+                    }
+
+                    if (_selectedEl) _selectedEl.classList.add('os-answer-correct');
+                    if (_responseArea) {
+                        _responseArea.classList.remove('os-response-incorrect');
+                        _responseArea.classList.add('os-response-correct');
                     }
 
                     // Change State to Awaiting Next
@@ -322,8 +331,7 @@
                         const isLast = this._currentQuestionIndex === this._questions.length - 1;
                         confirmBtn.textContent = isLast ? 'Complete Lesson' : 'Next Question ▶';
                         confirmBtn.classList.add('btn-success');
-                        // Note: btn-success might need to be defined in core styles or just rely on text
-                        confirmBtn.style.display = 'inline-block'; // Ensure visible
+                        confirmBtn.style.display = 'inline-block';
                     }
 
                 } else {
@@ -333,6 +341,15 @@
                         this._showResponse(selectedId);
                     } else {
                         this._showSynthesizedResponse(false);
+                    }
+
+                    if (_selectedEl) {
+                        _selectedEl.classList.add('os-answer-incorrect');
+                        setTimeout(() => _selectedEl.classList.remove('os-answer-incorrect'), 500);
+                    }
+                    if (_responseArea) {
+                        _responseArea.classList.remove('os-response-correct');
+                        _responseArea.classList.add('os-response-incorrect');
                     }
 
                     // Change State to Awaiting Retry

@@ -1153,15 +1153,100 @@ li strong {
 /* Opening Screen Overlay */
 .opening-screen {
     position: absolute;
-    /* Changed from fixed to stay inside lesson-root */
     inset: 0;
-    background: #000;
+    background: transparent;
     z-index: 9999;
     display: flex;
     align-items: center;
     justify-content: center;
-    text-align: center;
+    overflow: hidden;
     transition: opacity 0.8s ease;
+}
+
+/* Subtle grid texture overlay on the opening screen */
+.opening-screen::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(130, 90, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(130, 90, 255, 0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Glowing orb blobs behind the cover content */
+.cover-orb {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+}
+.cover-orb-1 {
+    width: 65vw; height: 65vw;
+    background: radial-gradient(ellipse at center, rgba(89, 0, 200, 0.35) 0%, rgba(89, 0, 200, 0.06) 55%, transparent 75%);
+    top: -28%; left: -25%;
+    animation: cover-orb-1 11s ease-in-out infinite alternate;
+}
+.cover-orb-2 {
+    width: 55vw; height: 55vw;
+    background: radial-gradient(ellipse at center, rgba(0, 150, 255, 0.22) 0%, rgba(0, 150, 255, 0.04) 55%, transparent 75%);
+    bottom: -25%; right: -20%;
+    animation: cover-orb-2 15s ease-in-out infinite alternate;
+}
+@keyframes cover-orb-1 {
+    0%   { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(10vw, 8vh) scale(1.18); }
+}
+@keyframes cover-orb-2 {
+    0%   { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(-8vw, -10vh) scale(1.12); }
+}
+
+/* Cover central content */
+.cover-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.75rem;
+    position: relative;
+    z-index: 2;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    max-width: 780px;
+}
+
+.cover-eyebrow {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: rgba(0, 217, 255, 0.55);
+    margin: 0;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid rgba(0, 217, 255, 0.15);
+    width: 100%;
+}
+
+.cover-title {
+    font-family: 'Cloudsters', sans-serif;
+    font-size: clamp(2.8rem, 8vw, 6rem);
+    font-weight: normal;
+    color: #fff;
+    margin: 0;
+    line-height: 1.1;
+    -webkit-font-smoothing: antialiased;
+    filter:
+        drop-shadow(0 0 28px rgba(130, 90, 255, 0.65))
+        drop-shadow(0 0 55px rgba(130, 90, 255, 0.3))
+        drop-shadow(0 0 12px rgba(0, 217, 255, 0.35));
+    animation: cover-title-pulse 4s ease-in-out infinite alternate;
+}
+@keyframes cover-title-pulse {
+    0%   { filter: drop-shadow(0 0 22px rgba(130,90,255,0.5)) drop-shadow(0 0 40px rgba(130,90,255,0.22)); }
+    100% { filter: drop-shadow(0 0 38px rgba(130,90,255,0.75)) drop-shadow(0 0 70px rgba(130,90,255,0.4)) drop-shadow(0 0 16px rgba(0,217,255,0.45)); }
 }
 
 .opening-screen.fade-out {
@@ -1739,4 +1824,52 @@ button.btn-continue:hover,
         transform: scale(1);
         opacity: 1;
     }
+}
+
+/* ---------- Lesson complete — "Coming Next" section ---------- */
+.lesson-complete-next {
+    margin-top: 2rem;
+    padding: 1.25rem 2rem;
+    background: rgba(130, 90, 255, 0.08);
+    border: 1px solid rgba(130, 90, 255, 0.22);
+    border-radius: 16px;
+    text-align: center;
+    max-width: 480px;
+    width: 100%;
+    animation: fadeIn 0.5s 0.4s ease-out both;
+}
+
+.lesson-complete-next-label {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.63rem;
+    font-weight: 600;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    color: rgba(0, 217, 255, 0.55);
+    margin: 0 0 0.5rem;
+}
+
+.lesson-complete-next-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: rgba(225, 220, 248, 0.92);
+    margin: 0 0 0.35rem;
+    line-height: 1.4;
+}
+
+.lesson-complete-next-desc {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.82rem;
+    color: rgba(170, 165, 205, 0.65);
+    margin: 0;
+    line-height: 1.5;
+}
+
+.lesson-complete-return-hint {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.88rem;
+    color: rgba(160, 155, 200, 0.6);
+    margin-top: 1.5rem;
+    letter-spacing: 0.3px;
 }

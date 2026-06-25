@@ -46,29 +46,34 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
-    padding: 2.5rem 2rem;
+    height: 100vh;
+    overflow: hidden;
+    padding: 2rem;
     box-sizing: border-box;
     animation: os-fade-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 /* ---------- Glass Card (main container) ---------- */
 .os-container {
-    background: rgba(10, 7, 28, 0.78);
-    backdrop-filter: blur(32px);
-    -webkit-backdrop-filter: blur(32px);
-    border: 1px solid rgba(130, 90, 255, 0.2);
+    background: rgba(10, 7, 28, 0.82);
+    backdrop-filter: blur(36px);
+    -webkit-backdrop-filter: blur(36px);
+    border: 1px solid rgba(130, 90, 255, 0.25);
     border-radius: 20px;
     box-shadow:
-        0 16px 48px rgba(0, 0, 0, 0.55),
-        0 0 0 1px rgba(255, 255, 255, 0.03) inset,
-        0 1px 0 rgba(255, 255, 255, 0.06) inset;
-    padding: 2.5rem 3rem;
+        0 20px 60px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+        0 1px 0 rgba(255, 255, 255, 0.08) inset,
+        0 0 80px rgba(89, 0, 200, 0.08);
+    padding: 2rem 2.5rem;
     width: 100%;
     max-width: 680px;
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(130, 90, 255, 0.35) transparent;
     box-sizing: border-box;
     position: relative;
-    /* override any border-image from old styles */
     border-image: none;
 }
 
@@ -403,6 +408,71 @@
     background: rgba(0, 217, 150, 0.1);
     border-color: rgba(0, 217, 150, 0.85);
     box-shadow: 0 0 28px rgba(0, 217, 150, 0.28);
+}
+
+/* ---------- Correct / Incorrect answer feedback ---------- */
+@keyframes os-correct-glow {
+    0%   { box-shadow: 0 0 0 2px rgba(0, 220, 130, 0.8), 0 0 24px rgba(0, 220, 130, 0.45); background: rgba(0, 220, 130, 0.2); }
+    100% { box-shadow: 0 2px 16px rgba(130, 90, 255, 0.12); background: rgba(130, 90, 255, 0.13); }
+}
+
+@keyframes os-incorrect-shake {
+    0%  { transform: translateX(0); }
+    15% { transform: translateX(-7px); }
+    30% { transform: translateX(6px); }
+    45% { transform: translateX(-5px); }
+    60% { transform: translateX(4px); }
+    75% { transform: translateX(-2px); }
+    100% { transform: translateX(0); }
+}
+
+.os-option-text.os-answer-correct {
+    border-color: rgba(0, 220, 130, 0.7) !important;
+    color: #fff !important;
+    animation: os-correct-glow 1.4s ease-out forwards;
+}
+
+.os-option-text.os-answer-correct::before {
+    background: rgba(0, 220, 130, 0.9) !important;
+    border-color: rgba(0, 220, 130, 1) !important;
+    box-shadow: 0 0 10px rgba(0, 220, 130, 0.6) !important;
+}
+
+.os-option-text.os-answer-incorrect {
+    border-color: rgba(255, 80, 80, 0.65) !important;
+    background: rgba(255, 80, 80, 0.1) !important;
+    animation: os-incorrect-shake 0.45s ease-in-out;
+}
+
+.os-option-text.os-answer-incorrect::before {
+    background: rgba(255, 80, 80, 0.75) !important;
+    border-color: rgba(255, 80, 80, 0.9) !important;
+}
+
+/* Response area tint based on outcome */
+.os-response-area.os-response-correct {
+    background: rgba(0, 200, 120, 0.07);
+    border-color: rgba(0, 200, 120, 0.28);
+}
+
+.os-response-area.os-response-incorrect {
+    background: rgba(255, 80, 80, 0.06);
+    border-color: rgba(255, 80, 80, 0.22);
+}
+
+/* Brighter quiz option text */
+.os-option-text .os-option-label {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.94rem;
+    font-weight: 400;
+    color: rgba(232, 228, 255, 0.92);
+    line-height: 1.5;
+    transition: color 0.2s;
+}
+
+.os-option-text.selected .os-option-label {
+    color: rgba(240, 236, 255, 1);
+    font-weight: 500;
 }
 
 /* ---------- Responsive ---------- */

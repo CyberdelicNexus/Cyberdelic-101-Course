@@ -39,26 +39,32 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
-    padding: 2.5rem 2rem;
+    height: 100vh;
+    overflow: hidden;
+    padding: 2rem 2rem;
     box-sizing: border-box;
     animation: scene-fade-in 0.48s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 /* ---------- Glass Card ---------- */
 .scene-content {
-    background: rgba(10, 7, 28, 0.78);
-    backdrop-filter: blur(32px);
-    -webkit-backdrop-filter: blur(32px);
-    border: 1px solid rgba(130, 90, 255, 0.2);
+    background: rgba(10, 7, 28, 0.82);
+    backdrop-filter: blur(36px);
+    -webkit-backdrop-filter: blur(36px);
+    border: 1px solid rgba(130, 90, 255, 0.25);
     border-radius: 20px;
     box-shadow:
-        0 16px 48px rgba(0, 0, 0, 0.55),
-        0 0 0 1px rgba(255, 255, 255, 0.03) inset,
-        0 1px 0 rgba(255, 255, 255, 0.06) inset;
-    padding: 2.5rem 3rem;
+        0 20px 60px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+        0 1px 0 rgba(255, 255, 255, 0.08) inset,
+        0 0 80px rgba(89, 0, 200, 0.08);
+    padding: 2rem 2.5rem;
     width: 100%;
     max-width: 680px;
+    max-height: calc(100vh - 130px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(130, 90, 255, 0.35) transparent;
     box-sizing: border-box;
     position: relative;
 }
@@ -116,9 +122,9 @@
     padding: 0 !important;
     margin: 0 0 1.75rem !important;
     font-family: 'Poppins', sans-serif;
-    font-size: 0.97rem;
-    line-height: 1.78;
-    color: rgba(215, 210, 240, 0.9);
+    font-size: 0.96rem;
+    line-height: 1.82;
+    color: rgba(232, 228, 255, 0.95);
     text-align: left;
     position: static;
     transition: none;
@@ -157,8 +163,8 @@
 }
 
 .choice-option {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(130, 90, 255, 0.15);
+    background: rgba(130, 90, 255, 0.06);
+    border: 1px solid rgba(130, 90, 255, 0.22);
     border-radius: 12px;
     padding: 0.95rem 1.1rem 0.95rem 1.25rem;
     cursor: pointer;
@@ -169,7 +175,7 @@
         box-shadow 0.2s ease;
     text-align: left;
     font-family: 'Poppins', sans-serif;
-    color: rgba(210, 205, 235, 0.85);
+    color: rgba(230, 226, 255, 0.92);
     width: 100%;
     display: flex;
     align-items: center;
