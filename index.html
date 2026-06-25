@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyberdelics 101 — Course Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --accent: #00d9ff;
+            --accent2: #5900ff;
+            --accent3: #00c9a7;
+            --bg: #03010f;
+            --surface: rgba(255,255,255,0.04);
+            --border: rgba(0,217,255,0.15);
+            --text: #e0e0f0;
+            --text-dim: rgba(255,255,255,0.45);
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 500;
+            min-height: 100vh;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        /* ── Header ── */
+        header {
+            max-width: 900px;
+            margin: 0 auto 3rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            box-shadow: 0 0 16px rgba(0,217,255,0.3);
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .logo-fallback {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            box-shadow: 0 0 16px rgba(0,217,255,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            color: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .header-text h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent);
+            text-shadow: 0 0 12px rgba(0,217,255,0.4);
+        }
+
+        .header-text p {
+            font-size: 0.95rem;
+            color: var(--text-dim);
+            letter-spacing: 1px;
+            margin-top: 2px;
+        }
+
+        /* ── Main layout ── */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        /* ── Module block ── */
+        .module-block {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .module-header {
+            padding: 1rem 1.5rem;
+            background: rgba(89,0,255,0.1);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .module-badge {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--accent2);
+            background: rgba(89,0,255,0.2);
+            border: 1px solid rgba(89,0,255,0.4);
+            border-radius: 4px;
+            padding: 3px 8px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .module-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text);
+        }
+
+        /* ── Lesson rows ── */
+        .lesson-group {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .lesson-group:last-child {
+            border-bottom: none;
+        }
+
+        .lesson-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-bottom: 0.75rem;
+        }
+
+        .embed-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.6rem;
+        }
+
+        .embed-link {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.65rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.02);
+            text-decoration: none;
+            color: var(--text);
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.2s;
+        }
+
+        .embed-link:hover {
+            background: rgba(0,217,255,0.08);
+            border-color: rgba(0,217,255,0.4);
+            color: var(--accent);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(0,217,255,0.1);
+        }
+
+        .embed-link .icon {
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .tag {
+            margin-left: auto;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        .tag-scenario {
+            color: #f0a500;
+            background: rgba(240,165,0,0.12);
+            border: 1px solid rgba(240,165,0,0.3);
+        }
+
+        .tag-quiz {
+            color: var(--accent3);
+            background: rgba(0,201,167,0.12);
+            border: 1px solid rgba(0,201,167,0.3);
+        }
+
+        .tag-sim {
+            color: var(--accent);
+            background: rgba(0,217,255,0.1);
+            border: 1px solid rgba(0,217,255,0.3);
+        }
+
+        /* ── Footer note ── */
+        .note {
+            max-width: 900px;
+            margin: 0 auto;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            letter-spacing: 0.5px;
+            line-height: 1.6;
+            padding: 1rem 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .note strong { color: var(--accent); }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo-fallback">CA</div>
+    <div class="header-text">
+        <h1>Cyberdelics 101</h1>
+        <p>Interactive Assessments &amp; Simulations — Framer Embed Hub</p>
+    </div>
+</header>
+
+<main>
+
+    <!-- MODULE 1 -->
+    <div class="module-block">
+        <div class="module-header">
+            <span class="module-badge">Module 1</span>
+            <span class="module-title">Defining Cyberdelics</span>
+        </div>
+
+        <div class="lesson-group">
+            <div class="lesson-label">Lesson 1 — Core Definitions &amp; Components</div>
+            <div class="embed-grid">
+                <a class="embed-link" href="Modules/standalone/m1l1-scenario.html" target="_blank">
+                    <span class="icon">⬡</span> Experience Evaluation
+                    <span class="tag tag-scenario">Scenario</span>
+                </a>
+                <a class="embed-link" href="Modules/standalone/m1l1-quiz.html" target="_blank">
+                    <span class="icon">◈</span> Lesson 1 Quiz
+                    <span class="tag tag-quiz">Quiz</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="lesson-group">
+            <div class="lesson-label">Lesson 2 — Psychedelics vs Cyberdelics</div>
+            <div class="embed-grid">
+                <a class="embed-link" href="Modules/standalone/m1l2-scenario.html" target="_blank">
+                    <span class="icon">⬡</span> Consulting Scenarios
+                    <span class="tag tag-scenario">Scenario</span>
+                </a>
+                <a class="embed-link" href="Modules/standalone/m1l2-quiz.html" target="_blank">
+                    <span class="icon">◈</span> Lesson 2 Quiz
+                    <span class="tag tag-quiz">Quiz</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="lesson-group">
+            <div class="lesson-label">Lesson 3 — VR vs Cyberdelics</div>
+            <div class="embed-grid">
+                <a class="embed-link" href="Modules/standalone/m1l3-scenario.html" target="_blank">
+                    <span class="icon">⬡</span> Evaluating Experiences
+                    <span class="tag tag-scenario">Scenario</span>
+                </a>
+                <a class="embed-link" href="Modules/standalone/tesseract-explorer.html" target="_blank">
+                    <span class="icon">◉</span> Design Dimension Explorer
+                    <span class="tag tag-sim">Simulation</span>
+                </a>
+                <a class="embed-link" href="Modules/standalone/m1l3-quiz.html" target="_blank">
+                    <span class="icon">◈</span> Lesson 3 Quiz
+                    <span class="tag tag-quiz">Quiz</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="lesson-group">
+            <div class="lesson-label">Lesson 4 — Meditation vs Cyberdelics</div>
+            <div class="embed-grid">
+                <a class="embed-link" href="Modules/standalone/m1l4-scenario.html" target="_blank">
+                    <span class="icon">⬡</span> The Advisor's Challenge
+                    <span class="tag tag-scenario">Scenario</span>
+                </a>
+                <a class="embed-link" href="Modules/standalone/m1l4-quiz.html" target="_blank">
+                    <span class="icon">◈</span> Lesson 4 Quiz
+                    <span class="tag tag-quiz">Quiz</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- SIMULATIONS (standalone) -->
+    <div class="module-block">
+        <div class="module-header">
+            <span class="module-badge">Simulations</span>
+            <span class="module-title">Interactive Standalone Engines</span>
+        </div>
+        <div class="lesson-group">
+            <div class="lesson-label">Available across all modules</div>
+            <div class="embed-grid">
+                <a class="embed-link" href="Modules/standalone/tesseract-explorer.html" target="_blank">
+                    <span class="icon">◉</span> Tesseract Explorer
+                    <span class="tag tag-sim">Simulation</span>
+                </a>
+                <a class="embed-link" href="Modules/standalone/cyberdelic-convergence.html" target="_blank">
+                    <span class="icon">◉</span> Cyberdelic Convergence
+                    <span class="tag tag-sim">Simulation</span>
+                </a>
+                <a class="embed-link" href="Modules/standalone/cybernetic-loop.html" target="_blank">
+                    <span class="icon">◉</span> Cybernetic Loop
+                    <span class="tag tag-sim">Simulation</span>
+                </a>
+                <a class="embed-link" href="Modules/standalone/ecosystem-map.html" target="_blank">
+                    <span class="icon">◉</span> Ecosystem Map
+                    <span class="tag tag-sim">Simulation</span>
+                </a>
+                <a class="embed-link" href="Modules/standalone/spectrum-explorer.html" target="_blank">
+                    <span class="icon">◉</span> Spectrum Explorer
+                    <span class="tag tag-sim">Simulation</span>
+                </a>
+                <a class="embed-link" href="Modules/standalone/presence-embodiment.html" target="_blank">
+                    <span class="icon">◉</span> Presence &amp; Embodiment
+                    <span class="tag tag-sim">Simulation</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<p class="note" style="margin-top:2rem;">
+    <strong>Framer embed usage:</strong> Copy any link above and paste it as an iframe src in a Framer Embed component.
+    Each page fires <code style="color:var(--accent3)">postMessage({ type: 'LESSON_COMPLETE', lessonId: '...' })</code> to the parent when the user finishes —
+    wire that up in Framer to advance lesson state.
+</p>
+
+</body>
+</html>
