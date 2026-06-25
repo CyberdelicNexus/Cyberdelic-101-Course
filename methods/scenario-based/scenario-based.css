@@ -1,375 +1,307 @@
 /* ===========================================
-   Scenario-Based Method
-   Branching narrative with choice tracking
+   Scenario-Based Method — Glassmorphism Redesign
    =========================================== */
 
-/* ---------- Scenario Container ---------- */
-.scenario-container {
-    width: 100%;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+/* ---------- Hide legacy corner frame elements ---------- */
+.sb-corner-node { display: none !important; }
+
+/* ---------- Scene enter animation ---------- */
+@keyframes scene-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(22px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-/* ---------- Scenario Scene ---------- */
+@keyframes choice-appear {
+    from {
+        opacity: 0;
+        transform: translateX(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ---------- Scene Wrapper ---------- */
 .scenario-scene {
-    opacity: 0;
-    max-height: 0;
-    overflow: hidden;
-    transform: translateY(20px);
-    transition:
-        opacity var(--transition-slow),
-        transform var(--transition-slow),
-        max-height var(--transition-slow);
+    display: none;
+    width: 100%;
 }
 
 .scenario-scene.active {
-    opacity: 1;
-    max-height: 3000px;
-    transform: translateY(0);
-    margin-bottom: var(--space-lg);
-    width: 100%;
-    max-width: 750px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* ---------- Scene Content ---------- */
-.scene-content {
-    background-color: rgba(18, 18, 26, 0.40); /* Match panel transparency */
-    backdrop-filter: blur(4px);
-    
-    border-style: solid;
-    border-width: 2px;
-    border-image-source: url('../../assets/images/4CornerDesign/edge1.webp');
-    border-image-slice: 4; 
-    border-image-repeat: stretch;
-    border-radius: 4px;
-    
-    padding: var(--space-xl) var(--space-2xl);
-    position: relative;
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2.5rem 2rem;
     box-sizing: border-box;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+    animation: scene-fade-in 0.48s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-.sb-corner-node {
-    position: absolute;
-    width: 90px;
-    height: 90px;
-    background-image: url('../../assets/images/4CornerDesign/Corner1.webp');
-    background-size: contain;
-    background-repeat: no-repeat;
-    z-index: 10;
+/* ---------- Glass Card ---------- */
+.scene-content {
+    background: rgba(10, 7, 28, 0.78);
+    backdrop-filter: blur(32px);
+    -webkit-backdrop-filter: blur(32px);
+    border: 1px solid rgba(130, 90, 255, 0.2);
+    border-radius: 20px;
+    box-shadow:
+        0 16px 48px rgba(0, 0, 0, 0.55),
+        0 0 0 1px rgba(255, 255, 255, 0.03) inset,
+        0 1px 0 rgba(255, 255, 255, 0.06) inset;
+    padding: 2.5rem 3rem;
+    width: 100%;
+    max-width: 680px;
+    box-sizing: border-box;
+    position: relative;
 }
-.sb-corner-node.top-left { top: -2px; left: -2px; transform: scale(-1, -1); }
-.sb-corner-node.top-right { top: -2px; right: -2px; transform: scaleY(-1); }
-.sb-corner-node.bottom-left { bottom: -2px; left: -2px; transform: scaleX(-1); }
-.sb-corner-node.bottom-right { bottom: -2px; right: -2px; transform: none; }
 
+/* ---------- Scene Headings ---------- */
 .scene-content h2 {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: var(--space-sm);
-    margin-bottom: var(--space-lg);
-    color: var(--color-accent);
+    gap: 0.5rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(0, 217, 255, 0.7);
+    margin: 0 0 1.5rem;
+    padding-bottom: 0;
 }
+
+.scene-content h2::before { display: none; }
 
 .scene-content h3 {
-    color: var(--color-accent);
-    margin-bottom: var(--space-md);
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: rgba(0, 217, 255, 0.75);
+    margin: 0 0 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(0, 217, 255, 0.1);
 }
 
-.scene-content h2::before {
-    content: '';
-    display: inline-block;
-    width: 4px;
-    height: 24px;
-    background: linear-gradient(180deg, var(--color-accent), var(--color-accent-hover));
-    border-radius: 2px;
-}
-
-/* Scene narrative text */
-.scene-narrative {
-    font-size: var(--font-size-lg);
-    line-height: 1.7;
-    color: var(--color-text-secondary);
-    margin-bottom: var(--space-xl);
+/* ---------- Module title (above card) ---------- */
+.module-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(130, 90, 255, 0.55);
+    margin-bottom: 1.25rem;
     text-align: center;
 }
 
-.scene-narrative strong {
-    color: var(--color-accent);
-}
-
-/* ---------- Character/Persona ---------- */
-.scenario-character {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-md);
-    padding: var(--space-md);
-    background-color: var(--color-surface-elevated);
-    border-radius: var(--border-radius);
-    margin-bottom: var(--space-lg);
-}
-
-.character-avatar {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-}
-
-.character-info {
-    flex: none;
+/* ---------- Narrative Text ---------- */
+/* Reset styles.css card treatment for scenario-narrative */
+.scene-content .scenario-narrative,
+.scenario-narrative {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 0 1.75rem !important;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.97rem;
+    line-height: 1.78;
+    color: rgba(215, 210, 240, 0.9);
     text-align: left;
+    position: static;
+    transition: none;
 }
 
-.character-name {
+.scene-content .scenario-narrative::before,
+.scenario-narrative::before {
+    display: none !important;
+}
+
+.scenario-narrative p { margin: 0 0 0.75rem; }
+.scenario-narrative p:last-child { margin-bottom: 0; }
+
+.scenario-narrative strong {
+    color: rgba(225, 220, 248, 1);
     font-weight: 600;
-    color: var(--color-text-primary);
-    margin-bottom: 2px;
 }
 
-.character-role {
-    font-size: var(--font-size-sm);
-    color: var(--color-text-muted);
+.scenario-narrative em {
+    font-style: italic;
+    color: rgba(180, 175, 215, 0.7);
+    font-size: 0.9em;
+    display: block;
+    margin-top: 0.5rem;
+    padding-left: 0.75rem;
+    border-left: 2px solid rgba(130, 90, 255, 0.3);
 }
 
-/* ---------- Choice Options ---------- */
+/* ---------- Choice Buttons ---------- */
 .scenario-choices {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: var(--space-md);
-    margin-top: var(--space-xl);
+    gap: 0.55rem;
+    margin-top: 0.25rem;
     width: 100%;
 }
 
 .choice-option {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--space-md);
-    padding: var(--space-lg);
-    background-color: var(--color-surface-elevated);
-    border: 2px solid var(--color-border);
-    border-radius: var(--border-radius-lg);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(130, 90, 255, 0.15);
+    border-radius: 12px;
+    padding: 0.95rem 1.1rem 0.95rem 1.25rem;
     cursor: pointer;
-    transition: all var(--transition-fast);
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.2s ease;
     text-align: left;
-    font-family: inherit;
-    font-size: var(--font-size-base);
-    color: var(--color-text-primary);
+    font-family: 'Poppins', sans-serif;
+    color: rgba(210, 205, 235, 0.85);
     width: 100%;
-    max-width: 600px;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box;
+    animation: choice-appear 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Stagger each choice */
+.scenario-choices .choice-option:nth-child(1) { animation-delay: 0.05s; }
+.scenario-choices .choice-option:nth-child(2) { animation-delay: 0.12s; }
+.scenario-choices .choice-option:nth-child(3) { animation-delay: 0.19s; }
+.scenario-choices .choice-option:nth-child(4) { animation-delay: 0.26s; }
+
+/* Left accent bar */
+.choice-option::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10%;
+    height: 80%;
+    width: 2.5px;
+    background: rgba(130, 90, 255, 0.5);
+    border-radius: 0 2px 2px 0;
+    transform: scaleY(0);
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .choice-option:hover {
-    border-color: var(--color-accent);
-    background-color: rgba(123, 92, 255, 0.1);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px var(--color-accent-glow);
+    background: rgba(130, 90, 255, 0.1);
+    border-color: rgba(130, 90, 255, 0.42);
+    color: #fff;
+    transform: translateX(4px);
+    box-shadow: 0 4px 20px rgba(130, 90, 255, 0.14), inset 0 0 20px rgba(130, 90, 255, 0.04);
+}
+
+.choice-option:hover::before {
+    transform: scaleY(1);
 }
 
 .choice-option:active {
-    transform: translateY(0);
+    transform: translateX(2px) scale(0.99);
+    background: rgba(130, 90, 255, 0.16);
 }
 
-.choice-option.selected {
-    border-color: var(--color-accent);
-    background-color: rgba(123, 92, 255, 0.15);
-    box-shadow: 0 0 20px var(--color-accent-glow);
-}
-
-.choice-option.disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    pointer-events: none;
-}
-
-.choice-label {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-    background-color: var(--color-accent);
-    color: white;
-    border-radius: 50%;
-    font-weight: 600;
-    font-size: var(--font-size-sm);
-    flex-shrink: 0;
-}
+/* Hide the old lettered circle label */
+.choice-label { display: none; }
 
 .choice-text {
     flex: 1;
 }
 
 .choice-text strong {
+    font-weight: 400;
+    font-size: 0.94rem;
+    line-height: 1.5;
     display: block;
-    margin-bottom: var(--space-xs);
 }
 
 .choice-text p {
     margin: 0;
-    font-size: var(--font-size-sm);
-    color: var(--color-text-secondary);
+    font-size: 0.83rem;
+    color: rgba(180, 175, 215, 0.65);
+    margin-top: 2px;
 }
 
-/* ---------- Outcome/Feedback ---------- */
-.scenario-outcome {
-    margin-top: var(--space-lg);
-    padding: var(--space-lg);
-    background-color: var(--color-surface-elevated);
-    border-top: 4px solid var(--color-accent);
-    border-radius: var(--border-radius);
-    opacity: 0;
-    max-height: 0;
-    overflow: hidden;
-    transition: all var(--transition-normal);
-    text-align: center;
+/* Arrow chevron */
+.choice-option::after {
+    content: '→';
+    font-size: 0.95rem;
+    color: rgba(130, 90, 255, 0.4);
+    flex-shrink: 0;
+    transition: color 0.2s, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.scenario-outcome.visible {
-    opacity: 1;
-    max-height: 500px;
-    margin-top: var(--space-lg);
+.choice-option:hover::after {
+    color: rgba(130, 90, 255, 0.85);
+    transform: translateX(4px);
 }
 
-.outcome-title {
-    font-weight: 700;
-    color: var(--color-accent);
-    margin-bottom: var(--space-sm);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.scenario-outcome p {
-    color: var(--color-text-primary);
-    line-height: 1.6;
-}
-
-/* ---------- Scene Navigation ---------- */
-.scene-nav {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: var(--space-xl);
-}
-
+/* ---------- Continue Button (terminal scenes) ---------- */
 .scene-continue {
     display: none;
-    padding: var(--space-md) var(--space-xl);
-    background-color: var(--color-accent);
-    /* Main blue/cyan */
+    margin-top: 1.75rem;
+    padding: 0.75rem 2.75rem;
+    background: transparent;
+    border: 1.5px solid rgba(0, 217, 255, 0.5);
+    border-radius: 100px;
     color: #fff;
-    border: none;
-    border-radius: var(--border-radius);
-    font-size: var(--font-size-base);
-    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
     cursor: pointer;
-    transition: all var(--transition-fast);
-    box-shadow: 0 0 15px rgba(0, 217, 255, 0.2);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 0 16px rgba(0, 217, 255, 0.12);
 }
+
+.scene-continue.visible { display: inline-flex; }
 
 .scene-continue:hover {
-    background-color: var(--color-accent-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 0 25px rgba(0, 217, 255, 0.4);
+    background: rgba(0, 217, 255, 0.1);
+    border-color: rgba(0, 217, 255, 0.85);
+    box-shadow: 0 0 24px rgba(0, 217, 255, 0.28);
+    transform: translateY(-1px);
 }
 
-.scene-continue:active {
-    transform: translateY(0);
-}
+.scene-continue:active { transform: translateY(0); }
 
-.scene-continue.visible {
-    display: inline-flex;
-}
-
-/* ---------- Choice History ---------- */
-.choice-history {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-sm);
-    margin-bottom: var(--space-lg);
-}
-
-.history-item {
-    padding: var(--space-xs) var(--space-sm);
-    background-color: var(--color-surface-elevated);
-    border-radius: var(--border-radius);
-    font-size: var(--font-size-sm);
-    color: var(--color-text-muted);
-}
-
-.history-item .choice-made {
-    color: var(--color-accent);
-    font-weight: 500;
-}
-
-/* ---------- Scenario Summary ---------- */
-.scenario-summary {
-    text-align: center;
-    padding: var(--space-2xl);
-}
-
-.summary-heading {
-    font-size: var(--font-size-xl);
-    margin-bottom: var(--space-lg);
-}
-
-.summary-choices {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
-    margin: var(--space-xl) 0;
-    text-align: left;
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.summary-choice {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
-    padding: var(--space-sm) var(--space-md);
-    background-color: var(--color-surface);
-    border-radius: var(--border-radius);
-}
-
-
-/* --- Responsive Optimization (Phone < 690px) --- */
-@media (max-width: 689px) {
-    .scenario-choices {
-        gap: var(--space-sm);
-    }
-
-    .choice-option {
-        padding: var(--space-md);
-        /* Larger touch target */
-        flex-direction: column;
-        /* Stack label/text if needed, or keep row but ensure wrap */
-        align-items: flex-start;
-    }
-
-    .choice-label {
-        margin-bottom: var(--space-xs);
-    }
-
-    .choice-text {
-        font-size: var(--font-size-sm);
-        /* Slightly smaller text for density */
+/* ---------- Responsive ---------- */
+@media (max-width: 640px) {
+    .scenario-scene.active {
+        padding: 1.5rem 1rem;
+        justify-content: flex-start;
+        padding-top: 2.5rem;
     }
 
     .scene-content {
-        padding: var(--space-lg);
-        /* Reduce padding from XL */
+        padding: 1.75rem 1.5rem;
+        border-radius: 16px;
     }
+
+    .scenario-narrative { font-size: 0.92rem; }
+    .choice-option { padding: 0.85rem 1rem; }
 }
+
+/* ---------- Legacy / unused classes (kept for compat) ---------- */
+.scenario-container { width: 100%; }
+.scenario-character { display: none; }
+.choice-history { display: none; }
+.scenario-summary { padding: 2rem; text-align: center; }
+.scenario-outcome { display: none; }

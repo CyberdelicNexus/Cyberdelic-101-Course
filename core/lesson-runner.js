@@ -90,18 +90,14 @@
                         <h1 data-text="${mainTitle}">${mainTitle}</h1>
 
                         <div class="overlay-actions">
-                            <p class="opening-hint">Click the icon to begin</p>
-                            <div class="opening-action">
-                                <button class="opening-fs-btn" title="Enter Full Screen">⛶</button>
-                                <div class="opening-pulse"></div>
-                            </div>
+                            <button class="opening-begin-btn">Begin</button>
                         </div>
                     </div>
                 </div>
             `;
             this.container.appendChild(screen);
 
-            const btn = screen.querySelector('.opening-fs-btn');
+            const btn = screen.querySelector('.opening-begin-btn');
             btn.addEventListener('click', () => {
                 screen.classList.add('fade-out');
                 setTimeout(() => {
