@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M1L2 — Common Ground</title>
+
+    <link rel="stylesheet" href="../../core/styles.css">
+    <link rel="stylesheet" href="../../methods/progressive-disclosure/progressive-disclosure.css">
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; height: 100vh; overflow: hidden; background: #03010f; position: relative; }
+        #lesson-root { width: 100%; height: 100%; position: relative; z-index: 1; }
+        body::before, body::after { content: ''; position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+        body::before { width: 72vw; height: 72vw; background: radial-gradient(ellipse at center, rgba(89,0,200,0.24) 0%, transparent 68%); top: -28%; left: -22%; animation: bb1 12s ease-in-out infinite alternate; }
+        body::after  { width: 58vw; height: 58vw; background: radial-gradient(ellipse at center, rgba(0,148,220,0.15) 0%, transparent 68%); bottom: -22%; right: -18%; animation: bb2 16s ease-in-out infinite alternate; }
+        @keyframes bb1 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(8vw,6vh) scale(1.2); } }
+        @keyframes bb2 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-5vw,-8vh) scale(1.12); } }
+    </style>
+</head>
+<body>
+    <div id="lesson-root"></div>
+
+    <script src="../../core/method-base.js"></script>
+    <script src="../../methods/progressive-disclosure/progressive-disclosure.js"></script>
+    <script src="../../core/lesson-runner.js"></script>
+
+    <script>
+        const manifest = {
+            "id": "m1l2_content",
+            "lessonId": "m1_l2_content",
+            "title": "Common Ground",
+            "eyebrow": "Lesson 2",
+            "theme": { "primaryColor": "#5900ff", "fontBody": "Poppins, sans-serif" },
+            "modules": [
+                {
+                    "id": "shared_pd_2.1",
+                    "title": "Common Ground",
+                    "type": "progressive-disclosure",
+                    "content": {
+                        "sections": [
+                            {
+                                "title": "Common Ground",
+                                "content": "<p>Psychedelics and cyberdelics share remarkable common ground. Before we explore their differences, it's essential to understand what they have in common. This isn't about competition between two opposing approaches, it's about recognizing two paths toward similar destinations. The differences only make sense once you've seen what they're both aiming at.</p>",
+                                "triggerLabel": "Shared Intention"
+                            },
+                            {
+                                "title": "Shared Intention",
+                                "media": {
+                                    "type": "image",
+                                    "src": "../Module_1_DefiningCyberdelics/Lesson_2_PsychedelicsVsCyberdelics/../assets/images/module1/SharedIntention.webp"
+                                },
+                                "mediaLayout": "left",
+                                "content": "<p>Both psychedelics and cyberdelics exist for the same fundamental purpose. facilitating consciousness exploration, personal transformation, and spiritual development. Whether using substances or technology, the underlying intention is identical, to expand awareness, facilitate healing, and support personal growth. Purpose is the foundation both fields share.</p>",
+                                "triggerLabel": "Shared Outcomes"
+                            },
+                            {
+                                "title": "Shared Outcomes",
+                                "content": "<p>Research shows that both approaches can produce similar outcomes. Mystical experiences, therapeutic breakthroughs, perspective shifts, emotional healing, and spiritual insights can occur through either path. The phenomenology, what people actually experience, can be remarkably similar. Different roads, recognizable destination.</p>",
+                                "triggerLabel": "Research Validation"
+                            },
+                            {
+                                "title": "Research Validation",
+                                "content": "<p>Studies comparing traditional psychedelic experiences with properly designed cyberdelic experiences show comparable scores on measures of mystical experience, ego dissolution, and therapeutic benefit. Both approaches can facilitate profound shifts in consciousness when done intentionally and skillfully. Technology isn't a lesser substitute, it's a parallel path.</p>",
+                                "triggerLabel": "Explore the Spectrum"
+                            }
+                        ]
+                    }
+                }
+            ]
+        };
+
+        LessonRunner.init('#lesson-root');
+        LessonRunner.loadLesson(manifest);
+    </script>
+</body>
+</html>
