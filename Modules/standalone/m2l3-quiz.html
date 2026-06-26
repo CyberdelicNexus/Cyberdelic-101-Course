@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M2L3 — Quiz</title>
+
+    <link rel="stylesheet" href="../../core/styles.css">
+    <link rel="stylesheet" href="../../methods/scenario-based/scenario-based.css">
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; height: 100vh; overflow: hidden; background: #03010f; position: relative; }
+        #lesson-root { width: 100%; height: 100%; position: relative; z-index: 1; }
+        body::before, body::after { content: ''; position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+        body::before { width: 72vw; height: 72vw; background: radial-gradient(ellipse at center, rgba(89,0,200,0.24) 0%, transparent 68%); top: -28%; left: -22%; animation: bb1 12s ease-in-out infinite alternate; }
+        body::after  { width: 58vw; height: 58vw; background: radial-gradient(ellipse at center, rgba(0,148,220,0.15) 0%, transparent 68%); bottom: -22%; right: -18%; animation: bb2 16s ease-in-out infinite alternate; }
+        @keyframes bb1 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(8vw,6vh) scale(1.2); } }
+        @keyframes bb2 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-5vw,-8vh) scale(1.12); } }
+    </style>
+</head>
+<body>
+    <div id="lesson-root"></div>
+
+    <script src="../../core/method-base.js"></script>
+    <script src="../../methods/scenario-based/scenario-based.js"></script>
+    <script src="../../core/lesson-runner.js"></script>
+
+    <script>
+        const manifest = {
+            "id": "m2l3_quiz",
+            "lessonId": "m2_l3_quiz",
+            "title": "Module 2 Lesson 3 Quiz",
+            "eyebrow": "Module 2 · Lesson 3",
+            "theme": { "primaryColor": "#5900ff", "fontBody": "Poppins, sans-serif" },
+            "modules": [
+                {
+                    "id": "quiz_lesson_3_combined",
+                    "title": "Module 2 Lesson 3 Quiz",
+                    "type": "scenario-based",
+                    "content": {
+                        "scenes": [
+                            {
+                                "id": "quiz1_q1",
+                                "narrative": "<p><strong>What made Palmer Luckey's Oculus Rift viable when 1990s VR wasn't?</strong></p>",
+                                "choices": [
+                                    { "id": "q1_a", "label": "He was smarter than all the 1990s pioneers", "outcome": "quiz1_q1_feedback_a" },
+                                    { "id": "q1_b", "label": "Facebook gave him unlimited money to solve the problems", "outcome": "quiz1_q1_feedback_c" },
+                                    { "id": "q1_c", "label": "Governments finally legalized VR research", "outcome": "quiz1_q1_feedback_d" },
+                                    { "id": "q1_d", "label": "He used cheap smartphone components that had matured through mobile device market", "outcome": "quiz1_q1_correct" }
+                                ]
+                            },
+                            {
+                                "id": "quiz1_q1_feedback_a",
+                                "narrative": "<p><strong>Incorrect.</strong> Intelligence wasn't the differentiator. The 1990s pioneers were brilliant, but the supporting technologies simply didn't exist. Luckey succeeded because smartphone displays, gaming GPUs, and motion sensors had matured through other markets. He leveraged convergence of technologies that didn't exist in the 1990s. Timing and available components, not superior intelligence. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz1_q1" }]
+                            },
+                            {
+                                "id": "quiz1_q1_correct",
+                                "narrative": "<p><strong>Correct!</strong> Luckey's innovation was recognizing that smartphone displays (high resolution, high refresh rate, cheap), phone sensors (accurate accelerometers and gyroscopes), and gaming GPUs had evolved to the point where VR was finally viable. He didn't invent new technology; he cleverly assembled mass-market components that hadn't existed in the 1990s. The smartphone revolution created the foundation VR needed.</p>",
+                                "choices": [{ "id": "next", "label": "Next Question", "outcome": "quiz1_q2" }]
+                            },
+                            {
+                                "id": "quiz1_q1_feedback_c",
+                                "narrative": "<p><strong>Incorrect.</strong> Facebook acquired Oculus in 2014, but Luckey's breakthrough came in 2012 with a garage prototype before any major funding. The initial Kickstarter raised $2.4 million, not billions. The prototype succeeded because the underlying technologies (displays, sensors, GPUs) had matured, not because of massive capital. Money accelerated development but didn't create the foundational breakthrough. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz1_q1" }]
+                            },
+                            {
+                                "id": "quiz1_q1_feedback_d",
+                                "narrative": "<p><strong>Incorrect.</strong> There were never legal barriers to VR research. Both 1990s VR and 2010s VR operated under the same regulations. The difference was purely technological — components had improved dramatically through smartphone and gaming markets. Regulations weren't the barrier or the solution. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz1_q1" }]
+                            },
+                            {
+                                "id": "quiz1_q2",
+                                "narrative": "<p><strong>Why did Facebook's $2 billion acquisition of Oculus matter for the field?</strong></p>",
+                                "choices": [
+                                    { "id": "q2_a", "label": "It proved VR was just a fad that would fail again", "outcome": "quiz1_q2_feedback_a" },
+                                    { "id": "q2_b", "label": "It legitimized VR as serious platform and provided resources to accelerate development", "outcome": "quiz1_q2_correct" },
+                                    { "id": "q2_c", "label": "It gave Facebook monopoly control over all VR development", "outcome": "quiz1_q2_feedback_c" },
+                                    { "id": "q2_d", "label": "It prevented anyone else from making VR headsets", "outcome": "quiz1_q2_feedback_d" }
+                                ]
+                            },
+                            {
+                                "id": "quiz1_q2_feedback_a",
+                                "narrative": "<p><strong>Incorrect.</strong> Actually, Facebook's acquisition had the opposite effect — it validated VR as serious technology worth massive investment. One of the world's largest tech companies betting $2 billion signaled VR's potential. This legitimized the field, attracted talent and additional investment, and accelerated development. It was validation, not dismissal. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz1_q2" }]
+                            },
+                            {
+                                "id": "quiz1_q2_correct",
+                                "narrative": "<h3>Correct!</h3><p>Facebook's acquisition accomplished two crucial things — legitimized VR after years of being dismissed as failed technology (if Facebook bet $2 billion, it must be real), and provided resources to hire top engineers, invest in R&D, subsidize hardware to grow market, and develop compelling content. This accelerated VR development by years. Whether you loved or hated Facebook's involvement, it undeniably pushed the field forward.</p>",
+                                "choices": [{ "id": "next", "label": "Next Question", "outcome": "quiz2_q1" }]
+                            },
+                            {
+                                "id": "quiz1_q2_feedback_c",
+                                "narrative": "<p><strong>Incorrect.</strong> Facebook's acquisition didn't create a monopoly. Competition emerged quickly — HTC Vive (2015), PlayStation VR (2016), and others. Facebook/Oculus became one major player among several, not a monopoly. The acquisition accelerated the field overall by validating the market, which enabled competitors to also get funding and support. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz1_q2" }]
+                            },
+                            {
+                                "id": "quiz1_q2_feedback_d",
+                                "narrative": "<p><strong>Incorrect.</strong> The acquisition didn't prevent competition — it sparked it. Seeing Facebook invest $2 billion validated the VR market for other companies. HTC partnered with Valve, Sony developed PlayStation VR, and numerous others entered the space. Facebook's acquisition actually increased competition by proving VR was viable market. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz1_q2" }]
+                            },
+                            {
+                                "id": "quiz2_q1",
+                                "narrative": "<p><strong>What was the main contribution of the HTC Vive to VR development?</strong></p>",
+                                "choices": [
+                                    { "id": "q1_a", "label": "It was the cheapest VR option available", "outcome": "quiz2_q1_feedback_a" },
+                                    { "id": "q1_b", "label": "It eliminated the need for powerful gaming computers", "outcome": "quiz2_q1_feedback_c" },
+                                    { "id": "q1_c", "label": "It introduced room-scale tracking, allowing users to walk around and use hand controllers naturally", "outcome": "quiz2_q1_correct" },
+                                    { "id": "q1_d", "label": "It was the first VR headset ever created", "outcome": "quiz2_q1_feedback_d" }
+                                ]
+                            },
+                            {
+                                "id": "quiz2_q1_feedback_a",
+                                "narrative": "<p><strong>Incorrect.</strong> Actually, the Vive was the most expensive consumer option at $799. Its contribution wasn't affordability but innovation — room-scale tracking allowing natural walking and hand controllers creating unprecedented presence. It proved VR could be more than seated experiences. Quality and capability, not low price, was its contribution. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz2_q1" }]
+                            },
+                            {
+                                "id": "quiz2_q1_correct",
+                                "narrative": "<p><strong>Correct!</strong> The Vive's major innovation was room-scale VR with base stations tracking your position as you walked around a room, plus hand controllers allowing natural gestures and interaction. This created deeper presence than seated experiences. The Vive showed VR could support natural movement, establishing room-scale as desirable standard and pushing the entire industry toward more immersive experiences.</p>",
+                                "choices": [{ "id": "next", "label": "Next Question", "outcome": "quiz2_q2" }]
+                            },
+                            {
+                                "id": "quiz2_q1_feedback_c",
+                                "narrative": "<p><strong>Incorrect.</strong> The Vive actually required powerful gaming PCs, just like the Oculus Rift. It didn't reduce computing requirements. Its innovation was room-scale tracking and hand controllers, not lowering hardware barriers. PlayStation VR and mobile VR addressed accessibility; Vive focused on premium immersion. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz2_q1" }]
+                            },
+                            {
+                                "id": "quiz2_q1_feedback_d",
+                                "narrative": "<p><strong>Incorrect.</strong> The Vive (2015) came after decades of VR development and after Oculus's Kickstarter (2012). It wasn't first; it was the first consumer headset with room-scale tracking. Its contribution was innovation in tracking and interaction, not being historically first. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz2_q1" }]
+                            },
+                            {
+                                "id": "quiz2_q2",
+                                "narrative": "<p><strong>Why did having multiple competing VR platforms (Oculus, Vive, PSVR, mobile) benefit the field?</strong></p>",
+                                "choices": [
+                                    { "id": "q2_a", "label": "Different platforms served different audiences, accelerated innovation, and validated VR as viable market", "outcome": "quiz2_q2_correct" },
+                                    { "id": "q2_b", "label": "It confused consumers and slowed VR adoption", "outcome": "quiz2_q2_feedback_a" },
+                                    { "id": "q2_c", "label": "It prevented any VR content from being developed", "outcome": "quiz2_q2_feedback_c" },
+                                    { "id": "q2_d", "label": "Only one platform should have existed to avoid waste", "outcome": "quiz2_q2_feedback_d" }
+                                ]
+                            },
+                            {
+                                "id": "quiz2_q2_feedback_a",
+                                "narrative": "<p><strong>Incorrect.</strong> While multiple platforms created some confusion, the net effect was positive — different platforms served different audiences and use cases, accelerating overall adoption. Competition drove innovation faster than monopoly would. Different price points ($99–$799) made VR accessible to various markets. Each platform's innovations pushed others to improve. Competition benefited the field overall. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz2_q2" }]
+                            },
+                            {
+                                "id": "quiz2_q2_correct",
+                                "narrative": "<h3>Correct! Quiz Complete.</h3><p>Competition created ecosystem benefits — different platforms served different needs (Vive for enthusiasts, PSVR for console gamers, mobile for accessibility), each company's innovations pushed others to improve (room-scale, social features, accessibility), multiple companies investing validated VR as real market not just one company's bet, and varied price points ($99–$799) made VR accessible to different audiences. Competition accelerated development and adoption.</p>",
+                                "choices": [{ "id": "next", "label": "Finish Lesson", "outcome": "complete" }]
+                            },
+                            {
+                                "id": "quiz2_q2_feedback_c",
+                                "narrative": "<p><strong>Incorrect.</strong> Actually, multiple platforms encouraged more content development, not less. Developers could reach larger combined audience across platforms. Game engines like Unity made cross-platform development easier. Content libraries grew rapidly 2015–2016 across all platforms. Competition expanded the content ecosystem, not constrained it. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz2_q2" }]
+                            },
+                            {
+                                "id": "quiz2_q2_feedback_d",
+                                "narrative": "<p><strong>Incorrect.</strong> This might seem efficient, but monopolies rarely drive innovation as effectively as competition. The rapid improvements 2012–2016 came from companies trying to outdo each other. Different approaches (room-scale vs. seated, PC vs. console vs. mobile) explored possibility space faster than single company could. Competition, not monopoly, accelerated VR's development. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz2_q2" }]
+                            }
+                        ]
+                    }
+                }
+            ]
+        };
+
+        LessonRunner.init('#lesson-root');
+        LessonRunner.loadLesson(manifest);
+    </script>
+</body>
+</html>

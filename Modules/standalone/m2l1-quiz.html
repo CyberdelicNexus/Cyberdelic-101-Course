@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M2L1 — Quiz</title>
+
+    <link rel="stylesheet" href="../../core/styles.css">
+    <link rel="stylesheet" href="../../methods/scenario-based/scenario-based.css">
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; height: 100vh; overflow: hidden; background: #03010f; position: relative; }
+        #lesson-root { width: 100%; height: 100%; position: relative; z-index: 1; }
+        body::before, body::after { content: ''; position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+        body::before { width: 72vw; height: 72vw; background: radial-gradient(ellipse at center, rgba(89,0,200,0.24) 0%, transparent 68%); top: -28%; left: -22%; animation: bb1 12s ease-in-out infinite alternate; }
+        body::after  { width: 58vw; height: 58vw; background: radial-gradient(ellipse at center, rgba(0,148,220,0.15) 0%, transparent 68%); bottom: -22%; right: -18%; animation: bb2 16s ease-in-out infinite alternate; }
+        @keyframes bb1 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(8vw,6vh) scale(1.2); } }
+        @keyframes bb2 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-5vw,-8vh) scale(1.12); } }
+    </style>
+</head>
+<body>
+    <div id="lesson-root"></div>
+
+    <script src="../../core/method-base.js"></script>
+    <script src="../../methods/scenario-based/scenario-based.js"></script>
+    <script src="../../core/lesson-runner.js"></script>
+
+    <script>
+        const manifest = {
+            "id": "m2l1_quiz",
+            "lessonId": "m2_l1_quiz",
+            "title": "Module 2 Lesson 1 Quiz",
+            "eyebrow": "Module 2 · Lesson 1",
+            "theme": { "primaryColor": "#5900ff", "fontBody": "Poppins, sans-serif" },
+            "modules": [
+                {
+                    "id": "quiz_lesson_2_1_combined",
+                    "title": "Module 2 Lesson 1 Quiz",
+                    "type": "scenario-based",
+                    "content": {
+                        "scenes": [
+                            {
+                                "id": "quiz1_q1",
+                                "narrative": "<p><strong>What was Timothy Leary's most famous prediction about technology and consciousness?</strong></p>",
+                                "choices": [
+                                    { "id": "q1_a", "label": "Virtual reality would completely replace physical reality by 2000", "outcome": "quiz1_q1_wrong_a" },
+                                    { "id": "q1_b", "label": "Everyone should abandon meditation and use only technology", "outcome": "quiz1_q1_wrong_c" },
+                                    { "id": "q1_c", "label": "Psychedelics would soon be legalized worldwide", "outcome": "quiz1_q1_wrong_d" },
+                                    { "id": "q1_d", "label": "\"The PC is the LSD of the 1990s\" — computers as consciousness tools", "outcome": "quiz1_q2" }
+                                ]
+                            },
+                            {
+                                "id": "quiz1_q1_wrong_a",
+                                "narrative": "<p>Leary didn't predict VR replacing physical reality. His vision was more nuanced — he believed computers could serve consciousness exploration and transformation similar to how psychedelics did. Technology as tool for inner work, not escape from reality. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz1_q1" }]
+                            },
+                            {
+                                "id": "quiz1_q1_wrong_c",
+                                "narrative": "<p>Leary never advocated abandoning traditional practices. He saw technology as an additional path, not a replacement. His vision was about expanding options for consciousness work, not eliminating existing methods. Both/and thinking, not either/or. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz1_q1" }]
+                            },
+                            {
+                                "id": "quiz1_q1_wrong_d",
+                                "narrative": "<p>While Leary may have hoped for psychedelic legalization, his key insight about technology was different — he recognized that digital tools could serve similar consciousness-exploring purposes as substances. This was about adding a new category of tools, not just advocating for legalizing old ones. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz1_q1" }]
+                            },
+                            {
+                                "id": "quiz1_q2",
+                                "narrative": "<p>Exactly right. In 1994, Leary predicted that personal computers would become tools for consciousness exploration comparable to psychedelic substances. He saw technology serving the same intentions — expanding awareness, facilitating transformation, enabling self-directed exploration. He was correct about the vision but 25+ years early on the timeline.</p><p>Now, <strong>Why was Leary \"right but early\" with his 1994 prediction?</strong></p>",
+                                "choices": [
+                                    { "id": "q2_a", "label": "The technology to deliver on his vision didn't mature until 2016–2020, about 25 years later", "outcome": "quiz1_quiz_complete" },
+                                    { "id": "q2_b", "label": "He underestimated how quickly people would embrace technology", "outcome": "quiz1_q2_wrong_b" },
+                                    { "id": "q2_c", "label": "Governments banned the development of consciousness technologies", "outcome": "quiz1_q2_wrong_c" },
+                                    { "id": "q2_d", "label": "Nobody was interested in using technology for consciousness work", "outcome": "quiz1_q2_wrong_d" }
+                                ]
+                            },
+                            {
+                                "id": "quiz1_quiz_complete",
+                                "narrative": "<h3>Correct!</h3><p>Precisely. 1980s–90s VR had massive technical limitations — displays with terrible resolution (320x200 or worse), headsets weighing several pounds, 50–100ms tracking latency causing motion sickness, and complete systems costing $100,000–$250,000. The vision was clear, but the technology to realize it didn't exist yet. It would take 20–30 more years for hardware to catch up.</p>",
+                                "choices": [{ "id": "next", "label": "Next Question", "outcome": "quiz2_q1" }]
+                            },
+                            {
+                                "id": "quiz1_q2_wrong_b",
+                                "narrative": "<p>Actually, cultural acceptance wasn't the main barrier. The technology simply didn't work well enough in the 1990s — headsets were clunky, caused motion sickness, and couldn't create compelling experiences. Even people open to the idea couldn't have meaningful experiences because the hardware wasn't ready. It was technical limitation, not cultural resistance. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz1_q2" }]
+                            },
+                            {
+                                "id": "quiz1_q2_wrong_c",
+                                "narrative": "<p>There were no government bans on VR or consciousness technology development. The barrier was purely technical — displays, processing power, tracking systems, and supporting technologies weren't mature enough. VR failed commercially in the 1990s because the technology couldn't deliver on its promise, not because of regulatory barriers. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz1_q2" }]
+                            },
+                            {
+                                "id": "quiz1_q2_wrong_d",
+                                "narrative": "<p>Interest wasn't the problem — capability was. Many people were intrigued by Leary's vision, but 1990s VR couldn't deliver meaningful consciousness experiences. The hardware caused headaches, the graphics were primitive, and the experiences were underwhelming. Interest existed, but viable technology didn't. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz1_q2" }]
+                            },
+                            {
+                                "id": "quiz2_q1",
+                                "narrative": "<p><strong>What key insight did Brenda Laurel contribute to early VR thinking?</strong></p>",
+                                "choices": [
+                                    { "id": "q1_a", "label": "VR headsets should be as light as possible", "outcome": "quiz2_q1_wrong_a" },
+                                    { "id": "q1_b", "label": "Virtual reality should completely replace physical reality", "outcome": "quiz2_q1_wrong_c" },
+                                    { "id": "q1_c", "label": "The goal should be transformation of the user through experience, not just usability", "outcome": "quiz2_q2" },
+                                    { "id": "q1_d", "label": "Only game developers should work on VR projects", "outcome": "quiz2_q1_wrong_d" }
+                                ]
+                            },
+                            {
+                                "id": "quiz2_q1_wrong_a",
+                                "narrative": "<p>While hardware design was important, Laurel's contribution was conceptual, not technical. She focused on the purpose and design philosophy of interactive experiences, not the physical specifications of equipment. Her insight was about transformation, not comfort. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz2_q1" }]
+                            },
+                            {
+                                "id": "quiz2_q1_wrong_c",
+                                "narrative": "<p>Laurel never advocated for replacing physical reality. Her vision was about using technology as a medium for transformative experiences that enhance human development, not escape from the real world. It was about augmentation and growth, not replacement. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz2_q1" }]
+                            },
+                            {
+                                "id": "quiz2_q1_wrong_d",
+                                "narrative": "<p>Actually, Laurel brought theatrical and narrative thinking to VR, expanding beyond purely gaming applications. She wanted artists, storytellers, and designers from diverse fields to contribute. Her vision was inclusive of multiple perspectives, not restricted to game developers. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz2_q1" }]
+                            },
+                            {
+                                "id": "quiz2_q2",
+                                "narrative": "<p>Exactly. Laurel argued that technology should be designed to transform users, not just function well. This was radical in a commercial tech culture focused on productivity and usability. Her phrase \"transformation through experience\" became foundational for cyberdelic thinking — it's not enough for technology to work; it should facilitate personal growth and change.</p><p>Now, <strong>Why couldn't the early VR pioneers (1980s–1990s) fully realize their visions?</strong></p>",
+                                "choices": [
+                                    { "id": "q2_a", "label": "Government regulations prevented VR development", "outcome": "quiz2_q2_wrong_a" },
+                                    { "id": "q2_b", "label": "Nobody was interested in using VR technology", "outcome": "quiz2_q2_wrong_b" },
+                                    { "id": "q2_c", "label": "The technology wasn't ready: displays were poor, systems were expensive ($100K+), and experiences caused motion sickness", "outcome": "quiz2_quiz_complete" },
+                                    { "id": "q2_d", "label": "The pioneers disagreed on the direction for VR", "outcome": "quiz2_q2_wrong_d" }
+                                ]
+                            },
+                            {
+                                "id": "quiz2_quiz_complete",
+                                "narrative": "<h3>Quiz Complete!</h3><p>Precisely. 1980s–90s VR had massive technical limitations — displays with terrible resolution (320x200 or worse), headsets weighing several pounds, 50–100ms tracking latency causing motion sickness, and complete systems costing $100,000–$250,000. The vision was clear, but the technology to realize it didn't exist yet. It would take 20–30 more years for hardware to catch up.</p>",
+                                "choices": [{ "id": "next", "label": "Explore Cultural Preparation", "outcome": "complete" }]
+                            },
+                            {
+                                "id": "quiz2_q2_wrong_a",
+                                "narrative": "<p>There were no regulatory barriers to VR development. The problem was purely technical — the technology simply wasn't good enough. Displays were poor, tracking was inaccurate, processing power was insufficient, and systems were prohibitively expensive. Capability, not regulation, was the barrier. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz2_q2" }]
+                            },
+                            {
+                                "id": "quiz2_q2_wrong_b",
+                                "narrative": "<p>Interest existed — universities, military, and researchers were very invested. The problem was that the technology couldn't deliver meaningful experiences. Headsets were heavy, caused motion sickness, had terrible resolution, and cost over $100,000. The hardware limited adoption, not lack of interest. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz2_q2" }]
+                            },
+                            {
+                                "id": "quiz2_q2_wrong_d",
+                                "narrative": "<p>While pioneers had different emphases, they generally agreed on VR's transformative potential. The barrier wasn't conceptual disagreement but technical limitation. They shared similar visions but lacked the technology to realize them. The challenge was capability, not consensus. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz2_q2" }]
+                            }
+                        ]
+                    }
+                }
+            ]
+        };
+
+        LessonRunner.init('#lesson-root');
+        LessonRunner.loadLesson(manifest);
+    </script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M2L2 — The True Believer</title>
+
+    <link rel="stylesheet" href="../../core/styles.css">
+    <link rel="stylesheet" href="../../methods/scenario-based/scenario-based.css">
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; height: 100vh; overflow: hidden; background: #03010f; position: relative; }
+        #lesson-root { width: 100%; height: 100%; position: relative; z-index: 1; }
+        body::before, body::after { content: ''; position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+        body::before { width: 72vw; height: 72vw; background: radial-gradient(ellipse at center, rgba(89,0,200,0.24) 0%, transparent 68%); top: -28%; left: -22%; animation: bb1 12s ease-in-out infinite alternate; }
+        body::after  { width: 58vw; height: 58vw; background: radial-gradient(ellipse at center, rgba(0,148,220,0.15) 0%, transparent 68%); bottom: -22%; right: -18%; animation: bb2 16s ease-in-out infinite alternate; }
+        @keyframes bb1 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(8vw,6vh) scale(1.2); } }
+        @keyframes bb2 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-5vw,-8vh) scale(1.12); } }
+    </style>
+</head>
+<body>
+    <div id="lesson-root"></div>
+
+    <script src="../../core/method-base.js"></script>
+    <script src="../../methods/scenario-based/scenario-based.js"></script>
+    <script src="../../core/lesson-runner.js"></script>
+
+    <script>
+        const manifest = {
+            "id": "m2l2_scenario",
+            "lessonId": "m2_l2_scenario",
+            "title": "The True Believer",
+            "eyebrow": "Module 2 · Lesson 2",
+            "theme": { "primaryColor": "#5900ff", "fontBody": "Poppins, sans-serif" },
+            "modules": [
+                {
+                    "id": "vr_researcher_scenario_2.1",
+                    "title": "The True Believer",
+                    "type": "scenario-based",
+                    "content": {
+                        "scenes": [
+                            {
+                                "id": "intro",
+                                "narrative": "<p>It's 2005. You're a graduate student passionate about VR for consciousness research, but VR is considered dead technology. Your advisor suggests switching to a \"more viable\" research area. Your peers think VR research is career suicide. You have to decide how to proceed.</p>",
+                                "choices": [
+                                    { "id": "decision_point", "label": "Make a Decision", "outcome": "decision" }
+                                ]
+                            },
+                            {
+                                "id": "decision",
+                                "narrative": "<h3>What do you do?</h3>",
+                                "choices": [
+                                    { "id": "choice_a", "label": "Switch to mainstream research, abandon VR", "outcome": "outcome_a" },
+                                    { "id": "choice_b", "label": "Continue VR research part-time while maintaining safer backup", "outcome": "outcome_b" },
+                                    { "id": "choice_c", "label": "Fully commit to VR despite the obstacles", "outcome": "outcome_c" }
+                                ]
+                            },
+                            {
+                                "id": "outcome_a",
+                                "narrative": "<p>You follow your advisor's suggestion and pivot to mainstream neuroscience research. It's the safe choice. You publish papers, get grants, build a respectable academic career. You occasionally think about VR but dismiss it as youthful idealism.</p><p>In 2012, when Oculus reignites VR, you're caught off guard. By the time you try to return to VR research, others who stayed through the gap years are already established experts. You missed the foundation-building years.</p><p><em>Reflection: Safety can mean missing the inflection point. Those who persist through winters position themselves for spring.</em></p>",
+                                "choices": [
+                                    { "id": "retry", "label": "Try Another Path", "outcome": "decision" }
+                                ]
+                            },
+                            {
+                                "id": "outcome_b",
+                                "narrative": "<p>You split your focus — mainstream publishable research for career security, VR experiments in spare time. You stay connected to the small VR community, attend conferences, collaborate on side projects. It's exhausting maintaining two research tracks, but you keep the flame alive.</p><p>When VR revives in 2012, you're positioned perfectly. You have the academic credentials from mainstream work plus deep VR expertise from your persistence. You become a bridge between established neuroscience and emerging VR consciousness research.</p><p><em>Reflection: Strategic patience — keeping possibilities alive while maintaining viability — enables pivoting when timing shifts.</em></p>",
+                                "choices": [
+                                    { "id": "continue", "label": "Continue", "outcome": "final_reflection" }
+                                ]
+                            },
+                            {
+                                "id": "outcome_c",
+                                "narrative": "<p>You ignore the advice and dive deep into VR research. The next 7 years are difficult. Funding is scarce. Publications are rejected because reviewers consider VR irrelevant. You're seen as eccentric or naive. But you build deep expertise, develop novel methodologies, and establish relationships with the tiny community of VR researchers worldwide.</p><p>When Oculus arrives in 2012, you're among the few experts with years of experience. Your \"wasted\" gap year work suddenly becomes foundational. You help shape the field's emergence because you never stopped believing.</p><p><em>Reflection: True believers who persist through wilderness years make breakthroughs possible. Conviction requires sacrifice, but enables leadership.</em></p>",
+                                "choices": [
+                                    { "id": "continue", "label": "Continue", "outcome": "final_reflection" }
+                                ]
+                            },
+                            {
+                                "id": "final_reflection",
+                                "narrative": "<h3>Scenario Complete</h3><p>The gap years tested whether VR — and by extension, cyberdelics — would survive long enough to get its second chance. Those who kept working despite mainstream dismissal built the foundations for later success. The lesson: apparent stagnation often masks necessary preparation. Progress isn't always visible.</p>",
+                                "choices": [
+                                    { "id": "start_quiz", "label": "Reflect on This", "outcome": "reflection" }
+                                ]
+                            },
+                            {
+                                "id": "reflection",
+                                "narrative": "<h3>Reflection</h3><p>The gap years weren't empty — they were invisible. The technologies that eventually made cyberdelics possible (smartphone displays, gaming GPUs, cheap motion sensors) were advancing in adjacent industries, completely disconnected from VR's dormancy. The field didn't survive because the world kept watching it; it survived because a handful of true believers refused to stop working while everyone else had moved on.</p><p>This pattern recurs throughout the history of transformative technologies — the gap between a premature vision and its realized form is always filled by people who treat apparent stagnation as hidden preparation. If you're working on something that the world hasn't caught up to yet, this era is the precedent. Wilderness years are not evidence that you're wrong. They're often evidence that you're early.</p>",
+                                "choices": [
+                                    { "id": "continue", "label": "The Quiet Revolution", "outcome": "complete" }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        };
+
+        LessonRunner.init('#lesson-root');
+        LessonRunner.loadLesson(manifest);
+    </script>
+</body>
+</html>

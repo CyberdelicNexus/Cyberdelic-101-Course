@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M2L4 — Quiz</title>
+
+    <link rel="stylesheet" href="../../core/styles.css">
+    <link rel="stylesheet" href="../../methods/scenario-based/scenario-based.css">
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; height: 100vh; overflow: hidden; background: #03010f; position: relative; }
+        #lesson-root { width: 100%; height: 100%; position: relative; z-index: 1; }
+        body::before, body::after { content: ''; position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+        body::before { width: 72vw; height: 72vw; background: radial-gradient(ellipse at center, rgba(89,0,200,0.24) 0%, transparent 68%); top: -28%; left: -22%; animation: bb1 12s ease-in-out infinite alternate; }
+        body::after  { width: 58vw; height: 58vw; background: radial-gradient(ellipse at center, rgba(0,148,220,0.15) 0%, transparent 68%); bottom: -22%; right: -18%; animation: bb2 16s ease-in-out infinite alternate; }
+        @keyframes bb1 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(8vw,6vh) scale(1.2); } }
+        @keyframes bb2 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-5vw,-8vh) scale(1.12); } }
+    </style>
+</head>
+<body>
+    <div id="lesson-root"></div>
+
+    <script src="../../core/method-base.js"></script>
+    <script src="../../methods/scenario-based/scenario-based.js"></script>
+    <script src="../../core/lesson-runner.js"></script>
+
+    <script>
+        const manifest = {
+            "id": "m2l4_quiz",
+            "lessonId": "m2_l4_quiz",
+            "title": "Module 2 Lesson 4 Quiz",
+            "eyebrow": "Module 2 · Lesson 4",
+            "theme": { "primaryColor": "#5900ff", "fontBody": "Poppins, sans-serif" },
+            "modules": [
+                {
+                    "id": "quiz_lesson_4_combined",
+                    "title": "Module 2 Lesson 4 Quiz",
+                    "type": "scenario-based",
+                    "content": {
+                        "scenes": [
+                            {
+                                "id": "quiz1_q1",
+                                "narrative": "<p><strong>What was the most significant cultural shift that COVID-19 created for cyberdelics?</strong></p>",
+                                "choices": [
+                                    { "id": "q1_a", "label": "It proved virtual reality was only for entertainment", "outcome": "quiz1_q1_a_feedback" },
+                                    { "id": "q1_b", "label": "It made VR completely replace all physical interactions", "outcome": "quiz1_q1_c_feedback" },
+                                    { "id": "q1_c", "label": "It normalized technology-mediated experience as genuinely meaningful", "outcome": "quiz1_q1_correct" },
+                                    { "id": "q1_d", "label": "It decreased interest in all forms of technology", "outcome": "quiz1_q1_d_feedback" }
+                                ]
+                            },
+                            {
+                                "id": "quiz1_q1_a_feedback",
+                                "narrative": "<p><strong>Incorrect.</strong> Actually, COVID proved the opposite — VR and technology-mediated experiences could serve genuine human needs beyond entertainment. Virtual graduations, memorials, support groups, and therapy sessions showed technology could facilitate meaningful experiences. The shift was toward taking mediated experiences seriously, not dismissing them as mere entertainment. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz1_q1" }]
+                            },
+                            {
+                                "id": "quiz1_q1_c_feedback",
+                                "narrative": "<p><strong>Incorrect.</strong> COVID didn't make virtual experiences replace physical ones entirely; it showed they could complement them and fill gaps when physical isn't possible. People still valued physical connection but learned virtual connection had its own validity. It was about expanding what counts as 'real' connection, not replacing one with the other. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz1_q1" }]
+                            },
+                            {
+                                "id": "quiz1_q1_d_feedback",
+                                "narrative": "<p><strong>Incorrect.</strong> COVID massively increased technology adoption, not decreased it. VR sales surged, video call usage exploded, digital tools became essential. The pandemic accelerated technology integration into daily life by years. Interest and adoption increased dramatically, not decreased. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz1_q1" }]
+                            },
+                            {
+                                "id": "quiz1_q1_correct",
+                                "narrative": "<p><strong>Correct!</strong> The most important shift was cultural — before COVID, virtual experiences were seen as inferior substitutes for 'real' physical experiences. After COVID, billions discovered technology-mediated connection could be genuinely meaningful when physical gathering was impossible. This shift in cultural attitudes prepared people to take cyberdelic experiences seriously as legitimate consciousness work, not just digital entertainment.</p>",
+                                "choices": [{ "id": "next", "label": "Next Question", "outcome": "quiz1_q2" }]
+                            },
+                            {
+                                "id": "quiz1_q2",
+                                "narrative": "<p><strong>How did COVID-19 accelerate the timeline for cyberdelic acceptance?</strong></p>",
+                                "choices": [
+                                    { "id": "q2_a", "label": "It gave everyone unlimited free time to meditate", "outcome": "quiz1_q2_a_feedback" },
+                                    { "id": "q2_b", "label": "It eliminated all competition for VR companies", "outcome": "quiz1_q2_c_feedback" },
+                                    { "id": "q2_c", "label": "It made traditional meditation completely obsolete", "outcome": "quiz1_q2_d_feedback" },
+                                    { "id": "q2_d", "label": "It compressed 5–10 years of cultural acceptance into months", "outcome": "quiz1_q2_correct" }
+                                ]
+                            },
+                            {
+                                "id": "quiz1_q2_a_feedback",
+                                "narrative": "<p><strong>Incorrect.</strong> While some people had more time, this wasn't the main mechanism. The acceleration came from forced normalization of technology-mediated experiences. When virtual gatherings became necessary rather than optional, cultural resistance to 'mediated = fake' collapsed. Attitudes that might have taken 5–10 years to shift changed in months because circumstances forced reevaluation. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz1_q2" }]
+                            },
+                            {
+                                "id": "quiz1_q2_c_feedback",
+                                "narrative": "<p><strong>Incorrect.</strong> COVID didn't eliminate competition; it expanded the VR market overall with multiple companies benefiting (Meta, HTC, Sony, etc.). The acceleration was about market growth and cultural acceptance, not monopoly creation. All VR companies saw increased interest and adoption. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz1_q2" }]
+                            },
+                            {
+                                "id": "quiz1_q2_d_feedback",
+                                "narrative": "<p><strong>Incorrect.</strong> COVID didn't make traditional practices obsolete. Many people deepened traditional meditation during lockdown. What changed was openness to technology-assisted practices as complementary tools, not replacements. Technology and tradition both grew, not one replacing the other. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz1_q2" }]
+                            },
+                            {
+                                "id": "quiz1_q2_correct",
+                                "narrative": "<p><strong>Correct!</strong> COVID acted as cultural catalyst, compressing years of gradual acceptance into rapid shift. Forced isolation made virtual connection necessary, millions experienced meaningful virtual gatherings (weddings, memorials, support groups), mental health tech became mainstream necessity not fringe interest, and resistance to 'consciousness tech' dissolved when technology became essential for wellbeing. What might have taken a decade of slow cultural change happened in months because crisis created urgency.</p>",
+                                "choices": [{ "id": "next", "label": "Next Question", "outcome": "quiz2_q1" }]
+                            },
+                            {
+                                "id": "quiz2_q1",
+                                "narrative": "<p><strong>What did the Isness VR study (June 2020) demonstrate?</strong></p>",
+                                "choices": [
+                                    { "id": "q1_a", "label": "VR could create better graphics than traditional video games", "outcome": "quiz2_q1_a_feedback" },
+                                    { "id": "q1_b", "label": "VR was only useful for entertainment purposes", "outcome": "quiz2_q1_c_feedback" },
+                                    { "id": "q1_c", "label": "Mystical experiences only occur with substance use", "outcome": "quiz2_q1_d_feedback" },
+                                    { "id": "q1_d", "label": "VR could produce mystical experiences comparable to high-dose psilocybin", "outcome": "quiz2_q1_correct" }
+                                ]
+                            },
+                            {
+                                "id": "quiz2_q1_a_feedback",
+                                "narrative": "<p><strong>Incorrect.</strong> The study wasn't about graphics quality; it was about consciousness states. The research measured whether VR could produce mystical experiences using the same validated questionnaire (MEQ30) used in psychedelic research. The findings were about consciousness and transformation, not visual fidelity. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz2_q1" }]
+                            },
+                            {
+                                "id": "quiz2_q1_c_feedback",
+                                "narrative": "<p><strong>Incorrect.</strong> The study demonstrated the opposite — VR could facilitate profound mystical states associated with transformation and meaning, not just entertainment. The research specifically measured transcendence, unity, and transformational experiences. It proved VR's potential for consciousness work, not limitations to entertainment. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz2_q1" }]
+                            },
+                            {
+                                "id": "quiz2_q1_d_feedback",
+                                "narrative": "<p><strong>Incorrect.</strong> The study directly contradicted this assumption by showing VR could produce mystical experiences without any substances. The whole point was demonstrating that technology alone could facilitate these states. Substances are one path; the study proved technology is another. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz2_q1" }]
+                            },
+                            {
+                                "id": "quiz2_q1_correct",
+                                "narrative": "<p><strong>Correct!</strong> The Isness study's groundbreaking finding was that VR produced MEQ30 scores above 0.6 (the threshold for 'complete mystical experience'), comparable to scores from high-dose psilocybin research at Johns Hopkins and Imperial College. This was the first rigorous scientific demonstration that technology could produce the same category of consciousness states as psychedelic substances, using identical measurement tools.</p>",
+                                "choices": [{ "id": "next", "label": "Next Question", "outcome": "quiz2_q2" }]
+                            },
+                            {
+                                "id": "quiz2_q2",
+                                "narrative": "<p><strong>What design features did Isness researchers identify as key to facilitating mystical experiences?</strong></p>",
+                                "choices": [
+                                    { "id": "q2_a", "label": "Photorealistic graphics and familiar environments", "outcome": "quiz2_q2_a_feedback" },
+                                    { "id": "q2_b", "label": "Competitive gaming mechanics and achievement systems", "outcome": "quiz2_q2_c_feedback" },
+                                    { "id": "q2_c", "label": "Energetic body representation, synchronized group movement, abstract environments, and intentional preparation", "outcome": "quiz2_q2_correct" },
+                                    { "id": "q2_d", "label": "Solo experiences with no social interaction", "outcome": "quiz2_q2_d_feedback" }
+                                ]
+                            },
+                            {
+                                "id": "quiz2_q2_a_feedback",
+                                "narrative": "<p><strong>Incorrect.</strong> Actually, the opposite — the study used abstract environments and energetic particle bodies, not realistic graphics. The researchers found that abstract, non-realistic spaces helped facilitate mystical experiences by reducing ego attachment to normal identity. Familiar realism wasn't key; boundary-dissolving abstraction was. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz2_q2" }]
+                            },
+                            {
+                                "id": "quiz2_q2_c_feedback",
+                                "narrative": "<p><strong>Incorrect.</strong> Competitive elements and achievements would work against mystical experience by reinforcing ego and external goals. The Isness study deliberately avoided these features, instead creating collaborative, non-competitive space focused on shared experience rather than individual achievement. Mystical states arise from ego dissolution, not ego reinforcement. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz2_q2" }]
+                            },
+                            {
+                                "id": "quiz2_q2_d_feedback",
+                                "narrative": "<p><strong>Incorrect.</strong> The Isness study specifically found that multi-person shared experiences amplified mystical states beyond solo experiences. The social, synchronized group movement created stronger effects than individual practice. Shared presence was a key facilitating factor, not a limitation. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz2_q2" }]
+                            },
+                            {
+                                "id": "quiz2_q2_correct",
+                                "narrative": "<p><strong>Correct!</strong> The study identified these key design principles — representing participants as flowing energy particles rather than realistic avatars facilitated boundary dissolution, synchronized group movement created collective flow states, abstract non-realistic environments reduced normal ego identification, and intentional preparation through pre-session guidance primed openness to the experience. These principles became foundational for subsequent cyberdelic platform design.</p>",
+                                "choices": [{ "id": "next", "label": "Next Question", "outcome": "quiz3_q1" }]
+                            },
+                            {
+                                "id": "quiz3_q1",
+                                "narrative": "<p><strong>What did DeepDream VR and EEG studies demonstrate about technology-induced altered states?</strong></p>",
+                                "choices": [
+                                    { "id": "q1_a", "label": "VR produces measurable brain changes similar to psychedelics and meditation", "outcome": "quiz3_q1_correct" },
+                                    { "id": "q1_b", "label": "VR only creates visual illusions with no real brain effects", "outcome": "quiz3_q1_a_feedback" },
+                                    { "id": "q1_c", "label": "Only substances can create genuine altered states", "outcome": "quiz3_q1_c_feedback" },
+                                    { "id": "q1_d", "label": "Brain activity remains completely unchanged during VR experiences", "outcome": "quiz3_q1_d_feedback" }
+                                ]
+                            },
+                            {
+                                "id": "quiz3_q1_a_feedback",
+                                "narrative": "<p><strong>Incorrect.</strong> The research proved the opposite — VR creates measurable changes in brain activity patterns including increased neural entropy, altered Default Mode Network activity, and enhanced alpha waves. These are real neurological changes, not just visual tricks. The brain responds to VR-induced states similarly to how it responds to meditation and psychedelics. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz3_q1" }]
+                            },
+                            {
+                                "id": "quiz3_q1_c_feedback",
+                                "narrative": "<p><strong>Incorrect.</strong> The neural research directly contradicted this by showing VR creates measurable brain changes similar to substance-induced states. Different methods (technology vs. chemistry) can produce similar neural patterns. The research proved technology is a valid alternative pathway to altered states, not that substances are the only way. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz3_q1" }]
+                            },
+                            {
+                                "id": "quiz3_q1_d_feedback",
+                                "narrative": "<p><strong>Incorrect.</strong> This is completely wrong. The whole point of the neural research was demonstrating VR creates significant measurable changes in brain activity. EEG studies showed multiple changes in neural patterns, network activity, and brainwave states. VR profoundly affects brain activity; it doesn't leave it unchanged. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz3_q1" }]
+                            },
+                            {
+                                "id": "quiz3_q1_correct",
+                                "narrative": "<p><strong>Correct!</strong> EEG studies of DeepDream VR showed genuine neural changes — increased frontal entropy (more flexible, less predictable brain activity), Default Mode Network modulation (reduced self-referential thinking), alpha wave enhancement (meditative states), and decreased neural complexity similar to psychedelic states. These aren't subjective impressions; they're measurable brain activity changes proving VR genuinely alters consciousness at neurological level.</p>",
+                                "choices": [{ "id": "next", "label": "Next Question", "outcome": "quiz3_q2" }]
+                            },
+                            {
+                                "id": "quiz3_q2",
+                                "narrative": "<p><strong>What does the convergence of evidence (subjective reports + neural changes + therapeutic outcomes) prove about cyberdelics?</strong></p>",
+                                "choices": [
+                                    { "id": "q2_a", "label": "Cyberdelics is still just an unproven theory", "outcome": "quiz3_q2_a_feedback" },
+                                    { "id": "q2_b", "label": "More research is needed before we can say anything definitive", "outcome": "quiz3_q2_c_feedback" },
+                                    { "id": "q2_c", "label": "Neural evidence contradicts the subjective reports", "outcome": "quiz3_q2_d_feedback" },
+                                    { "id": "q2_d", "label": "VR produces genuine consciousness changes validated across experiential, neural, and therapeutic levels", "outcome": "quiz3_q2_correct" }
+                                ]
+                            },
+                            {
+                                "id": "quiz3_q2_a_feedback",
+                                "narrative": "<p><strong>Incorrect.</strong> By 2024, cyberdelics has multiple streams of rigorous evidence — subjective mystical experiences measured with validated tools (Isness study), measurable brain changes (EEG research), therapeutic effectiveness (clinical trials), and theoretical understanding of mechanisms. This isn't unproven theory; it's validated science with evidence at experiential, neural, and therapeutic levels. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz3_q2" }]
+                            },
+                            {
+                                "id": "quiz3_q2_c_feedback",
+                                "narrative": "<p><strong>Incorrect.</strong> While more research is always valuable for refinement, the fundamental question — 'Does VR produce genuine altered states and transformative effects?' — has been definitively answered: yes. We have rigorous evidence at multiple levels. Future research will deepen understanding and optimize applications, but the core validation is complete. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz3_q2" }]
+                            },
+                            {
+                                "id": "quiz3_q2_d_feedback",
+                                "narrative": "<p><strong>Incorrect.</strong> The neural evidence actually confirms and supports subjective reports. When people report mystical experiences in VR, brain scans show corresponding changes in neural activity. The experiential and neural findings converge and reinforce each other; they don't contradict. <strong>Try again.</strong></p>",
+                                "choices": [{ "id": "retry", "label": "Try Again", "outcome": "quiz3_q2" }]
+                            },
+                            {
+                                "id": "quiz3_q2_correct",
+                                "narrative": "<h3>Quiz Complete!</h3><p>The convergence of evidence is comprehensive — experiential validation (MEQ30 scores comparable to psychedelics), neural validation (measurable brain activity changes), therapeutic validation (clinical effectiveness for pain, anxiety, phobias), and mechanistic understanding (how it works through presence, embodiment, DMN modulation). This multi-level validation proves cyberdelics produces real effects, not placebo or imagination. The field has transitioned from speculation to validated science.</p>",
+                                "choices": [{ "id": "finish_lesson", "label": "Reflect on This Arc", "outcome": "reflection" }]
+                            },
+                            {
+                                "id": "reflection",
+                                "narrative": "<h3>Reflection</h3><p>Three turning points. Three different kinds of proof. COVID-19 didn't create cyberdelics — it compressed the cultural timeline and forced millions of people to discover that mediated experiences could be genuinely meaningful. The Isness study didn't invent mystical states in VR — it measured them with the same tools used to validate psilocybin, making the comparison impossible to dismiss. The DeepDream EEG research didn't theorize that VR changes the brain — it recorded it.</p><p>By 2024, the arc that began with Leary's speculation in 1994 had closed. Not through a single breakthrough, but through the slow, compounding weight of evidence on three levels — experiential, neural, and therapeutic. This is how speculative fields become validated ones.</p>",
+                                "choices": [{ "id": "continue", "label": "Finish Lesson", "outcome": "complete" }]
+                            }
+                        ]
+                    }
+                }
+            ]
+        };
+
+        LessonRunner.init('#lesson-root');
+        LessonRunner.loadLesson(manifest);
+    </script>
+</body>
+</html>

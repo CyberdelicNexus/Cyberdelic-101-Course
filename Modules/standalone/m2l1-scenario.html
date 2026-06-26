@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M2L1 — 1995: The Conference</title>
+
+    <link rel="stylesheet" href="../../core/styles.css">
+    <link rel="stylesheet" href="../../methods/scenario-based/scenario-based.css">
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; height: 100vh; overflow: hidden; background: #03010f; position: relative; }
+        #lesson-root { width: 100%; height: 100%; position: relative; z-index: 1; }
+        body::before, body::after { content: ''; position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+        body::before { width: 72vw; height: 72vw; background: radial-gradient(ellipse at center, rgba(89,0,200,0.24) 0%, transparent 68%); top: -28%; left: -22%; animation: bb1 12s ease-in-out infinite alternate; }
+        body::after  { width: 58vw; height: 58vw; background: radial-gradient(ellipse at center, rgba(0,148,220,0.15) 0%, transparent 68%); bottom: -22%; right: -18%; animation: bb2 16s ease-in-out infinite alternate; }
+        @keyframes bb1 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(8vw,6vh) scale(1.2); } }
+        @keyframes bb2 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-5vw,-8vh) scale(1.12); } }
+    </style>
+</head>
+<body>
+    <div id="lesson-root"></div>
+
+    <script src="../../core/method-base.js"></script>
+    <script src="../../methods/scenario-based/scenario-based.js"></script>
+    <script src="../../core/lesson-runner.js"></script>
+
+    <script>
+        const manifest = {
+            "id": "m2l1_scenario",
+            "lessonId": "m2_l1_scenario",
+            "title": "1995: The Conference",
+            "eyebrow": "Module 2 · Lesson 1",
+            "theme": { "primaryColor": "#5900ff", "fontBody": "Poppins, sans-serif" },
+            "modules": [
+                {
+                    "id": "leary_scenario_2.1",
+                    "title": "1995: The Conference",
+                    "type": "scenario-based",
+                    "content": {
+                        "scenes": [
+                            {
+                                "id": "start",
+                                "narrative": "<h3>1995 Tech Conference</h3><p>It's 1995. You're at a technology conference where Timothy Leary is presenting. Most attendees are skeptical. VR has failed commercially, and this former psychedelic advocate is making bold claims about computers becoming consciousness tools.</p><p><strong>How do you react to Leary's vision?</strong></p>",
+                                "choices": [
+                                    { "id": "choice_a", "label": "Dismiss the vision", "outcome": "outcome_a" },
+                                    { "id": "choice_b", "label": "Right vision, wrong timing", "outcome": "outcome_b" },
+                                    { "id": "choice_c", "label": "Commit to the vision", "outcome": "outcome_c" }
+                                ]
+                            },
+                            {
+                                "id": "outcome_a",
+                                "narrative": "<h3>Outcome: Dismiss the vision</h3><p>You join the majority of tech industry professionals in 1995 who dismissed Leary's vision. VR headsets are clunky and cause motion sickness. The idea of mystical experiences through computers seems absurd. You write it off as the rambling of someone stuck in the psychedelic era.</p><p>Fast forward to 2020. The Isness VR study validates exactly what Leary predicted — VR producing mystical experiences comparable to psychedelics. You realize you witnessed prophecy but mistook it for fantasy.</p><p><em>Reflection: Vision often looks like delusion until technology catches up. The question isn't whether the vision is crazy — it's whether the timing is right.</em></p>",
+                                "choices": [
+                                    { "id": "next", "label": "Continue", "outcome": "quiz_intro" }
+                                ]
+                            },
+                            {
+                                "id": "outcome_b",
+                                "narrative": "<h3>Outcome: Right vision, wrong timing</h3><p>You understand what Leary is pointing toward — the potential for technology to facilitate consciousness work. But looking at current VR technology (heavy headsets, low resolution, limited computing power), you think it's at least 20–30 years away.</p><p>You're exactly right. Leary's vision was correct, but the timeline was off by 25+ years. The technology needed smartphones to improve displays, gaming to advance GPUs, and neuroscience to validate mechanisms. Sometimes being right about direction is different from being right about when.</p><p><em>Reflection: Great visions require patience. The gap between seeing possibility and achieving viability can span decades.</em></p>",
+                                "choices": [
+                                    { "id": "next", "label": "Continue", "outcome": "quiz_intro" }
+                                ]
+                            },
+                            {
+                                "id": "outcome_c",
+                                "narrative": "<h3>Outcome: Commit to the vision</h3><p>Leary's talk ignites your imagination. Despite primitive technology, you begin exploring how computers might facilitate consciousness work. You spend the next 20 years in academic labs, meditation tech startups, and VR experiments, often dismissed as fringe.</p><p>By 2020, when breakthrough research validates the vision, you're already an established expert. You were one of the few who kept working during the \"wilderness years\" when everyone else had moved on. Your persistence made the validation possible.</p><p><em>Reflection: Someone has to keep the vision alive during the gap between prophecy and proof. Early believers enable later breakthroughs.</em></p>",
+                                "choices": [
+                                    { "id": "next", "label": "Continue", "outcome": "quiz_intro" }
+                                ]
+                            },
+                            {
+                                "id": "quiz_intro",
+                                "narrative": "<h3>Scenario Complete</h3><p>History reveals Leary was prescient, not deluded. But in 1995, with the technology not yet ready, it was impossible to know for certain. The lesson holds across every emerging field — visionary ideas routinely require decades before technology enables them. Distinguishing vision from fantasy in real time requires both imagination and patience.</p>",
+                                "choices": [
+                                    { "id": "finish_scenario", "label": "Reflect on This Journey", "outcome": "reflection" }
+                                ]
+                            },
+                            {
+                                "id": "reflection",
+                                "narrative": "<h3>Reflection</h3><p>All three paths through 1995 led to the same truth. Leary's vision was real, but only those who held onto it — or who remained open to recognizing <em>when</em> it arrived — were positioned to participate in its validation. The dismissers missed the inflection point. The cautious hedgers bridged both worlds. The full believers built the foundations others would stand on.</p><p>This is the lesson of every field that matures across decades — the gap between vision and proof requires someone to carry the torch. In 1995, the technology wasn't ready. By 2020, the science confirmed what Leary saw. The distance between those two moments was filled by people who didn't abandon the question.</p>",
+                                "choices": [
+                                    { "id": "continue", "label": "Establish Foundation", "outcome": "complete" }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        };
+
+        LessonRunner.init('#lesson-root');
+        LessonRunner.loadLesson(manifest);
+    </script>
+</body>
+</html>

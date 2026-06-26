@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M2L3 — The Oculus Moment</title>
+
+    <link rel="stylesheet" href="../../core/styles.css">
+    <link rel="stylesheet" href="../../methods/scenario-based/scenario-based.css">
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; height: 100vh; overflow: hidden; background: #03010f; position: relative; }
+        #lesson-root { width: 100%; height: 100%; position: relative; z-index: 1; }
+        body::before, body::after { content: ''; position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+        body::before { width: 72vw; height: 72vw; background: radial-gradient(ellipse at center, rgba(89,0,200,0.24) 0%, transparent 68%); top: -28%; left: -22%; animation: bb1 12s ease-in-out infinite alternate; }
+        body::after  { width: 58vw; height: 58vw; background: radial-gradient(ellipse at center, rgba(0,148,220,0.15) 0%, transparent 68%); bottom: -22%; right: -18%; animation: bb2 16s ease-in-out infinite alternate; }
+        @keyframes bb1 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(8vw,6vh) scale(1.2); } }
+        @keyframes bb2 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-5vw,-8vh) scale(1.12); } }
+    </style>
+</head>
+<body>
+    <div id="lesson-root"></div>
+
+    <script src="../../core/method-base.js"></script>
+    <script src="../../methods/scenario-based/scenario-based.js"></script>
+    <script src="../../core/lesson-runner.js"></script>
+
+    <script>
+        const manifest = {
+            "id": "m2l3_scenario",
+            "lessonId": "m2_l3_scenario",
+            "title": "The Oculus Moment",
+            "eyebrow": "Module 2 · Lesson 3",
+            "theme": { "primaryColor": "#5900ff", "fontBody": "Poppins, sans-serif" },
+            "modules": [
+                {
+                    "id": "vr_renaissance_scenario_3.1",
+                    "title": "The Oculus Moment",
+                    "type": "scenario-based",
+                    "content": {
+                        "scenes": [
+                            {
+                                "id": "intro",
+                                "narrative": "<p>It's August 2012. You see the Oculus Rift Kickstarter campaign. VR failed spectacularly in the 1990s. Most people consider it dead technology. But this teenage entrepreneur claims he's solved the problems. Do you back the campaign?</p>",
+                                "choices": [
+                                    { "id": "decision_point", "label": "Make a Decision", "outcome": "decision" }
+                                ]
+                            },
+                            {
+                                "id": "decision",
+                                "narrative": "<h3>What do you do?</h3>",
+                                "choices": [
+                                    { "id": "choice_a", "label": "Dismiss it as another VR failure waiting to happen", "outcome": "outcome_a" },
+                                    { "id": "choice_b", "label": "Back it cautiously with minimum pledge ($300)", "outcome": "outcome_b" },
+                                    { "id": "choice_c", "label": "Go all-in, become VR developer immediately", "outcome": "outcome_c" }
+                                ]
+                            },
+                            {
+                                "id": "outcome_a",
+                                "narrative": "<p>You've been burned by VR hype before. The 1990s promised everything and delivered nothing. You assume this is more of the same and ignore the Kickstarter. VR has failed before; why would this time be different?</p><p>The Kickstarter succeeds massively. Development kits ship and actually work. By 2016, consumer VR headsets are everywhere. You missed being part of the revival because you let past failures blind you to present opportunity.</p><p><em>Reflection: Past failures can create blindness to present breakthroughs. Sometimes \"this time is different\" is actually true.</em></p>",
+                                "choices": [
+                                    { "id": "retry", "label": "Try Another Path", "outcome": "decision" }
+                                ]
+                            },
+                            {
+                                "id": "outcome_b",
+                                "narrative": "<p>You're skeptical but curious. The prototype looks promising, and smartphone components have indeed improved. You pledge $300 for a development kit as a calculated risk. When DK1 arrives in 2013, you're amazed — it actually works. Presence feels real. You start experimenting with VR development.</p><p>By 2016, you have years of VR experience and are positioned as early adopter. Your cautious bet paid off because you were open to possibility despite past failures.</p><p><em>Reflection: Calculated risks based on changed circumstances enable early positioning without recklessness.</em></p>",
+                                "choices": [
+                                    { "id": "continue", "label": "Continue", "outcome": "final_reflection" }
+                                ]
+                            },
+                            {
+                                "id": "outcome_c",
+                                "narrative": "<p>You recognize this as the inflection point. The smartphone revolution has created the foundation VR lacked in the 1990s. You pledge at high tier, start learning Unity immediately, and commit to VR development.</p><p>The next 4 years are uncertain — VR is still unproven market — but by 2016 when consumer headsets launch, you're among the experienced VR developers. You're positioned to build the experiences that will define the medium, including early consciousness applications.</p><p><em>Reflection: Recognizing genuine inflection points and acting boldly despite uncertainty creates first-mover advantage.</em></p>",
+                                "choices": [
+                                    { "id": "continue", "label": "Continue", "outcome": "final_reflection" }
+                                ]
+                            },
+                            {
+                                "id": "final_reflection",
+                                "narrative": "<h3>Scenario Complete</h3><p>The Oculus Kickstarter was the moment when 30 years of vision met viable technology. Those who recognized the convergence of smartphone displays, gaming GPUs, and cultural readiness positioned themselves for the renaissance. The lesson: past failures don't guarantee future failures when fundamental conditions change.</p>",
+                                "choices": [
+                                    { "id": "start_quiz", "label": "Reflect on This", "outcome": "reflection" }
+                                ]
+                            },
+                            {
+                                "id": "reflection",
+                                "narrative": "<h3>Reflection</h3><p>In 2012, the Oculus Kickstarter wasn't just a funding campaign — it was a proof of convergence. Nothing about VR had fundamentally changed in terms of the underlying goal. What changed was every supporting condition simultaneously — displays got sharp enough, GPUs got fast enough, sensors got cheap enough, and culture got ready enough.</p><p>This is what convergence looks like from inside a moment. You can't see which technology-driven threshold you're standing at until it's already passed. The people who backed that Kickstarter didn't know they were funding the beginning of cyberdelic science. They just recognized a prototype that finally worked. Recognizing these inflection points — and having the courage to act on them — is one of the defining skills of practitioners in emerging fields.</p>",
+                                "choices": [
+                                    { "id": "continue", "label": "Competitive Revolution", "outcome": "complete" }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        };
+
+        LessonRunner.init('#lesson-root');
+        LessonRunner.loadLesson(manifest);
+    </script>
+</body>
+</html>
