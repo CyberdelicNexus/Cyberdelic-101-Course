@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M4L5 — Three Complex Cases</title>
+    <link rel="stylesheet" href="../../core/styles.css">
+    <link rel="stylesheet" href="../../methods/scenario-based/scenario-based.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; height: 100vh; overflow: hidden; background: #03010f; position: relative; }
+        #lesson-root { width: 100%; height: 100%; position: relative; z-index: 1; }
+        body::before, body::after { content: ''; position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+        body::before { width: 72vw; height: 72vw; background: radial-gradient(ellipse at center, rgba(89,0,200,0.24) 0%, transparent 68%); top: -28%; left: -22%; animation: bb1 12s ease-in-out infinite alternate; }
+        body::after  { width: 58vw; height: 58vw; background: radial-gradient(ellipse at center, rgba(0,148,220,0.15) 0%, transparent 68%); bottom: -22%; right: -18%; animation: bb2 16s ease-in-out infinite alternate; }
+        @keyframes bb1 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(8vw,6vh) scale(1.2); } }
+        @keyframes bb2 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-5vw,-8vh) scale(1.12); } }
+    </style>
+</head>
+<body>
+    <div id="lesson-root"></div>
+    <script src="../../core/method-base.js"></script>
+    <script src="../../methods/scenario-based/scenario-based.js"></script>
+    <script src="../../core/lesson-runner.js"></script>
+    <script>
+        const manifest = {
+            "id": "m4l5_scenario",
+            "lessonId": "m4_l5_scenario",
+            "title": "Module 4 Lesson 5 — Three Complex Cases",
+            "theme": { "primaryColor": "#5900ff", "fontBody": "Rajdhani, sans-serif" },
+            "modules": [{
+                "id": "module_4_5_1_scenario",
+                "title": "Scenario: Three Complex Cases",
+                "type": "scenario-based",
+                "content": {
+                    "scenes": [
+                        {
+                            "id": "scenario_intro",
+                            "narrative": "<h3>Three Complex Cases — Full Framework Synthesis</h3><p>You've learned the four-step framework. Now apply it to three realistic client scenarios. Each scenario presents a complex case with competing factors.</p><p>Your task is to identify the recommendation that best balances all four framework steps. <strong>Goal, User, Context, and Trial/Iteration</strong>. There's one optimal recommendation for each — the others have specific flaws you'll need to spot.</p>",
+                            "choices": [
+                                { "id": "start_michael", "label": "Case 1. Michael", "outcome": "case_michael" }
+                            ]
+                        },
+                        {
+                            "id": "case_michael",
+                            "narrative": "<h3>Michael — Chronic Pain + Medicare Coverage</h3><p><strong>Client Profile.</strong> 45, former construction worker on disability due to severe chronic lower back pain (12+ years post-injury). Currently on low-dose pain medication, trying to reduce further. His pain management doctor mentioned VR as an emerging option.</p><p><strong>Status.</strong> Moderate tech comfort, lives alone in small apartment, very constrained budget (disability income ~$1,800/month), on Medicare. He's skeptical but desperate. No mental health diagnoses. Pain worst in mornings and evenings.</p>",
+                            "choices": [
+                                { "id": "m_a", "label": "A) TRIPP Calm mode + Meta Quest 3S ($300). Affordable entry, stress reduction help.", "outcome": "m_a_fail" },
+                                { "id": "m_b", "label": "B) XRHealth clinical pain program + Meta Quest 3 ($500). Insurance coverage, professional oversight.", "outcome": "m_b_success" },
+                                { "id": "m_c", "label": "C) Flowly biofeedback + Meta Quest 3 ($500) + Muse headband ($250). Self-directed control.", "outcome": "m_c_fail" },
+                                { "id": "m_d", "label": "D) Nature Treks VR + Meta Quest 3S ($300). Low cost, relaxing environments.", "outcome": "m_d_fail" }
+                            ]
+                        },
+                        {
+                            "id": "m_a_fail",
+                            "narrative": "<h3>Under-serving</h3><p>TRIPP is wellness, not clinical pain management. Stress reduction may help pain indirectly, but Michael has access to actual clinical intervention. Recommending wellness when clinical is available and covered is under-serving him.</p>",
+                            "choices": [
+                                { "id": "retry_m_a", "label": "Try Case 1 Again", "outcome": "case_michael" }
+                            ]
+                        },
+                        {
+                            "id": "m_c_fail",
+                            "narrative": "<h3>Financial Barrier</h3><p>Flowly is evidence-based but requires $250+ in sensors on top of headset, and isn't insurance-covered. For someone on $1,800/month disability income, $750+ upfront investment is prohibitive compared to covered options.</p>",
+                            "choices": [
+                                { "id": "retry_m_c", "label": "Try Case 1 Again", "outcome": "case_michael" }
+                            ]
+                        },
+                        {
+                            "id": "m_d_fail",
+                            "narrative": "<h3>Not Addressing Medical Need</h3><p>Nature Treks is relaxation, not pain intervention. Recommending this for chronic pain is like recommending a nature walk for a broken leg — pleasant but not addressing the medical need.</p>",
+                            "choices": [
+                                { "id": "retry_m_d", "label": "Try Case 1 Again", "outcome": "case_michael" }
+                            ]
+                        },
+                        {
+                            "id": "m_b_success",
+                            "narrative": "<h3>Optimal Choice</h3><p><strong>Why.</strong> Michael has a clinical condition with a specific clinical solution available. XRHealth is Medicare-eligible (HCPCS Code E1905), providing licensed therapist supervision remotely. The insurance coverage makes it more accessible despite the higher hardware cost.</p>",
+                            "choices": [
+                                { "id": "next_aisha", "label": "Case 2. Aisha", "outcome": "case_aisha" }
+                            ]
+                        },
+                        {
+                            "id": "case_aisha",
+                            "narrative": "<h3>Aisha — Facilitator-in-Training, Privacy-Conscious, Germany</h3><p><strong>Client Profile.</strong> 28, Berlin-based yoga teacher training as cyberdelic facilitator. Wants to build practice toolkit — platforms to experience personally and recommend to future clients.</p><p><strong>Status.</strong> Strong meditation background, ceremonial psychedelic experience. Privacy-conscious (won't use Meta), moderate budget (€100/month + hardware investment), tech-savvy. Needs platform diversity (wellness, therapeutic, biofeedback, social).</p>",
+                            "choices": [
+                                { "id": "a_a_choice", "label": "A) Meta Quest 3 + TRIPP + Enosis + Healium. Best content access, multiple categories.", "outcome": "a_a_fail" },
+                                { "id": "a_b_choice", "label": "B) Pico 4 + Float VR + Open Brush + VRChat meditation communities. Privacy respecting, diverse.", "outcome": "a_b_success" },
+                                { "id": "a_c_choice", "label": "C) Apple Vision Pro + wait for cyberdelic content library to mature. Privacy first.", "outcome": "a_c_fail" },
+                                { "id": "a_d_choice", "label": "D) Meta Quest 3 + explain trade-offs between privacy and content access.", "outcome": "a_d_fail" }
+                            ]
+                        },
+                        {
+                            "id": "a_a_fail",
+                            "narrative": "<h3>Violates Values</h3><p>Meta Quest violates her non-negotiable privacy requirement. Ignoring a client's core values, even for 'better' content, is dismissive rather than facilitating.</p>",
+                            "choices": [
+                                { "id": "retry_a_a", "label": "Try Case 2 Again", "outcome": "case_aisha" }
+                            ]
+                        },
+                        {
+                            "id": "a_c_fail",
+                            "narrative": "<h3>Ineffective for Current Needs</h3><p>Vision Pro ($3,500) far exceeds reasonable toolkit investment, and 'wait for content' doesn't serve her current training needs. She needs to practice now.</p>",
+                            "choices": [
+                                { "id": "retry_a_c", "label": "Try Case 2 Again", "outcome": "case_aisha" }
+                            ]
+                        },
+                        {
+                            "id": "a_d_fail",
+                            "narrative": "<h3>Too Defeatist</h3><p>This assumes Meta is the only way. Pico exists as a privacy-respecting alternative with a growing library that can fulfill her professional development needs on her terms.</p>",
+                            "choices": [
+                                { "id": "retry_a_d", "label": "Try Case 2 Again", "outcome": "case_aisha" }
+                            ]
+                        },
+                        {
+                            "id": "a_b_success",
+                            "narrative": "<h3>Optimal Choice</h3><p><strong>Why.</strong> It honors her non-negotiable privacy constraint while providing a diverse functional toolkit (Wellness: Float VR, Creative: Open Brush, Social: VRChat). Pico is strong in Europe and doesn't require a Meta account.</p>",
+                            "choices": [
+                                { "id": "next_sofia", "label": "Case 3. Sofia & James", "outcome": "case_sofia" }
+                            ]
+                        },
+                        {
+                            "id": "case_sofia",
+                            "narrative": "<h3>Sofia & James — End-of-Life Anxiety</h3><p><strong>Client Profile.</strong> 62, stage IV ovarian cancer (prognosis 12–18 months), significant anticipatory anxiety. Husband James (65) supportive.</p><p><strong>Status.</strong> Physically weak (fatigues easily), cognitively sharp, emotionally open. Interested in anxiety reduction and existential questions. Neither is tech-savvy, financially comfortable. Sofia is in palliative care with a therapist.</p>",
+                            "choices": [
+                                { "id": "s_a_choice", "label": "A) Nature Treks VR + Meta Quest 3S + James helps. Gentle, low cognitive load, short sessions.", "outcome": "s_a_success" },
+                                { "id": "s_b_choice", "label": "B) Enosis facilitated sessions + Meta Quest 3. Addresses existential depth, professional container.", "outcome": "s_b_fail" },
+                                { "id": "s_c_choice", "label": "C) TRIPP Calm mode + Meta Quest 3. Evidence-based, James learns to guide daily practice.", "outcome": "s_c_fail" },
+                                { "id": "s_d_choice", "label": "D) The Blu + Meta Quest 3S. Very short sessions (5 min) for awe induction.", "outcome": "s_d_fail" }
+                            ]
+                        },
+                        {
+                            "id": "s_b_fail",
+                            "narrative": "<h3>Physically Overwhelming</h3><p>Enosis is high-intensity work requiring significant energy and processing capacity. Asking a physically weak patient to engage in long preparation/journey sessions is inappropriate for her current capacity.</p>",
+                            "choices": [
+                                { "id": "retry_s_b", "label": "Try Case 3 Again", "outcome": "case_sofia" }
+                            ]
+                        },
+                        {
+                            "id": "s_c_fail",
+                            "narrative": "<h3>Complexity Mismatch</h3><p>TRIPP's gamification (streaks, progress) is for long-term practice building. Also, requiring James to 'learn to guide' adds unnecessary learning curve compared to simple nature immersion.</p>",
+                            "choices": [
+                                { "id": "retry_s_c", "label": "Try Case 3 Again", "outcome": "case_sofia" }
+                            ]
+                        },
+                        {
+                            "id": "s_d_fail",
+                            "narrative": "<h3>Too Short / Higher Cognitive Load</h3><p>5 minutes is often too short to establish calm. Paging through different experiences in The Blu creates more cognitive load than the consistent, gentle environments of Nature Treks.</p>",
+                            "choices": [
+                                { "id": "retry_s_d", "label": "Try Case 3 Again", "outcome": "case_sofia" }
+                            ]
+                        },
+                        {
+                            "id": "s_a_success",
+                            "narrative": "<h3>Optimal Choice</h3><p><strong>Why.</strong> Requires medical sensitivity, accessibility, and immediate utility. Nature Treks is simple, calming, and adjustable in duration — widely used in palliative care. It addresses anxiety without overwhelming her physical capacity.</p>",
+                            "choices": [
+                                { "id": "finish_scenarios", "label": "Conclusion", "outcome": "scenario_end" }
+                            ]
+                        },
+                        {
+                            "id": "scenario_end",
+                            "narrative": "<h3>Scenario Complete</h3><p>Notice how the 'correct' answer wasn't about the 'best' platform in abstract — it was about matching the specific person's goals, constraints, context, and capacity.</p><p>Michael needed clinical/insurance coverage. Aisha needed privacy-respecting diversity. Sofia needed gentle immediate accessibility.</p>",
+                            "choices": [
+                                { "id": "take_quiz", "label": "Reflect", "outcome": "reflection" }
+                            ]
+                        },
+                        {
+                            "id": "reflection",
+                            "narrative": "<h3>Framework Reflection</h3><p>Three complex cases. Three different constraints that determined the right answer, and none of them were about which platform was most impressive.</p><p>Michael's answer came from his insurance coverage and clinical profile. Aisha's answer came from her non-negotiable privacy value. Sofia's answer came from her physical capacity and immediate need for gentle accessibility.</p><p>The four-step framework isn't a checklist you run in sequence. It's a way of seeing the person clearly enough that the recommendation becomes obvious. When you hold Goal, User, Context, and Iteration in mind simultaneously, the right answer tends to surface without forcing it.</p><p><strong>Before you move on.</strong> Which of the four steps do you find hardest to apply, and why? That's where your facilitation edge will sharpen with practice.</p>",
+                            "choices": [
+                                { "id": "to_complete", "label": "Reflect & Complete", "outcome": "complete" }
+                            ]
+                        }
+                    ]
+                }
+            }]
+        };
+        LessonRunner.init('#lesson-root');
+        LessonRunner.loadLesson(manifest);
+    </script>
+</body>
+</html>

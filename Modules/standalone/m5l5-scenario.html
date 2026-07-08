@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M5L5 — The Capstone Synthesis Test</title>
+    <link rel="stylesheet" href="../../core/styles.css">
+    <link rel="stylesheet" href="../../methods/scenario-based/scenario-based.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; height: 100vh; overflow: hidden; background: #03010f; position: relative; }
+        #lesson-root { width: 100%; height: 100%; position: relative; z-index: 1; }
+        body::before, body::after { content: ''; position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+        body::before { width: 72vw; height: 72vw; background: radial-gradient(ellipse at center, rgba(89,0,200,0.24) 0%, transparent 68%); top: -28%; left: -22%; animation: bb1 12s ease-in-out infinite alternate; }
+        body::after  { width: 58vw; height: 58vw; background: radial-gradient(ellipse at center, rgba(0,148,220,0.15) 0%, transparent 68%); bottom: -22%; right: -18%; animation: bb2 16s ease-in-out infinite alternate; }
+        @keyframes bb1 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(8vw,6vh) scale(1.2); } }
+        @keyframes bb2 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-5vw,-8vh) scale(1.12); } }
+    </style>
+</head>
+<body>
+    <div id="lesson-root"></div>
+    <script src="../../core/method-base.js"></script>
+    <script src="../../methods/scenario-based/scenario-based.js"></script>
+    <script src="../../core/lesson-runner.js"></script>
+    <script>
+        const manifest = {
+            "id": "m5l5_scenario",
+            "lessonId": "m5_l5_scenario",
+            "title": "Module 5 Lesson 5 — The Capstone Synthesis Test",
+            "theme": { "primaryColor": "#5900ff", "fontBody": "Rajdhani, sans-serif" },
+            "modules": [{
+                "id": "module_5_5_2_scenario",
+                "title": "The Capstone Synthesis Test",
+                "type": "scenario-based",
+                "content": {
+                    "scenes": [
+                        {
+                            "id": "intro",
+                            "narrative": "<p>You wake up to this headline in your professional news feed,</p><blockquote><strong>\"TRIPP Inc. Announces Closure of Consumer Consciousness Division. 'The VR wellness market has not matured at the pace we projected,' said CEO Nanea Reeves. The company cited insufficient subscriber growth relative to operating costs, with the hardware adoption barrier cited as a primary constraint. The closure affects the TRIPP platform, which had 85,000 subscribers and was used in multiple university research partnerships. Existing subscriptions will be honored through end of quarter.\"</strong></blockquote><p>This is a real type of event in an emerging field. Work through four questions — each one goes deeper. Choose the response that reflects the most complete ecosystem-level analysis.</p>",
+                            "choices": [
+                                { "id": "start", "label": "Begin — Question 1: Which ecosystem components are immediately affected, and exactly how?", "outcome": "q1" }
+                            ]
+                        },
+                        {
+                            "id": "q1",
+                            "narrative": "<h3>Question 1 — Immediate Effects</h3><p>Which ecosystem components are <em>immediately</em> affected by TRIPP's closure, and exactly how does the closure hit each one?</p>",
+                            "choices": [
+                                { "id": "q1_a", "label": "A) Users and Communities only — 85,000 subscribers lose a platform they were using.", "outcome": "q1_feedback_a" },
+                                { "id": "q1_b", "label": "B) Technology Providers and Users and Communities — the platform disappears and subscribers lose access.", "outcome": "q1_feedback_b" },
+                                { "id": "q1_c", "label": "C) Technology Providers, Users and Communities, Facilitators and Guides, and Educators and Trainers — each is hit directly and through a different mechanism.", "outcome": "q1_feedback_correct" },
+                                { "id": "q1_d", "label": "D) All eight components equally — a platform closure this size affects everything simultaneously.", "outcome": "q1_feedback_d" }
+                            ]
+                        },
+                        {
+                            "id": "q1_feedback_a",
+                            "narrative": "<h3>Not quite — look further.</h3><p>Users losing access is real, but it's only one layer of the immediate impact. TRIPP wasn't just a consumer app; it was a practitioner tool and a research platform. Which professional roles had TRIPP embedded in their daily work? What happens to their practice immediately when it disappears?</p>",
+                            "choices": [
+                                { "id": "retry_q1", "label": "Try again", "outcome": "q1" }
+                            ]
+                        },
+                        {
+                            "id": "q1_feedback_b",
+                            "narrative": "<h3>Closer, but you're missing two direct hits.</h3><p>Users and Technology Providers are correct, but the scenario describes a platform used by facilitators who built their practice around it and training programs that incorporated TRIPP-specific modules. Those aren't downstream effects — they're immediate disruptions. Revisit who was actively using TRIPP as a professional tool.</p>",
+                            "choices": [
+                                { "id": "retry_q1_b", "label": "Try again", "outcome": "q1" }
+                            ]
+                        },
+                        {
+                            "id": "q1_feedback_d",
+                            "narrative": "<h3>Too broad — systems thinking requires precision.</h3><p>Not all eight components are hit equally and immediately. Some effects are direct and immediate; others propagate through the system over days, months, or years. Part of ecosystem thinking is distinguishing the immediate from the downstream. Which components had TRIPP directly embedded in their work right now versus which ones will feel it later through second-order effects?</p>",
+                            "choices": [
+                                { "id": "retry_q1_d", "label": "Try again", "outcome": "q1" }
+                            ]
+                        },
+                        {
+                            "id": "q1_feedback_correct",
+                            "narrative": "<h3>Right — four immediate hits, four different mechanisms.</h3><p><strong>Technology Providers (Software Developers).</strong> TRIPP's platform disappears. 85,000 subscribers lose access. Any TRIPP-specific content, personalization data, and session history is gone. Developers who were building integrations with TRIPP's API lose those pathways.</p><p><strong>Users and Communities.</strong> The subscriber base loses a primary tool and community space. Some will find alternatives; some will exit the space entirely, unable or unwilling to re-invest in a new platform relationship. The churn of experienced users back to non-engagement is a real community loss, not just a customer loss.</p><p><strong>Facilitators and Guides.</strong> Every facilitator who built their practice around TRIPP has a gap in their toolkit. Facilitators who branded themselves around TRIPP's specific approach need to retool, rebrand, and rebuild client trust around new platforms. This is real professional disruption.</p><p><strong>Educators and Trainers.</strong> Any training programs that included TRIPP-specific modules need immediate curriculum revision. Facilitator certification programs that used TRIPP as a primary platform example need to update materials now.</p>",
+                            "choices": [
+                                { "id": "next_q2", "label": "Continue to Question 2 — Which components are affected downstream?", "outcome": "q2" }
+                            ]
+                        },
+                        {
+                            "id": "q2",
+                            "narrative": "<h3>Question 2 — Downstream Effects</h3><p>Beyond the immediate impact, which components feel the effects of TRIPP's closure over weeks and months, and <em>through what specific mechanism</em> does the closure reach them?</p>",
+                            "choices": [
+                                { "id": "q2_a", "label": "A) Knowledge Producers — university research partnerships were using TRIPP; their studies face platform discontinuity, and published protocols can't be replicated.", "outcome": "q2_feedback_a" },
+                                { "id": "q2_b", "label": "B) Economic Infrastructure — investors in other consumer VR wellness companies watch TRIPP's stated failure reason and pull back on funding for the category.", "outcome": "q2_feedback_b" },
+                                { "id": "q2_c", "label": "C) Knowledge Producers, Clinical Practitioners, Economic Infrastructure, and Regulatory and Knowledge Sharing — each through a distinct propagation mechanism.", "outcome": "q2_feedback_correct" },
+                                { "id": "q2_d", "label": "D) Clinical Practitioners only — clinicians who were evaluating TRIPP for adoption will now delay their decision.", "outcome": "q2_feedback_d" }
+                            ]
+                        },
+                        {
+                            "id": "q2_feedback_a",
+                            "narrative": "<h3>True, but only one of four downstream effects.</h3><p>Research disruption is one of the most underappreciated consequences and you identified it correctly. But TRIPP's closure sends economic signals, complicates clinical adoption decisions, and can slow regulatory framework development simultaneously. Think about how investors, clinicians, and regulators each read this headline differently.</p>",
+                            "choices": [
+                                { "id": "retry_q2_a", "label": "Try again", "outcome": "q2" }
+                            ]
+                        },
+                        {
+                            "id": "q2_feedback_b",
+                            "narrative": "<h3>Real, but incomplete.</h3><p>Investor hesitancy is a genuine downstream effect, and TRIPP's stated reason (\"insufficient subscriber growth relative to operating costs\") is exactly the kind of signal that makes category investors cautious. But the scenario also names university research partnerships and a broad subscriber base — what does that mean for ongoing studies, clinical adoption timelines, and the pace of regulatory framework development?</p>",
+                            "choices": [
+                                { "id": "retry_q2_b", "label": "Try again", "outcome": "q2" }
+                            ]
+                        },
+                        {
+                            "id": "q2_feedback_d",
+                            "narrative": "<h3>Too narrow — follow all four propagation paths.</h3><p>Clinical caution is a real downstream effect — clinicians who were evaluating TRIPP for adoption will step back, and the discontinuity signals instability. But the scenario's details (university research partnerships, 85,000 subscribers, the specific failure reason cited by the CEO) all propagate through different ecosystem pathways. Who else is watching this headline and changing their behavior as a result?</p>",
+                            "choices": [
+                                { "id": "retry_q2_d", "label": "Try again", "outcome": "q2" }
+                            ]
+                        },
+                        {
+                            "id": "q2_feedback_correct",
+                            "narrative": "<h3>Right — four downstream effects, four distinct mechanisms.</h3><p><strong>Knowledge Producers (Researchers).</strong> University research partnerships using TRIPP face platform discontinuity. Studies mid-collection are disrupted. Published protocols using TRIPP can't be replicated by researchers without access. Long-term outcome studies that expected continued platform access are broken. This is one of the most underappreciated downstream effects — platform closures break the research continuity that the field's credibility depends on.</p><p><strong>Clinical Practitioners.</strong> Clinicians who had begun integrating TRIPP into clinical workflows face forced transition. Clinical transitions are more disruptive than consumer ones because the therapeutic relationship involves continuity expectations that platform switching violates. Clinicians evaluating TRIPP based on its university research partnerships will step back; the discontinuity signals instability.</p><p><strong>Economic Infrastructure.</strong> Investors in other consumer-facing VR wellness companies are now watching more carefully. TRIPP's stated reason — \"insufficient subscriber growth relative to operating costs\" — is a direct signal about consumer subscription model viability at current hardware adoption rates. Investor confidence in the B2C VR wellness category takes a measurable hit. This capital hesitancy propagates into funding constraints for the next generation of consumer platforms.</p><p><strong>Regulatory and Knowledge Sharing.</strong> Regulatory bodies evaluating VR wellness tool frameworks are watching the market signal. A platform with 85,000 subscribers and university research partnerships that still couldn't achieve sustainability raises legitimate questions about whether the market is ready for regulatory investment. This can slow regulatory framework development at exactly the moment the field needs clarity.</p>",
+                            "choices": [
+                                { "id": "next_q2", "label": "Continue to Question 3 — What does this signal about the economic challenges from Module 5?", "outcome": "q3" }
+                            ]
+                        },
+                        {
+                            "id": "q3",
+                            "narrative": "<h3>Question 3 — The Economic Signal</h3><p>What does TRIPP's closure signal about the economic challenges discussed? Which specific concept from that lesson does this event demonstrate most directly?</p>",
+                            "choices": [
+                                { "id": "q3_a", "label": "A) TRIPP simply made bad business decisions — better pricing or marketing would have prevented the outcome.", "outcome": "q3_feedback_a" },
+                                { "id": "q3_b", "label": "B) The consumer subscription model faces a structural viability problem when hardware adoption is too low to build the subscriber scale the economics require, and the mission-profit tension becomes fatal when all revenue risk concentrates in the most volatile model available.", "outcome": "q3_feedback_correct" },
+                                { "id": "q3_c", "label": "C) The VR wellness market isn't real — if a well-funded platform like TRIPP couldn't make it work, the economic model is fundamentally broken for everyone.", "outcome": "q3_feedback_c" },
+                                { "id": "q3_d", "label": "D) TRIPP's closure proves the field needs more government funding since private capital can't sustain the mission.", "outcome": "q3_feedback_d" }
+                            ]
+                        },
+                        {
+                            "id": "q3_feedback_a",
+                            "narrative": "<h3>This is business analysis without ecosystem thinking.</h3><p>TRIPP raised $11.2M in Series A funding and had 85,000 subscribers. The CEO specifically named the hardware adoption barrier as the primary constraint, not pricing or marketing. What structural condition does a consumer subscription model require to be viable, and what does \"hardware adoption barrier\" tell you about whether TRIPP could have solved this through internal decisions alone?</p>",
+                            "choices": [
+                                { "id": "retry_q3_a", "label": "Try again", "outcome": "q3" }
+                            ]
+                        },
+                        {
+                            "id": "q3_feedback_c",
+                            "narrative": "<h3>Overcorrecting — one closure isn't a category death sentence.</h3><p>TRIPP's closure demonstrates a specific model's limitations under specific market conditions, not the impossibility of the category. XRHealth achieved Medicare coverage. RelieVRx received FDA authorization. B2B and clinical models are generating institutional revenue. The lesson isn't \"VR wellness doesn't work\" — it's about which business models are viable at which stages of hardware adoption. What's the structural constraint, and what models are better positioned to survive it?</p>",
+                            "choices": [
+                                { "id": "retry_q3_c", "label": "Try again", "outcome": "q3" }
+                            ]
+                        },
+                        {
+                            "id": "q3_feedback_d",
+                            "narrative": "<h3>That's a policy preference, not an ecosystem diagnosis.</h3><p>Government funding is one capital source among many, and some research and clinical applications do rely on it — but that's not what the lesson's economic analysis was about. TRIPP's failure reason was structural: subscriber scale couldn't outpace operating costs because the hardware market hadn't grown fast enough to provide the addressable audience. What does the consumer subscription model specifically require to work, and what was preventing it?</p>",
+                            "choices": [
+                                { "id": "retry_q3_d", "label": "Try again", "outcome": "q3" }
+                            ]
+                        },
+                        {
+                            "id": "q3_feedback_correct",
+                            "narrative": "<h3>Right.</h3><p>TRIPP demonstrated the consumer subscription viability challenge in concrete terms. TRIPP raised $11.2M in Series A funding — significant capital — and still couldn't achieve the subscriber scale needed to sustain operations at mission-required levels.</p><p>The \"hardware adoption barrier\" cited by the CEO is the same constraint identified in Module 5 — VR headset penetration is currently around 15 million devices globally, limiting the total addressable market for consumer subscription at any economically sustainable price point. TRIPP needed both platform subscriptions to work <em>and</em> the hardware market to grow fast enough to sustain user acquisition, and the hardware growth was slower than projected.</p><p>The mission-profit tension is visible in the closure. TRIPP's mission was consciousness exploration at scale, but the economic model required subscriber growth metrics that the hardware barrier prevented. The meditation app precedent (Calm, Headspace) that the field often points to as validation was achieved without a hardware prerequisite — a comparison that flatters the model's potential while obscuring this fundamental constraint.</p><p>The field-level risk: every time a consumer subscription-only platform closes, the field loses research partnerships, user community, and public credibility simultaneously.</p>",
+                            "choices": [
+                                { "id": "next_q4", "label": "Continue to Question 4 — What would the field need for this to become less common?", "outcome": "q4" }
+                            ]
+                        },
+                        {
+                            "id": "q4",
+                            "narrative": "<h3>Question 4 — Field-Level Response</h3><p>What would the cyberdelic ecosystem need, across multiple components, for platform closures like TRIPP's to become less common? Which answer proposes specific multi-component interventions rather than a single fix?</p>",
+                            "choices": [
+                                { "id": "q4_a", "label": "A) Platforms need to lower their prices and run better marketing campaigns to build subscriber bases faster.", "outcome": "q4_feedback_a" },
+                                { "id": "q4_b", "label": "B) Hardware manufacturers need to reduce headset prices faster so the addressable market grows to a scale where consumer subscription is viable.", "outcome": "q4_feedback_b" },
+                                { "id": "q4_c", "label": "C) Platforms need B2B/B2C hybrid models; hardware needs continued price reduction; researchers need earlier clinical outcome focus; and broader insurance reimbursement would unlock institutional revenue that doesn't depend on consumer subscription scale.", "outcome": "q4_feedback_correct" },
+                                { "id": "q4_d", "label": "D) The field needs a major consolidation — fewer, larger platforms that can sustain consumer subscription economics instead of many smaller ones that can't.", "outcome": "q4_feedback_d" }
+                            ]
+                        },
+                        {
+                            "id": "q4_feedback_a",
+                            "narrative": "<h3>Company-level thinking, not field-level thinking.</h3><p>Price and marketing are variables platforms can control, but TRIPP's problem wasn't that they didn't try these levers. The hardware adoption barrier is external to any given platform; no amount of discounting or messaging changes the fact that the addressable market for consumer VR subscription is constrained by how many households own headsets. What would need to change <em>across the ecosystem</em>, not just inside one company?</p>",
+                            "choices": [
+                                { "id": "retry_q4_a", "label": "Try again", "outcome": "q4" }
+                            ]
+                        },
+                        {
+                            "id": "q4_feedback_b",
+                            "narrative": "<h3>Real, but only one lever of several.</h3><p>Hardware price reduction is genuinely necessary; the drop from $1,500 to $299 over a decade already transformed the category's viability. But that's a change no individual platform or even the field collectively can control — it's hardware manufacturers' timeline. What can the field's other ecosystem components do to reduce platform survival risk independent of hardware adoption pace?</p>",
+                            "choices": [
+                                { "id": "retry_q4_b", "label": "Try again", "outcome": "q4" }
+                            ]
+                        },
+                        {
+                            "id": "q4_feedback_d",
+                            "narrative": "<h3>Consolidation is one possible trajectory, not a field-level solution.</h3><p>Market consolidation around fewer larger platforms has happened in other tech categories, and it may happen here. But consolidation doesn't eliminate the consumer subscription viability problem — it just concentrates it in fewer companies. A single large platform that still relies entirely on consumer subscription at current hardware penetration rates faces the same structural constraint TRIPP faced. What would change the <em>model</em>, not just the number of players?</p>",
+                            "choices": [
+                                { "id": "retry_q4_d", "label": "Try again", "outcome": "q4" }
+                            ]
+                        },
+                        {
+                            "id": "q4_feedback_correct",
+                            "narrative": "<h3>Right — and this is what ecosystem thinking produces that company thinking can't.</h3><p><strong>Economic Infrastructure.</strong> More platforms need to find the B2B/B2C hybrid model — corporate wellness and clinical licensing providing stable institutional revenue while consumer subscription serves mission reach. TRIPP's model was consumer subscription only, which concentrated all revenue risk in the most volatile model available. Economic Infrastructure (investors and healthcare systems) needs to support hybrid model experiments, not just consumer subscription plays.</p><p><strong>Technology Providers (Hardware).</strong> The hardware adoption barrier TRIPP cited is the entire consumer VR wellness category's constraint. Hardware price reduction and form factor improvement are prerequisites for consumer subscription viability at the scale needed to justify ongoing investment. This isn't something any single platform can solve; it requires hardware manufacturers to continue their price reduction trajectory.</p><p><strong>Knowledge Producers.</strong> TRIPP's research partnerships produced significant value but didn't produce reimbursement-supporting evidence in time to open clinical revenue streams before the consumer model failed. Earlier, more clinically oriented research design — seeking FDA authorization for specific applications, generating reimbursement-eligible outcome data — might have created a B2B lifeline. This is a research strategy question as much as a business model question.</p><p><strong>Regulatory and Knowledge Sharing.</strong> Insurance reimbursement expansion — even one commercial insurer adding VR mental health tools to coverage — would create an institutional revenue pathway that would have given TRIPP (and will give the next platform in this position) an alternative to consumer subscription dependency. The field needs more XRHealth-scale reimbursement milestones to reduce category risk for consumer-facing platforms.</p><p><strong>The field-level meta-response.</strong> Every time a platform closes because the consumer model failed, the field loses research partnerships, user community, and public credibility simultaneously. Building a field where more platforms use hybrid business models that don't concentrate all survival risk in the most volatile revenue stream is a systemic priority, not just a business model preference.</p>",
+                            "choices": [
+                                { "id": "bridge", "label": "Reflect and close the module", "outcome": "reflection" }
+                            ]
+                        },
+                        {
+                            "id": "reflection",
+                            "narrative": "<h3>Before You Close — A Moment of Synthesis</h3><p>You've just worked through the most complex systems thinking exercise in this course. Four questions. Multiple propagation paths. Real-world evidence applied to a real type of scenario.</p><p><strong>Reflection.</strong> <em>Of the four questions in this exercise, which answer surprised you the most, and what does that surprise reveal about a gap in your ecosystem mental model? Healthy systems thinking isn't just knowing the components — it's being able to trace exactly how one event ripples through multiple layers simultaneously. Where did your thinking stop short, and what would sharpen it?</em></p><p><em>The map you've built in this module isn't a static diagram. It's a live framework for every professional decision you'll face in this field. The more you practice tracing these ripples, the more fluent your field-builder thinking becomes.</em></p>",
+                            "choices": [
+                                { "id": "bridge_continue", "label": "Reflect & Complete", "outcome": "complete" }
+                            ]
+                        }
+                    ]
+                }
+            }]
+        };
+        LessonRunner.init('#lesson-root');
+        LessonRunner.loadLesson(manifest);
+    </script>
+</body>
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M4L1 — Three Clients, Three Platforms</title>
+    <link rel="stylesheet" href="../../core/styles.css">
+    <link rel="stylesheet" href="../../methods/scenario-based/scenario-based.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; height: 100vh; overflow: hidden; background: #03010f; position: relative; }
+        #lesson-root { width: 100%; height: 100%; position: relative; z-index: 1; }
+        body::before, body::after { content: ''; position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+        body::before { width: 72vw; height: 72vw; background: radial-gradient(ellipse at center, rgba(89,0,200,0.24) 0%, transparent 68%); top: -28%; left: -22%; animation: bb1 12s ease-in-out infinite alternate; }
+        body::after  { width: 58vw; height: 58vw; background: radial-gradient(ellipse at center, rgba(0,148,220,0.15) 0%, transparent 68%); bottom: -22%; right: -18%; animation: bb2 16s ease-in-out infinite alternate; }
+        @keyframes bb1 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(8vw,6vh) scale(1.2); } }
+        @keyframes bb2 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-5vw,-8vh) scale(1.12); } }
+    </style>
+</head>
+<body>
+    <div id="lesson-root"></div>
+    <script src="../../core/method-base.js"></script>
+    <script src="../../methods/scenario-based/scenario-based.js"></script>
+    <script src="../../core/lesson-runner.js"></script>
+    <script>
+        const manifest = {
+            "id": "m4l1_scenario",
+            "lessonId": "m4_l1_scenario",
+            "title": "Module 4 Lesson 1 — Three Clients, Three Platforms",
+            "theme": { "primaryColor": "#5900ff", "fontBody": "Rajdhani, sans-serif" },
+            "modules": [{
+                "id": "module_4_1_3_scenario",
+                "title": "Scenario: Three Clients, Three Platforms",
+                "type": "scenario-based",
+                "content": {
+                    "scenes": [
+                        {
+                            "id": "intro",
+                            "narrative": "<h3>The Facilitator's Challenge</h3><p>It's Monday morning. You have three consultations. Your job is to recommend the right platform and level of support for each.</p><ul style='text-align:left; font-size:0.9em;'><li><strong>Jordan (41):</strong> Stressed exec, wants consistency, failed with phone apps.</li><li><strong>Maya (37):</strong> Therapist, grieving brother, wants depth/transformation.</li><li><strong>David (52):</strong> Chronic pain, skeptical, not tech-savvy, low budget.</li></ul>",
+                            "choices": [
+                                {
+                                    "id": "start",
+                                    "label": "Consult with Jordan",
+                                    "outcome": "jordan_decision"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "jordan_decision",
+                            "narrative": "<h3>Propfile. Jordan</h3><p><strong>Needs.</strong> Decompression, consistency.<br><strong>Constraint.</strong> 'I forget to do it.'<br><strong>Budget.</strong> ~$15/mo.</p><p><strong>Recommendation?</strong></p>",
+                            "choices": [
+                                {
+                                    "id": "j_tripp",
+                                    "label": "TRIPP (Engagement)",
+                                    "outcome": "jordan_optimal"
+                                },
+                                {
+                                    "id": "j_floatvr",
+                                    "label": "FloatVR",
+                                    "outcome": "jordan_suboptimal_floatvr"
+                                },
+                                {
+                                    "id": "j_enosis",
+                                    "label": "Enosis Therapeutics (clinical referral)",
+                                    "outcome": "jordan_suboptimal_enosis"
+                                },
+                                {
+                                    "id": "j_inner",
+                                    "label": "Innerworld (Peer)",
+                                    "outcome": "jordan_suboptimal_inner"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "jordan_optimal",
+                            "narrative": "<h3> Optimal. TRIPP</h3><p>'Based on your need for consistency, TRIPP is designed to solve the 'I forget' problem through gamification and tracking.'</p><p><strong>Why.</strong> Matches habits, budget, and tech comfort. Wellness scope.</p>",
+                            "choices": [
+                                {
+                                    "id": "next_maya",
+                                    "label": "Consult with Maya",
+                                    "outcome": "maya_decision"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "jordan_suboptimal_enosis",
+                            "narrative": "<h3>Overkill</h3><p>Enosis Therapeutics operates inside licensed psychedelic therapy clinics. Jordan is not in therapy, has no diagnosed conditions, and is looking for a way to decompress after work. Referring someone without a clinical profile to a psychedelic therapy program is a serious mismatch of needs and tools. Jordan would likely feel overwhelmed, conclude VR is not for them, and disengage entirely. The art of good facilitation is meeting people where they are, not where you wish they were.</p>",
+                            "choices": [
+                                {
+                                    "id": "retry_j",
+                                    "label": "Try Again",
+                                    "outcome": "jordan_decision"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "jordan_suboptimal_floatvr",
+                            "narrative": "<h3>Missing the Mark</h3><p>FloatVR lacks the structure and reminders Jordan specifically asked for. FloatVR assumes you're ready to receive an experience without guidance - Jordan failed with phone apps precisely because of the absence of feedback and visible progress. Don't recreate the same problem.</p>",
+                            "choices": [
+                                {
+                                    "id": "retry_j_f",
+                                    "label": "Try Again",
+                                    "outcome": "jordan_decision"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "jordan_suboptimal_inner",
+                            "narrative": "<h3> Mismatch</h3><p>Jordan needs stress decompression, not social support. He wants to unwind, not talk to strangers.</p>",
+                            "choices": [
+                                {
+                                    "id": "retry_j_i",
+                                    "label": "Try Again",
+                                    "outcome": "jordan_decision"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "maya_decision",
+                            "narrative": "<h3>Profile. Maya</h3><p><strong>Context.</strong> Therapist processing deep grief.<br><strong>Goal.</strong> 'Go deeper than meditation.'<br><strong>Status.</strong> Stable, ready for intensity.</p><p><strong>Recommendation?</strong></p>",
+                            "choices": [
+                                {
+                                    "id": "m_tripp_deep",
+                                    "label": "TRIPP (Deep Mode)",
+                                    "outcome": "maya_suboptimal_solo"
+                                },
+                                {
+                                    "id": "m_floatvr",
+                                    "label": "FloatVR",
+                                    "outcome": "maya_suboptimal_solo"
+                                },
+                                {
+                                    "id": "m_enosis",
+                                    "label": "Referral to psychedelic therapy clinic using Enosis VR protocols",
+                                    "outcome": "maya_optimal"
+                                },
+                                {
+                                    "id": "m_inner",
+                                    "label": "Innerworld (Peer)",
+                                    "outcome": "maya_suboptimal_peer"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "maya_optimal",
+                            "narrative": "<h3>Optimal. Refer to Psychedelic Therapy Clinic</h3><p>Given your experience level, your therapeutic work around grief, and your goal of going deeper than meditation alone, I want to point you toward something different from a consumer VR platform. What you're describing is exactly the profile for psychedelic-assisted therapy. There are clinics now using VR protocols developed by a company called Enosis Therapeutics specifically designed to help anchor and integrate what emerges in those sessions. I can't facilitate that myself. it requires a licensed medical and therapeutic team. But I can help you identify clinics in your area working with this model and support you through whatever you decide.</p><p><strong>Why.</strong> Accurately frames Enosis as a clinical adjunct requiring licensed oversight. Positions the facilitator as a knowledgeable guide toward the right resource rather than the resource itself.</p>",
+                            "choices": [
+                                {
+                                    "id": "next_david",
+                                    "label": "Consult with David",
+                                    "outcome": "david_decision"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "maya_suboptimal_solo",
+                            "narrative": "<h3>Too Shallow</h3><p>TRIPP and FloatVR are both legitimate wellness platforms, but they're designed for solo practice. not for the kind of supported, high-intensity grief work Maya is ready for. She explicitly said she wants to go deeper than meditation alone allows and she has 18 months of therapy already creating a foundation. A solo VR session would likely feel like a lateral move from her existing practice, not the breakthrough she's seeking. Maya has the psychological groundwork for something deeper. Match the tool to where she actually is.</p>",
+                            "choices": [
+                                {
+                                    "id": "retry_m",
+                                    "label": "Try Again",
+                                    "outcome": "maya_decision"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "maya_suboptimal_peer",
+                            "narrative": "<h3>Insufficient Container</h3><p>Peer support is meaningful, but for deep grief processing at this level, a referral to a clinical psychedelic therapy program using Enosis VR protocols is more appropriate than a social group. The depth Maya is seeking requires a licensed container, not a peer community.</p>",
+                            "choices": [
+                                {
+                                    "id": "retry_m_p",
+                                    "label": "Try Again",
+                                    "outcome": "maya_decision"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "david_decision",
+                            "narrative": "<h3>Profile. David</h3><p><strong>Context.</strong> Chronic pain (12 yrs), skeptical, low budget.<br><strong>Need.</strong> Evidence-based relief, not 'games'.</p><p><strong>Recommendation?</strong></p>",
+                            "choices": [
+                                {
+                                    "id": "d_tripp",
+                                    "label": "TRIPP (Calm)",
+                                    "outcome": "david_suboptimal_tripp"
+                                },
+                                {
+                                    "id": "d_flowly",
+                                    "label": "Flowly (Biofeedback)",
+                                    "outcome": "david_optimal"
+                                },
+                                {
+                                    "id": "d_enosis",
+                                    "label": "Refer to psychedelic therapy clinic",
+                                    "outcome": "david_suboptimal_enosis"
+                                },
+                                {
+                                    "id": "d_refer",
+                                    "label": "Refer Back to Doctor",
+                                    "outcome": "david_suboptimal_refer"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "david_optimal",
+                            "narrative": "<h3> Optimal. Flowly</h3><p>'Flowly is trained to regulate pain signals. It's medical-grade biofeedback, not just a game. Let's see if your clinic has a headset to try.'</p><p><strong>Why.</strong> Addresses the valid medical need with the specific tool designed for it.</p>",
+                            "choices": [
+                                {
+                                    "id": "finish",
+                                    "label": "Complete Scenarios",
+                                    "outcome": "scenario_complete"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "david_suboptimal_tripp",
+                            "narrative": "<h3> Under-Recommending</h3><p>Recommending meditation for chronic pain is like prescribing yoga for a broken leg. David needs a clinical-grade tool (Flowly), not general wellness.</p>",
+                            "choices": [
+                                {
+                                    "id": "retry_d",
+                                    "label": "Try Again",
+                                    "outcome": "david_decision"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "david_suboptimal_refer",
+                            "narrative": "<h3> Missed Opportunity</h3><p>Yes, involve his doctor, but don't send him away empty-handed. Be the bridge - suggest Flowly *for* him to discuss with his doctor.</p>",
+                            "choices": [
+                                {
+                                    "id": "retry_d_r",
+                                    "label": "Try Again",
+                                    "outcome": "david_decision"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "david_suboptimal_enosis",
+                            "narrative": "<h3>Overshoot</h3><p>David has chronic physical pain and is on prescription opioids. Psychedelic-assisted therapy is an emerging area of research for pain, but it requires careful medical screening, is not widely available, and is not the indicated first step for someone who has never tried VR and is already skeptical about technology. There are biofeedback tools specifically designed and researched for chronic pain that are far more accessible and appropriate for where David is right now. Under-recommending the right tool in favor of a more dramatic option doesn't serve the client.</p>",
+                            "choices": [
+                                {
+                                    "id": "retry_d_e",
+                                    "label": "Try Again",
+                                    "outcome": "david_decision"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "reflection",
+                            "narrative": "<h3>Facilitation Reflection</h3><p>You just navigated three very different clients with one shared challenge. the right cyberdelic tool isn't determined by what's most impressive, it's determined by who is in front of you.</p><p>Jordan needed structure to solve a consistency problem. Maya needed a clinical referral because the depth she was seeking required a licensed container. David needed a specific, evidence-based pain tool, not general wellness, not psychedelic therapy.</p><p>Notice what the framework demanded of you in each case. you had to hold the full landscape in view while reading a specific person. That's the facilitator's skill. The platforms are fixed. The art is in the matching.</p><p><strong>Before you move to the quiz.</strong> Think of someone in your life who might benefit from one of these three platforms. What would you say to them, and why?</p>",
+                            "choices": [
+                                {
+                                    "id": "to_quiz",
+                                    "label": "Proceed to Quiz",
+                                    "outcome": "complete"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "scenario_complete",
+                            "narrative": "<h3>Simulation Complete</h3><p>You matched Jordan to structure (TRIPP), Maya to a clinical referral (Enosis VR protocols via psychedelic therapy clinic), and David to clinical specificity (Flowly). You understood which tools a facilitator can offer directly and which require a referral. You're ready to facilitate.</p>",
+                            "choices": [
+                                {
+                                    "id": "continue",
+                                    "label": "Reflect",
+                                    "outcome": "reflection"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }]
+        };
+        LessonRunner.init('#lesson-root');
+        LessonRunner.loadLesson(manifest);
+    </script>
+</body>
+</html>

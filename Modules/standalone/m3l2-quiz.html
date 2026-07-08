@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M3L2 — Overview</title>
+    <link rel="stylesheet" href="../../core/styles.css">
+    <link rel="stylesheet" href="../../methods/option-selector/option-selector.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; height: 100vh; overflow: hidden; background: #03010f; position: relative; }
+        #lesson-root { width: 100%; height: 100%; position: relative; z-index: 1; }
+        body::before, body::after { content: ''; position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+        body::before { width: 72vw; height: 72vw; background: radial-gradient(ellipse at center, rgba(89,0,200,0.24) 0%, transparent 68%); top: -28%; left: -22%; animation: bb1 12s ease-in-out infinite alternate; }
+        body::after  { width: 58vw; height: 58vw; background: radial-gradient(ellipse at center, rgba(0,148,220,0.15) 0%, transparent 68%); bottom: -22%; right: -18%; animation: bb2 16s ease-in-out infinite alternate; }
+        @keyframes bb1 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(8vw,6vh) scale(1.2); } }
+        @keyframes bb2 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-5vw,-8vh) scale(1.12); } }
+    </style>
+</head>
+<body>
+    <div id="lesson-root"></div>
+    <script src="../../core/method-base.js"></script>
+    <script src="../../methods/option-selector/option-selector.js"></script>
+    <script src="../../core/lesson-runner.js"></script>
+    <script>
+        const manifest = {
+            "id": "m3l2_quiz",
+            "lessonId": "m3_l2_quiz",
+            "title": "Module 3 Lesson 2 Overview",
+            "theme": { "primaryColor": "#5900ff", "fontBody": "Rajdhani, sans-serif" },
+            "modules": [{
+                "id": "quiz_3_2_1",
+                "title": "Module 3 Lesson 2 Overview",
+                "type": "option-selector",
+                "config": {
+                    "mode": "single",
+                    "style": "text",
+                    "questions": [
+                        {
+                            "question": "A VR developer says. 'We've upgraded to the highest-resolution headset available. Presence should be much better now.' A practitioner with knowledge of Slater's research would respond that this statement:",
+                            "options": [
+                                {
+                                    "id": "A",
+                                    "label": "Is fully correct; higher resolution directly increases presence"
+                                },
+                                {
+                                    "id": "D",
+                                    "label": "Is correct for clinical VR but not for consciousness-expansion applications"
+                                },
+                                {
+                                    "id": "C",
+                                    "label": "Is incorrect because resolution has no effect on the VR experience at all"
+                                },
+                                {
+                                    "id": "B",
+                                    "label": "Conflates immersion with presence. Resolution is an immersion factor, and while higher immersion can support presence, presence is a psychological outcome determined by multiple factors beyond display quality",
+                                    "correct": true
+                                }
+                            ],
+                            "synthesis": {
+                                "A": "This answer treats immersion and presence as equivalent, which is the exact conflation Slater's research helps practitioners avoid. Immersion is the technical quality of the display system. Presence is the subjective psychological sense of being in the virtual space. Higher resolution improves immersion, and higher immersion can support presence, but presence is determined by psychological factors including tracking fidelity, multi-sensory coherence, and meaningful environmental responsiveness. A high-resolution display with poor tracking latency can still produce low presence. Try again with that distinction clear.",
+                                "B": "Exactly right. Mel Slater's research establishes a clear distinction. immersion is an objective property of the display system (resolution, tracking quality, field of view, refresh rate), while presence is the subjective psychological response, the sense of actually being in the virtual environment. Higher immersion can support presence, but the relationship isn't direct or guaranteed. Someone can experience low presence in a high-immersion system if the tracking has high latency, if sensory inputs conflict rather than reinforce each other, or if the environment doesn't respond to them meaningfully. Designing for presence means understanding the psychological conditions that generate it, not just improving hardware specifications.",
+                                "C": "Resolution does affect the VR experience; it's one component of immersion, which is the technical quality of the sensory display. The issue isn't that resolution doesn't matter; it's that resolution alone doesn't determine presence. Try again with attention to how immersion and presence relate to each other rather than treating them as unconnected.",
+                                "D": "Presence research doesn't split into clinical vs. consciousness-expansion applications; the underlying psychology of Place Illusion and Plausibility Illusion applies to both. The distinction being tested here is between immersion (hardware/technical quality) and presence (psychological outcome). That distinction holds regardless of the application type. Try again."
+                            }
+                        },
+                        {
+                            "question": "During a session, a client says. 'I keep noticing that I'm in a room with a headset on. I can feel my chair. I know this isn't real.' Based on presence research, what does this describe and what facilitation response is most appropriate?",
+                            "options": [
+                                {
+                                    "id": "B",
+                                    "label": "The client is experiencing low Place Illusion; the sense of actually being in the virtual space hasn't established itself, signaling that presence hasn't reached threshold and the amplification conditions aren't in place",
+                                    "correct": true
+                                },
+                                {
+                                    "id": "A",
+                                    "label": "The client is being resistant to the process and needs encouragement to surrender to the experience"
+                                },
+                                {
+                                    "id": "C",
+                                    "label": "This is a normal part of every session and should be ignored"
+                                },
+                                {
+                                    "id": "D",
+                                    "label": "The client needs a higher-fidelity headset before continuing"
+                                }
+                            ],
+                            "synthesis": {
+                                "A": "Framing this as resistance misattributes what may be a design or preparation issue to a psychological stance the client is taking. Presence is a response that arises from conditions; it isn't a choice. Before interpreting this as therapeutic resistance, a practitioner would troubleshoot the conditions. tracking quality, headset comfort, audio coherence, and whether pre-session preparation has done enough to orient the client toward participation rather than observation. Jumping to 'resistance' skips that diagnostic step. Try again.",
+                                "B": "Right. What the client is describing, continued awareness of physical surroundings and a sense of observation rather than participation, is a clear signal that Place Illusion hasn't established itself. They have not crossed the presence threshold. Because presence amplifies the therapeutic content of an experience, a session where it never establishes is likely to remain at a surface level. The appropriate facilitation response is diagnostic first. is the headset fit causing discomfort or distraction? Is tracking quality producing noticeable latency? Is the audio coherent with the visual? Did the pre-session preparation orient the client toward participatory engagement rather than critical observation? These are the variables within facilitation control. Address them before continuing.",
+                                "C": "Presence research is specific about this. when a client remains aware of their physical surroundings and describes the experience observationally rather than participatorily, the presence threshold has not been crossed. This matters because presence functions as an amplifier for therapeutic content. A session where presence is never established is unlikely to reach the depth needed for meaningful work. This is a signal worth responding to, not a condition to accept as normal. Try again.",
+                                "D": "Hardware is one factor, but presence is a psychological outcome with multiple contributors. Before recommending equipment changes that may not be accessible or necessary, a practitioner would look at whether tracking latency is causing the disconnect, whether pre-session preparation was adequate to orient the client, whether the audio is coherent with the visuals, and whether the client is physically comfortable in the headset. Prescribing new hardware as a first response bypasses the factors that are actually within facilitation control. Try again."
+                            }
+                        },
+                        {
+                            "question": "A client who has lived with chronic body image distress is coming for their first cyberdelic session. The platform being used allows avatar customization. Based on embodiment research, which approach is most likely to serve the therapeutic work?",
+                            "options": [
+                                {
+                                    "id": "A",
+                                    "label": "Offer the most photorealistic avatar possible to keep the experience feeling grounded and familiar"
+                                },
+                                {
+                                    "id": "B",
+                                    "label": "Have the client choose any avatar they want because personal agency in the choice is the most therapeutically important factor"
+                                },
+                                {
+                                    "id": "C",
+                                    "label": "Work with the client in advance to discuss what kind of body representation would support their therapeutic goals, then make a deliberate choice together based on that conversation",
+                                    "correct": true
+                                },
+                                {
+                                    "id": "D",
+                                    "label": "Avoid body-visible avatars entirely; body-invisible first-person perspectives eliminate the risk of embodiment-related distress"
+                                }
+                            ],
+                            "synthesis": {
+                                "A": "Photorealism doesn't resolve the therapeutic question; it just means the avatar looks more convincing. If the realistic avatar mirrors the client's own body image struggles, high fidelity could intensify distress rather than ground the experience. Embodiment research suggests the question isn't 'how realistic is the body?' but 'what does inhabiting this body invite in this client?' That question requires a therapeutic conversation, not a technical default. Try again.",
+                                "B": "Client agency in session design is genuinely important and worth building in where possible. But for a client with chronic body image distress, open-ended choice without prior therapeutic framing may produce an uninformed choice, or a choice made from distress rather than from clarity about what would serve the work. Embodiment research shows that the body characteristics of an avatar affect cognition and self-perception in real ways. Those effects are worth discussing explicitly before the client selects. Try again.",
+                                "C": "Right. The Proteus Effect and Body Ownership Illusion research together establish that avatar characteristics have real psychological consequences. For a client with chronic body image distress, this makes the avatar decision a therapeutic design choice that deserves explicit attention rather than a default or a technical setting. Discussing what kind of body would support the client's therapeutic goals, and making that decision together with clear therapeutic rationale, applies embodiment research at the level of practice. It honors both the power of the research finding and the client's own understanding of what they're working on.",
+                                "D": "Avoiding body-visible avatars is one valid design choice for certain contexts, but treating it as a universal solution to embodiment-related risk misses the value of intentional embodiment work. The Proteus Effect research shows that virtual bodies can be used therapeutically to open capacity, shift self-perception, and build embodied confidence. Defaulting to body-invisibility to avoid risk also defaults away from these possibilities. The more precise approach is a pre-session conversation that makes the embodiment decision deliberately rather than avoidantly. Try again."
+                            }
+                        },
+                        {
+                            "question": "Based on the Proteus Effect, which of the following is the most accurate description of what embodying a virtual avatar can do?",
+                            "options": [
+                                {
+                                    "id": "A",
+                                    "label": "It can temporarily change how someone looks to other users in a shared VR space, but has no effect on the person inhabiting the avatar"
+                                },
+                                {
+                                    "id": "D",
+                                    "label": "It affects visual perception but not emotional responses or behavior"
+                                },
+                                {
+                                    "id": "B",
+                                    "label": "It can influence the person's behavior and self-perception in ways that extend beyond the VR session itself",
+                                    "correct": true
+                                },
+                                {
+                                    "id": "C",
+                                    "label": "It produces effects only during the session, with no carry-over once the headset is removed"
+                                }
+                            ],
+                            "synthesis": {
+                                "A": "The Proteus Effect research specifically measured changes in the behavior and self-perception of the person inhabiting the avatar, not changes in how they appear to others. Yee and Bailenson found that participants embodying taller or older avatars changed their subsequent behavior accordingly, in non-VR contexts. The effect is internal and psychological, not just external and social. Try again.",
+                                "B": "Exactly. The Proteus Effect, replicated across multiple studies at Stanford's Virtual Human Interaction Lab, demonstrates that the characteristics of an inhabited virtual avatar influence the person's behavior and self-perception in ways that carry over into non-VR contexts after the headset comes off. Taller avatars produced more assertive negotiating behavior. Older avatars shifted financial planning decisions. Physically fit avatars increased exercise follow-through. This transfer is what gives embodiment research its clinical and therapeutic weight, and it's what makes avatar selection in cyberdelic sessions a decision worth making deliberately.",
+                                "C": "This is the exact opposite of what the Proteus Effect demonstrated. The finding that made the research significant was the transfer. participants showed behavioral changes in subsequent non-VR situations based on the avatar they had inhabited. The effect persists beyond the session. That persistence is what gives embodiment therapeutic relevance and also what creates the ethical responsibility to design avatar choices thoughtfully. Try again.",
+                                "D": "The Proteus Effect research measured behavioral changes, including negotiation patterns, savings decisions, and exercise behavior, not visual perception changes. Embodiment affects how people act and relate to themselves, not just what they see. These are cognitive, emotional, and behavioral outcomes, which is precisely what makes avatar design therapeutically significant. Try again."
+                            }
+                        },
+                        {
+                            "question": "Based on the four session design profiles, which single design change most reliably increases Embodiment Depth without necessarily increasing Presence?",
+                            "options": [
+                                {
+                                    "id": "A",
+                                    "label": "Improving environmental audio quality and spatial coherence"
+                                },
+                                {
+                                    "id": "C",
+                                    "label": "Conducting a thorough pre-session preparation protocol"
+                                },
+                                {
+                                    "id": "D",
+                                    "label": "Upgrading to a higher-resolution headset"
+                                },
+                                {
+                                    "id": "B",
+                                    "label": "Adding full-body avatar tracking with first-person perspective and low synchrony latency",
+                                    "correct": true
+                                }
+                            ],
+                            "synthesis": {
+                                "A": "Audio quality and spatial coherence primarily contribute to multi-sensory coherence, which affects Presence, specifically Plausibility Illusion, since a more coherent sensory environment behaves more like a genuine place the client is in. It has some contribution to embodiment but isn't the primary driver. The primary driver of Body Ownership Illusion is the relationship between the virtual body and the client's physical movements. Try again.",
+                                "B": "Right. Body Ownership Illusion is primarily produced by the conditions Mel Slater's research identified. visual-motor synchrony between virtual body and real body movements, first-person perspective, and low latency synchrony. These are avatar-specific design conditions. They can produce high embodiment depth even in an environment with only moderate presence, as the High Embodiment, Moderate Presence profile showed. Understanding which variables primarily drive which outcome allows practitioners to diagnose and address them independently.",
+                                "C": "Pre-session preparation quality affects both presence and embodiment; it orients the client toward participation rather than observation, which supports the threshold crossing for both mechanisms. But it isn't specific to embodiment in the way that avatar-related design choices are. The primary driver of Body Ownership Illusion is visual-motor synchrony between the avatar and the client's actual body movements. Pre-session prep creates the psychological conditions; the avatar design creates the perceptual ones. Try again.",
+                                "D": "Headset resolution is an immersion factor that can support Presence by improving visual fidelity. It has limited direct effect on Embodiment Depth, which is primarily determined by avatar design. whether there is a synchronized virtual body present, whether it's in first-person perspective, and whether its movements correspond to the client's with minimal latency. Try again."
+                            }
+                        },
+                        {
+                            "question": "A facilitator notices that a client reports high presence, saying 'I feel completely transported,' but also says 'I'm not sure where I end and the space begins. It's a bit disorienting.' The client has no virtual body representation and is experiencing the environment as a disembodied viewpoint. Based on the distinctions in this lesson, what is the most accurate interpretation?",
+                            "options": [
+                                {
+                                    "id": "A",
+                                    "label": "The client is experiencing a technical malfunction that has disconnected their avatar from their body tracking"
+                                },
+                                {
+                                    "id": "B",
+                                    "label": "This is a dangerous dissociative state that requires immediate session termination"
+                                },
+                                {
+                                    "id": "C",
+                                    "label": "The client has achieved high Place Illusion without Body Ownership Illusion; this is a legitimate and potentially useful altered state, not a deficiency, but the facilitator should check in about how the client is relating to the disorientation",
+                                    "correct": true
+                                },
+                                {
+                                    "id": "D",
+                                    "label": "The client needs a body-visible avatar immediately to ground the experience"
+                                }
+                            ],
+                            "synthesis": {
+                                "A": "There is no avatar to malfunction; the design description specifies a body-invisible, disembodied-viewpoint experience. The client's report is a psychological response to that design, not a technical error. What they're describing, presence without embodiment, is a legitimate experiential state with its own characteristics. Try again.",
+                                "B": "Disorientation in an altered state is not automatically a crisis indicator, and presence without embodiment is a known, documented experiential profile, not an aberration requiring termination. The appropriate response is to check in. to understand whether the client is navigating the disorientation with curiosity or distress, and whether the state is serving the therapeutic work. Reflexive termination in response to disorientation would frequently interrupt exactly the kind of state cyberdelic work aims to facilitate. Try again.",
+                                "C": "Exactly right. What the client is describing, 'I feel completely transported' paired with 'I'm not sure where I end and the space begins,' is the experiential signature of high Place Illusion without Body Ownership Illusion. This is not a problem to fix. It's a distinct and sometimes therapeutically useful altered state. The body-invisible, disembodied viewpoint design produced exactly what it was likely intended to produce. The facilitation response is to check in. is the client navigating this disorientation with curiosity or with distress? Is the state serving the work? Are they stable and oriented enough to continue? If yes, the experience can proceed. Presence and embodiment are tools. Different combinations produce different states. A practitioner who knows the difference can use each intentionally.",
+                                "D": "Introducing a body-visible avatar would shift the experience toward embodiment, but the question is whether that shift is what the client and session need. Presence without embodiment can be therapeutically valuable; the 'floating in the space' state it produces has its own qualities. The facilitation response should begin with understanding how the client is relating to the disorientation, not with immediately modifying the design to match a default template. Try again."
+                            }
+                        }
+                    ]
+                }
+            }]
+        };
+        LessonRunner.init('#lesson-root');
+        LessonRunner.loadLesson(manifest);
+    </script>
+</body>
+</html>

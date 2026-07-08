@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M3L3 — Overview</title>
+    <link rel="stylesheet" href="../../core/styles.css">
+    <link rel="stylesheet" href="../../methods/option-selector/option-selector.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; height: 100vh; overflow: hidden; background: #03010f; position: relative; }
+        #lesson-root { width: 100%; height: 100%; position: relative; z-index: 1; }
+        body::before, body::after { content: ''; position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+        body::before { width: 72vw; height: 72vw; background: radial-gradient(ellipse at center, rgba(89,0,200,0.24) 0%, transparent 68%); top: -28%; left: -22%; animation: bb1 12s ease-in-out infinite alternate; }
+        body::after  { width: 58vw; height: 58vw; background: radial-gradient(ellipse at center, rgba(0,148,220,0.15) 0%, transparent 68%); bottom: -22%; right: -18%; animation: bb2 16s ease-in-out infinite alternate; }
+        @keyframes bb1 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(8vw,6vh) scale(1.2); } }
+        @keyframes bb2 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-5vw,-8vh) scale(1.12); } }
+    </style>
+</head>
+<body>
+    <div id="lesson-root"></div>
+    <script src="../../core/method-base.js"></script>
+    <script src="../../methods/option-selector/option-selector.js"></script>
+    <script src="../../core/lesson-runner.js"></script>
+    <script>
+        const manifest = {
+            "id": "m3l3_quiz",
+            "lessonId": "m3_l3_quiz",
+            "title": "Module 3 Lesson 3 Overview",
+            "theme": { "primaryColor": "#5900ff", "fontBody": "Rajdhani, sans-serif" },
+            "modules": [{
+                "id": "quiz_3_3_2",
+                "title": "Module 3 Lesson 3 Overview",
+                "type": "option-selector",
+                "config": {
+                    "mode": "single",
+                    "style": "text",
+                    "questions": [
+                        {
+                            "question": "A cyberdelic session is designed around a virtual nature environment that gradually transitions from a barren winter landscape to a lush spring setting. The client, who is processing grief, reports. 'I didn't decide to let go of something. It just happened in me while the environment changed.' Which mechanism most directly describes what occurred?",
+                            "options": [
+                                {
+                                    "id": "B",
+                                    "label": "Emotional Regulation; the emotional tone of the environment became the emotional tone of the person in it",
+                                    "correct": true
+                                },
+                                {
+                                    "id": "C",
+                                    "label": "Attentional Capture; the visual novelty displaced the client's grief processing temporarily"
+                                },
+                                {
+                                    "id": "D",
+                                    "label": "DMN Modulation; the environment quieted the Default Mode Network enough for the emotion to surface"
+                                },
+                                {
+                                    "id": "A",
+                                    "label": "Perspective Shift; the environmental change produced a viewpoint change in the client"
+                                }
+                            ],
+                            "synthesis": {
+                                "A": "Perspective Shift involves a change in relational or positional viewpoint; embodying a different body, experiencing a scene from another person's position, or taking on a different identity. What the client described is a change in emotional state that arose without deliberate effort, shaped by the environment's emotional register. That's the signature of Emotional Regulation working as intended. The environment became the co-facilitator of the emotional process. Try again.",
+                                "B": "Right. Emotional Regulation is the mechanism by which the environment's emotional tone becomes the person's emotional tone. It operates through three pathways. positive environment induction, controlled exposure, and narrative immersion. The winter-to-spring transition activated the third pathway; the client was absorbed in a meaningful symbolic experience, and their emotional system responded as if the transition was real. The phrase 'I didn't decide to let go; it just happened in me' is almost a textbook description of the mechanism. The environment did the emotional work. The practitioner's job was to design an environment capable of doing that, and to be present for what emerged.",
+                                "C": "Attentional Capture is the entry-level mechanism that displaces ordinary self-referential processing. It's foundational and likely active here. But the client's description points to something more specific than captured attention; they describe a felt emotional shift that 'just happened.' That specificity points to the mechanism that makes the environment's emotional register the client's emotional register. Try again.",
+                                "D": "DMN Modulation quiets self-referential processing and softens the sense of a fixed self, which may well be supporting this experience. But the client's description is specifically about an emotional shift tied to the environmental transition from winter to spring. The mechanism most directly named by 'the emotional tone of the environment became the emotional tone of the person in it' is the one that operates through positive environment induction and narrative immersion. Try again."
+                            }
+                        },
+                        {
+                            "question": "A practitioner is designing a protocol for clients working on racial bias and cross-cultural empathy. They plan to have participants embody an avatar of a different racial identity than their own for fifteen minutes. Based on Perspective Shift research, which statement is most accurate?",
+                            "options": [
+                                {
+                                    "id": "A",
+                                    "label": "This design is ethically neutral because the experience is virtual and the effects don't persist beyond the session"
+                                },
+                                {
+                                    "id": "D",
+                                    "label": "The effect will only work if the client consciously agrees with the goals of the protocol before entering"
+                                },
+                                {
+                                    "id": "C",
+                                    "label": "Perspective Shift only affects attitudes toward oneself, not toward other groups"
+                                },
+                                {
+                                    "id": "B",
+                                    "label": "Replicated research shows that this kind of perspective-taking experience can reduce implicit bias, but the ethical design of the experience requires explicit rationale, appropriate preparation, and integration support",
+                                    "correct": true
+                                }
+                            ],
+                            "synthesis": {
+                                "A": "Perspective Shift research specifically demonstrates that the attitude and behavioral changes produced by VR perspective-taking persist beyond the session and into real-world contexts. The 'it's only virtual' framing is the reasoning this lesson is designed to correct. VR perspective shifts are real neurological events with measurable behavioral consequences. That's precisely what makes ethical design non-optional. Try again.",
+                                "B": "Exactly right. Replicated research from Stanford's Virtual Human Interaction Lab and subsequent studies demonstrates that embodying a different racial identity in VR can reduce implicit bias in participants, and that the change persists into real-world behavior. This is among the most ethically consequential findings in the Perspective Shift literature, and it cuts both ways. The same mechanism that can build empathy and reduce bias can also produce disorientation, identity conflict, or unintended reinforcement if the design is careless. The practitioner using this mechanism has a clinical responsibility. clear therapeutic rationale for the specific perspective chosen, preparation that contextualizes what the experience will ask of the person, and integration support designed specifically for what a cross-perspective embodiment experience tends to surface.",
+                                "C": "Perspective Shift research extends well beyond self-perception. Stanford's Virtual Human Interaction Lab and subsequent studies have shown measurable changes in attitudes toward other groups, including reduced implicit racial bias and increased prosocial behavior toward populations participants had inhabited virtually. The mechanism doesn't limit itself to self-directed outcomes. Try again.",
+                                "D": "Conscious agreement with a protocol's goals can support the experience but isn't a prerequisite for the mechanism to produce its effects. The research shows that the shift occurs through embodied experience, not through deliberate cognitive alignment with a stated objective. This actually increases rather than reduces the ethical responsibility of the practitioner; the mechanism works whether or not the client has explicitly endorsed its goals. Design, preparation, and integration matter in proportion to that power. Try again."
+                            }
+                        },
+                        {
+                            "question": "A facilitator redesigns their session environment by adding spatially accurate audio that shifts precisely with head movement, ensuring the soundscape is emotionally coherent with the visuals throughout. Based on Mechanism 6, what specific effect should this design change produce?",
+                            "options": [
+                                {
+                                    "id": "A",
+                                    "label": "It will primarily increase Attentional Capture by making the environment more novel"
+                                },
+                                {
+                                    "id": "C",
+                                    "label": "It will improve aesthetic quality but have no measurable effect on the depth of altered states"
+                                },
+                                {
+                                    "id": "B",
+                                    "label": "It will produce a qualitatively different neurological state by increasing the coherence of sensory inputs, reducing the cognitive effort required to register the experience as real",
+                                    "correct": true
+                                },
+                                {
+                                    "id": "D",
+                                    "label": "It will only improve presence for clients with strong auditory sensitivity"
+                                }
+                            ],
+                            "synthesis": {
+                                "A": "Spatial audio coherence does contribute to the overall quality of an immersive experience, and novelty can support Attentional Capture. But the specific mechanism Multimodal Synchrony describes is about what happens when sensory channels work together rather than separately; not novelty, but coherence. The effect is a qualitative change in neurological state, not primarily a novelty effect. Try again.",
+                                "B": "Right. Multimodal Synchrony describes the mechanism by which coherent, synchronized inputs across sensory channels produce a qualitatively different neurological state than isolated inputs can. Spatially accurate audio that shifts with head movement does more than improve aesthetics; it increases the degree to which the brain registers the experience as real rather than constructed. The cognitive effort of believing the environment disappears when the sensory channels confirm each other. This is why experienced cyberdelic designers treat sound design as equal in importance to visual design, and why even modest haptic additions produce disproportionate presence effects. Coherence across channels matters more than excellence in any single one.",
+                                "C": "This is precisely the reasoning Multimodal Synchrony is meant to correct. Integrated Information Theory from Lesson 3.1 provides the theoretical foundation. coherence across sensory channels produces richer experiential states than excellence in any single channel. Spatially coherent audio that matches visual and physical movement isn't an aesthetic upgrade; it changes how the brain registers the experience as real. The effect is neurological, not just sensory. Try again.",
+                                "D": "Multimodal Synchrony is a neurological mechanism that operates across sensory systems regardless of individual sensitivity profiles. The brain's tendency to integrate coherent multi-sensory inputs and treat them as unified reality is not limited to auditory-dominant individuals. The mechanism applies broadly, though individual responses to specific sensory modalities do vary. Try again."
+                            }
+                        },
+                        {
+                            "question": "Based on the seven mechanisms together, which of the following best describes the role the practitioner plays that the technology alone cannot fill?",
+                            "options": [
+                                {
+                                    "id": "A",
+                                    "label": "The practitioner provides the technology and ensures it functions correctly during the session"
+                                },
+                                {
+                                    "id": "B",
+                                    "label": "The practitioner's primary role is selecting the right VR environment for each client"
+                                },
+                                {
+                                    "id": "C",
+                                    "label": "The practitioner creates the conditions for capture, holds the therapeutic container during the session, and facilitates the integration process that translates experience into lasting change",
+                                    "correct": true
+                                },
+                                {
+                                    "id": "D",
+                                    "label": "The practitioner monitors the client for adverse reactions and intervenes if the session becomes distressing"
+                                }
+                            ],
+                            "synthesis": {
+                                "A": "Technical facilitation is part of the role, but it's not the mechanism-level contribution the question is asking about. The seven mechanisms together point to something the technology can't provide regardless of how well it functions. the intentional design of conditions before the session, the holding of therapeutic space during it, and the structured integration work that determines whether the experience produces lasting change. Technology can activate Mechanisms 1 through 6 to varying degrees. Mechanism 7 depends almost entirely on the practitioner. Try again.",
+                                "B": "Environment selection is one practitioner decision, and an important one given what Emotional Regulation and Perspective Shift tell us about how environment shapes experience. But it's a single input into a larger role. The seven mechanisms together describe a sequence that requires active practitioner contribution at multiple points. before (preparing the conditions), during (holding the container), and after (facilitating integration). The technology activates mechanisms; the practitioner makes the sequence coherent and ensures it produces lasting change. Try again.",
+                                "C": "Exactly right. The technology can activate Attentional Capture, support DMN Modulation, shape Emotional Regulation, enable Perspective Shift, and produce Multimodal Synchrony. What the technology cannot do is design those conditions specifically for this person, hold the relational container that makes the experience therapeutically safe, or facilitate the integration process that determines whether what happened in the session produces lasting change. Mechanism 7, Integration, is almost entirely a practitioner function. Neuroplasticity opens a window; the practitioner's integration work determines what enters it. The session plants something; the practitioner helps tend it. A practitioner who understands the seven mechanisms isn't just running sessions. They are actively managing a sequence of neurological and psychological events with a clear view of what each phase requires and what comes after.",
+                                "D": "Monitoring for adverse reactions is part of a practitioner's safety responsibility, and it matters. But the seven mechanisms point to a role that goes well beyond harm monitoring. A practitioner whose primary contribution is watching for distress is underusing the understanding that mechanisms like Emotional Regulation, Perspective Shift, and Integration offer. The question is asking about the unique contribution that the mechanisms themselves require from a practitioner; what the technology cannot supply on its own. Try again."
+                            }
+                        }
+                    ]
+                }
+            }]
+        };
+        LessonRunner.init('#lesson-root');
+        LessonRunner.loadLesson(manifest);
+    </script>
+</body>
+</html>

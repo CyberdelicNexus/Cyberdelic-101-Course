@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M4L3 — Overview</title>
+    <link rel="stylesheet" href="../../core/styles.css">
+    <link rel="stylesheet" href="../../methods/option-selector/option-selector.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; height: 100vh; overflow: hidden; background: #03010f; position: relative; }
+        #lesson-root { width: 100%; height: 100%; position: relative; z-index: 1; }
+        body::before, body::after { content: ''; position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+        body::before { width: 72vw; height: 72vw; background: radial-gradient(ellipse at center, rgba(89,0,200,0.24) 0%, transparent 68%); top: -28%; left: -22%; animation: bb1 12s ease-in-out infinite alternate; }
+        body::after  { width: 58vw; height: 58vw; background: radial-gradient(ellipse at center, rgba(0,148,220,0.15) 0%, transparent 68%); bottom: -22%; right: -18%; animation: bb2 16s ease-in-out infinite alternate; }
+        @keyframes bb1 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(8vw,6vh) scale(1.2); } }
+        @keyframes bb2 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-5vw,-8vh) scale(1.12); } }
+    </style>
+</head>
+<body>
+    <div id="lesson-root"></div>
+    <script src="../../core/method-base.js"></script>
+    <script src="../../methods/option-selector/option-selector.js"></script>
+    <script src="../../core/lesson-runner.js"></script>
+    <script>
+        const manifest = {
+            "id": "m4l3_quiz",
+            "lessonId": "m4_l3_quiz",
+            "title": "Module 4 Lesson 3 Overview",
+            "theme": { "primaryColor": "#5900ff", "fontBody": "Rajdhani, sans-serif" },
+            "modules": [{
+                "id": "quiz_4_3_2",
+                "title": "Module 4 Lesson 3 Quiz",
+                "type": "option-selector",
+                "config": {
+                    "mode": "single",
+                    "style": "text",
+                    "questions": [
+                        {
+                            "question": "<h3>Collective Effervescence</h3><p>Which platform is specifically designed to produce 'collective effervescence' through synchronized ritual?</p>",
+                            "options": [
+                                {
+                                    "id": "q1_a",
+                                    "label": "aNUma XR",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "q1_b",
+                                    "label": "Innerworld",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "q1_c",
+                                    "label": "All of them",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "q1_d",
+                                    "label": "Isness-D",
+                                    "correct": true
+                                }
+                            ],
+                            "synthesis": {
+                                "q1_a": "<p>aNUma XR produces deep group states and is facilitated, but its design intent is guided inner journey rather than the specific synchronized ritual mechanism Isness-D uses to target collective effervescence.</p>",
+                                "q1_b": "<p>Innerworld creates genuine connection, but peer support is a different mechanism from the synchronized ritual and abstract avatar design Isness-D uses to dissolve ordinary social boundaries.</p>",
+                                "q1_c": "<p>All three create forms of shared experience, but design intention is what distinguishes them. Only one was built specifically to produce the mystical-state outcomes Durkheim described.</p>",
+                                "q1_d": "<p><strong>Correct!</strong> Isness-D uses abstract energy avatars and synchronized movement specifically to dissolve self-consciousness and induce collective mystical states. The 2020 MEQ-30 study validated that it does this reliably.</p>"
+                            }
+                        },
+                        {
+                            "question": "<h3>Reading the Need</h3><p>A client describes feeling isolated since a major life transition. They want community but say they are 'not ready for anything too intense.' Which recommendation fits best?</p>",
+                            "options": [
+                                {
+                                    "id": "q2_a",
+                                    "label": "Isness-D",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "q2_b",
+                                    "label": "aNUma XR",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "q2_c",
+                                    "label": "Innerworld",
+                                    "correct": true
+                                },
+                                {
+                                    "id": "q2_d",
+                                    "label": "Either aNUma XR or Innerworld",
+                                    "correct": false
+                                }
+                            ],
+                            "synthesis": {
+                                "q2_a": "<p>Isness-D is a research platform and not publicly available. Beyond that, its orientation toward ego dissolution and altered states is the opposite of what this client said they need right now.</p>",
+                                "q2_b": "<p>aNUma XR is a strong facilitated experience, but 60 minutes of guided depth work oriented toward altered states is exactly what this client said they aren't ready for. The session format doesn't match the stated readiness level.</p>",
+                                "q2_d": "<p>The phrasing 'not ready for anything too intense' is a meaningful signal. aNUma XR's depth orientation makes it a mismatch for someone who has already named that boundary. When a client sets a limit, the recommendation should honor it precisely.</p>",
+                                "q2_c": "<p><strong>Correct!</strong> Innerworld's peer support model matches both signals. the need for connection around a shared human experience, and the explicit request for something that doesn't push into intensity. It meets the client where they are.</p>"
+                            }
+                        },
+                        {
+                            "question": "<h3>Red Flag Identification</h3><p>A free app on SideQuest claims to 'cure anxiety in one session' using 'advanced neural entrainment.' The developer is anonymous. What are the red flags?</p>",
+                            "options": [
+                                {
+                                    "id": "q1_a",
+                                    "label": "Unsubstantiated medical claims + Pseudoscientific jargon + Anonymity",
+                                    "correct": true
+                                },
+                                {
+                                    "id": "q1_b",
+                                    "label": "It's on SideQuest",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "q1_c",
+                                    "label": "It's free (suspicious)",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "q1_d",
+                                    "label": "It uses neural entrainment",
+                                    "correct": false
+                                }
+                            ],
+                            "synthesis": {
+                                "q1_a": "<p><strong>Correct!</strong> 'Cure' is a regulated claim. 'Advanced neural entrainment' is vague jargon. Anonymity means zero accountability. Run away.</p>",
+                                "q1_b": "<p>SideQuest is fine for experiments. The claims are the problem.</p>",
+                                "q1_c": "<p>Free isn't the issue. Accountability is.</p>",
+                                "q1_d": "<p>Neural entrainment is real, but vague jargon without explanation is a warning sign.</p>"
+                            }
+                        },
+                        {
+                            "question": "<h3>Funding & Reliability</h3><p>Platform A is bootstrapped, 3 years old, 2000+ reviews. Platform B is VC-backed ($8M), 1 year old, mixed reviews. Which is more reliable?</p>",
+                            "options": [
+                                {
+                                    "id": "q2_a",
+                                    "label": "Platform B (More money)",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "q2_b",
+                                    "label": "Platform A (Mission driven)",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "q2_c",
+                                    "label": "Evaluate based on performance, not just funding",
+                                    "correct": true
+                                },
+                                {
+                                    "id": "q2_d",
+                                    "label": "VC-backed is always bad",
+                                    "correct": false
+                                }
+                            ],
+                            "synthesis": {
+                                "q2_a": "<p>Money doesn't guarantee product-market fit.</p>",
+                                "q2_b": "<p>Bootstrapped can also mean under-resourced. Not inherently better.</p>",
+                                "q2_d": "<p>Biased overgeneralization. TRIPP is VC-backed and excellent.</p>",
+                                "q2_c": "<p><strong>Correct!</strong> Platform A shows stronger signs of stability (3 years, good reviews), but funding model is just context. Look at the actual performance.</p>"
+                            }
+                        }
+                    ]
+                }
+            }]
+        };
+        LessonRunner.init('#lesson-root');
+        LessonRunner.loadLesson(manifest);
+    </script>
+</body>
+</html>

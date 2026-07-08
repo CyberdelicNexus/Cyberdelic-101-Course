@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M5L2 — Overview</title>
+    <link rel="stylesheet" href="../../core/styles.css">
+    <link rel="stylesheet" href="../../methods/option-selector/option-selector.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; height: 100vh; overflow: hidden; background: #03010f; position: relative; }
+        #lesson-root { width: 100%; height: 100%; position: relative; z-index: 1; }
+        body::before, body::after { content: ''; position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+        body::before { width: 72vw; height: 72vw; background: radial-gradient(ellipse at center, rgba(89,0,200,0.24) 0%, transparent 68%); top: -28%; left: -22%; animation: bb1 12s ease-in-out infinite alternate; }
+        body::after  { width: 58vw; height: 58vw; background: radial-gradient(ellipse at center, rgba(0,148,220,0.15) 0%, transparent 68%); bottom: -22%; right: -18%; animation: bb2 16s ease-in-out infinite alternate; }
+        @keyframes bb1 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(8vw,6vh) scale(1.2); } }
+        @keyframes bb2 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-5vw,-8vh) scale(1.12); } }
+    </style>
+</head>
+<body>
+    <div id="lesson-root"></div>
+    <script src="../../core/method-base.js"></script>
+    <script src="../../methods/option-selector/option-selector.js"></script>
+    <script src="../../core/lesson-runner.js"></script>
+    <script>
+        const manifest = {
+            "id": "m5l2_quiz",
+            "lessonId": "m5_l2_quiz",
+            "title": "Module 5 Lesson 2 Overview",
+            "theme": { "primaryColor": "#5900ff", "fontBody": "Rajdhani, sans-serif" },
+            "modules": [{
+                "id": "module_5_2_1_quiz",
+                "title": "Module 5 Lesson 2 Overview",
+                "type": "option-selector",
+                "config": {
+                    "mode": "single",
+                    "style": "text",
+                    "questions": [
+                        {
+                            "question": "<h3>Research vs. Anecdote</h3><p>Why does the Isness-D study's publication in PLOS ONE matter more for the field's credibility than anecdotal practitioner reports, even reports from hundreds of experienced facilitators?</p>",
+                            "options": [
+                                { "id": "q1_a", "label": "Because PLOS ONE is more widely read than facilitator community forums.", "correct": false },
+                                { "id": "q1_a_wrong", "label": "Because researchers are more trustworthy than practitioners.", "correct": false },
+                                { "id": "q1_b", "label": "Because peer-reviewed publication establishes independent validation through controlled methodology, replication standards, and institutional credibility that anecdotal reports structurally cannot provide.", "correct": true },
+                                { "id": "q1_b_wrong", "label": "Because publication in a science journal automatically makes findings more accurate.", "correct": false }
+                            ],
+                            "synthesis": {
+                                "q1_a": "Reach isn't the issue, many practitioner communities have broad reach. The distinction is about what the publication process itself adds, not about audience size. What does peer review specifically require that practitioner sharing doesn't?",
+                                "q1_a_wrong": "This is the wrong framing entirely. The distinction between research and anecdote isn't about the people; it's about the methodology. A practitioner report could be completely accurate and still not provide what peer review does. What does controlled methodology specifically add?",
+                                "q1_b": "<strong>Right.</strong> The distinction isn't about trustworthiness, it's about structure. Peer review requires independent experts to assess methodology, rule out alternative explanations, and evaluate statistical power before publication. Anecdotal reports, however honest and numerous, can't demonstrate controlled conditions, can't rule out placebo effects, and can't transfer institutional credibility to clinical or regulatory contexts.",
+                                "q1_b_wrong": "Publication doesn't guarantee accuracy; the peer review process is designed to <em>evaluate</em> accuracy and methodology before publication. The value is in the process, not the venue. What does the peer review process actually test for?"
+                            }
+                        },
+                        {
+                            "question": "<h3>The Geographic Distribution of Research</h3><p>Giuseppe Riva's 2025 study was published in <em>Dialogues in Clinical Neuroscience</em> by researchers in Milan, Italy. What does this specifically demonstrate about the cyberdelic research landscape?</p>",
+                            "options": [
+                                { "id": "q2_a", "label": "It demonstrates that the field is now fully validated and no more research is needed.", "correct": false },
+                                { "id": "q2_b", "label": "It demonstrates that Italian researchers are more rigorous than American ones.", "correct": false },
+                                { "id": "q2_c", "label": "It demonstrates that European regulations on cyberdelic research are less restrictive than in the US.", "correct": false },
+                                { "id": "q2_d", "label": "It demonstrates that cyberdelic research validation is becoming geographically distributed, no longer concentrated in US and UK institutions, which strengthens global credibility and enables healthcare adoption in non-English-speaking regions.", "correct": true }
+                            ],
+                            "synthesis": {
+                                "q2_a": "A single study, however strong, doesn't close the validation question. The field still needs long-term outcome studies, diverse population research, and mechanism clarification. Riva's study adds to credibility; it doesn't complete it.",
+                                "q2_b": "The point isn't comparative rigor between national research traditions, it's about independence and convergence. What does it mean when researchers in different countries, without coordination, reach similar conclusions about cyberdelic effects?",
+                                "q2_c": "The study doesn't comment on regulatory environment comparisons. The significance is about geographical distribution of independent validation, not regulatory permissiveness.",
+                                "q2_d": "<strong>Exactly.</strong> The geographical distribution of research is a maturity signal. When validation was concentrated at Stanford, Yale, and Imperial College, the field's credibility was structurally dependent on a handful of English-speaking institutions. Riva's 2025 study from Milan, alongside Monash's emerging work in Australia and Barcelona's embodiment research, demonstrates that independent researchers in different regulatory environments are reaching similar conclusions. That convergence is far more credible than any single institution's findings."
+                            }
+                        },
+                        {
+                            "question": "<h3>The Peer Model Advantage</h3><p>What makes peer community different from expert-to-novice teaching models, and why does that distinction matter specifically for an emerging field like cyberdelics?</p>",
+                            "options": [
+                                { "id": "q1_a", "label": "In a peer model, knowledge flows in multiple directions based on experience rather than credentials, mobilizing collective intelligence faster than formal structures can develop.", "correct": true },
+                                { "id": "q1_b", "label": "Peer community is better because everyone is equally qualified.", "correct": false },
+                                { "id": "q1_c", "label": "Expert-to-novice models don't work in consciousness work contexts.", "correct": false },
+                                { "id": "q1_d", "label": "Peer community is simply a cheaper version of formal education.", "correct": false }
+                            ],
+                            "synthesis": {
+                                "q1_a": "<strong>Right.</strong> The peer model's value is speed. When formal expertise is scarce and practitioner experience is generating knowledge faster than institutions can codify it, a bidirectional community model extracts more usable knowledge than waiting for a hierarchy to emerge.",
+                                "q1_b": "Not everyone is equally qualified, the peer model recognizes that different kinds of experience produce different kinds of useful knowledge.",
+                                "q1_c": "Expert-to-novice models absolutely work in consciousness contexts (e.g., clinical training). The question is about the emerging field dynamics.",
+                                "q1_d": "The peer model is defined by knowledge flow direction and structure, not economics."
+                            }
+                        },
+                        {
+                            "question": "<h3>Professional Development Mix</h3><p>A new facilitator is working in a city with no local cyberdelic community. Which combination of options gives them the most professional development value, and why?</p>",
+                            "options": [
+                                { "id": "q2_a", "label": "Only consuming research papers, professional communities aren't a credible source of development.", "correct": false },
+                                { "id": "q2_b", "label": "Reddit alone, it's the largest online community.", "correct": false },
+                                { "id": "q2_c", "label": "A specialized Discord community for peer depth plus attending one annual conference for relational and field-wide exposure.", "correct": true },
+                                { "id": "q2_d", "label": "Building a following on social media to develop their own community.", "correct": false }
+                            ],
+                            "synthesis": {
+                                "q2_a": "Research papers are essential, but the field's working knowledge significantly exceeds what is published.",
+                                "q2_b": "Reddit is valuable for horizon scanning but lacks the relational depth needed for professional case consultation.",
+                                "q2_c": "<strong>Right.</strong> This combination addresses both the need for real-time peer consultation (Discord) and the need for field-wide relationship building and professional belonging (Conferences). Neither alone is sufficient.",
+                                "q2_d": "Building an audience on social media is outward-facing and prioritizes marketing over peer-oriented professional development."
+                            }
+                        }
+                    ]
+                }
+            }]
+        };
+        LessonRunner.init('#lesson-root');
+        LessonRunner.loadLesson(manifest);
+    </script>
+</body>
+</html>

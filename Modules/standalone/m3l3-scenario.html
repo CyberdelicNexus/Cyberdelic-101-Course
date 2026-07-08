@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M3L3 — Session Scenario</title>
+    <link rel="stylesheet" href="../../core/styles.css">
+    <link rel="stylesheet" href="../../methods/scenario-based/scenario-based.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; height: 100vh; overflow: hidden; background: #03010f; position: relative; }
+        #lesson-root { width: 100%; height: 100%; position: relative; z-index: 1; }
+        body::before, body::after { content: ''; position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+        body::before { width: 72vw; height: 72vw; background: radial-gradient(ellipse at center, rgba(89,0,200,0.24) 0%, transparent 68%); top: -28%; left: -22%; animation: bb1 12s ease-in-out infinite alternate; }
+        body::after  { width: 58vw; height: 58vw; background: radial-gradient(ellipse at center, rgba(0,148,220,0.15) 0%, transparent 68%); bottom: -22%; right: -18%; animation: bb2 16s ease-in-out infinite alternate; }
+        @keyframes bb1 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(8vw,6vh) scale(1.2); } }
+        @keyframes bb2 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-5vw,-8vh) scale(1.12); } }
+    </style>
+</head>
+<body>
+    <div id="lesson-root"></div>
+    <script src="../../core/method-base.js"></script>
+    <script src="../../methods/scenario-based/scenario-based.js"></script>
+    <script src="../../core/lesson-runner.js"></script>
+    <script>
+        const manifest = {
+            "id": "m3l3_scenario",
+            "lessonId": "m3_l3_scenario",
+            "title": "Module 3 Lesson 3 — Session Scenario",
+            "theme": { "primaryColor": "#5900ff", "fontBody": "Rajdhani, sans-serif" },
+            "modules": [{
+                "id": "scenario_3_3_3",
+                "title": "Session Scenario",
+                "type": "scenario-based",
+                "content": {
+                    "scenes": [
+                        {
+                            "id": "q1",
+                            "narrative": "<p>A client named Marcus finished a powerful 30-minute cyberdelic session three weeks ago. He describes it as the most meaningful experience he has had in years. genuinely moving, visually extraordinary, and emotionally significant. He came away feeling like something important had shifted. When you sit down with him today and ask what has changed in his daily life since, he pauses for a long time. 'Honestly? Not much. I still feel the memory of it, but I don't know how to connect it to anything.' He looks frustrated with himself. He isn't sure if the session worked.</p><p><strong>Which mechanism is underdeveloped in Marcus's process, and what facilitation response would you prioritize?</strong></p>",
+                            "choices": [
+                                {
+                                    "id": "opt_a",
+                                    "label": "Integration is missing",
+                                    "outcome": "q1_feedback_a"
+                                },
+                                {
+                                    "id": "opt_b",
+                                    "label": "The experience didn't encode",
+                                    "outcome": "q1_feedback_b"
+                                },
+                                {
+                                    "id": "opt_c",
+                                    "label": "The session wasn't fully absorbed",
+                                    "outcome": "q1_feedback_c"
+                                },
+                                {
+                                    "id": "opt_d",
+                                    "label": "Run the session again",
+                                    "outcome": "q1_feedback_d"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "q1_feedback_a",
+                            "narrative": "<h3>Integration is missing</h3><p>This is the correct answer, and Marcus's description maps precisely to what the Integration mechanism, when absent, produces. a potent experience that remains emotionally vivid but functionally inert.</p><p>Mechanisms 1 through 6 appear to have worked. Attentional Capture was established (the session was absorbing), DMN Modulation likely occurred (he describes emotional significance and a felt sense of shift), Emotional Regulation shaped the experience (it was moving), Perspective Shift may have contributed (something important shifted), Multimodal Synchrony was present (visually extraordinary), and Neuroplasticity opened a window (the experience encoded as meaningful). What's missing is the seventh mechanism. the structured process of translating felt experience into insight, and insight into changed behavior.</p><p>Three weeks later, the plasticity window may have partly closed. Some consolidation has still occurred; the memory of the experience remains emotionally significant. But the specific bridge between what he felt and what he does hasn't been built.</p><p>The facilitation response this session calls for. structured reflection now. Ask Marcus to describe what he understood in that session, not what he felt, but what he understood. Ask him where that understanding meets something specific in his daily life. Ask him what one change would honor what the session showed him, even a small one. This isn't starting from scratch; it's building the bridge late. The window is narrower but not closed. Some of the most durable integration work happens when the client is finally ready to do it.</p>",
+                            "choices": [
+                                {
+                                    "id": "continue",
+                                    "label": "Test Your Understanding",
+                                    "outcome": "reflection"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "reflection",
+                            "narrative": "<h3>Reflection</h3><p>Marcus's session was everything a session should be. Attentional Capture established. DMN Modulation active. Emotional Regulation shaping the arc. Multimodal Synchrony coherent. Neuroplasticity window open. Six mechanisms firing, and nothing lasting to show for it three weeks later.</p><p>The absence of the seventh mechanism, Integration, didn't cancel what happened. It just left it floating. The session planted something real; the bridge from that experience to Marcus's daily life was never built. This is the most important insight in all of Module 3. the technology can activate six of the seven mechanisms without any practitioner involvement. The seventh one is almost entirely yours. Without it, the most powerful experience in the world remains just an experience.</p>",
+                            "choices": [
+                                {
+                                    "id": "quiz",
+                                    "label": "Test Your Understanding",
+                                    "outcome": "complete"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "q1_feedback_b",
+                            "narrative": "<h3>The experience didn't encode</h3><p>Marcus described the session as 'the most meaningful experience he has had in years,' which indicates high emotional salience. He says the memory of it remains vivid. These are indicators that Neuroplasticity opened a window; the experience encoded as significant. The problem isn't that nothing registered. The problem is that what registered hasn't been connected to anything actionable.</p><p>Diagnosing this as a Neuroplasticity failure misreads the evidence Marcus is giving you. Try again, and look for the mechanism whose job it is to make the bridge between felt experience and lasting behavioral change.</p>",
+                            "choices": [
+                                {
+                                    "id": "retry",
+                                    "label": "Try Again",
+                                    "outcome": "q1"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "q1_feedback_c",
+                            "narrative": "<h3>The session wasn't fully absorbed</h3><p>Marcus describes the session as deeply absorbing and visually extraordinary, which suggests Attentional Capture was established. If capture had been incomplete, he would likely describe a more observational experience, watching rather than being in it. The sense that 'something important had shifted' during the session indicates the deeper mechanisms were active.</p><p>The issue isn't what happened in the session. It's what happened, or didn't happen, after it. Look for the mechanism that operates specifically in the post-session phase and that describes the process of translating experience into change.</p>",
+                            "choices": [
+                                {
+                                    "id": "retry",
+                                    "label": "Try Again",
+                                    "outcome": "q1"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "q1_feedback_d",
+                            "narrative": "<h3>Run the session again</h3><p>A repeat session would give Marcus another powerful experience. But it wouldn't address the gap in his current process. Without first building the integration structure for the session he's already had, a second session is likely to produce a similar outcome. another significant experience, another memory that doesn't connect to anything, and possibly deepening frustration.</p><p>Adding experience without adding integration compounds the problem rather than solving it. The mechanism that needs attention right now is the one that makes experience translate into lasting change. Identify it and address it before recommending a repeat session.</p>",
+                            "choices": [
+                                {
+                                    "id": "retry",
+                                    "label": "Try Again",
+                                    "outcome": "q1"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }]
+        };
+        LessonRunner.init('#lesson-root');
+        LessonRunner.loadLesson(manifest);
+    </script>
+</body>
+</html>

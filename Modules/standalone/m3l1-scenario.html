@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M3L1 — Applying the Theories - A Practitioner Scenario</title>
+    <link rel="stylesheet" href="../../core/styles.css">
+    <link rel="stylesheet" href="../../methods/scenario-based/scenario-based.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; height: 100vh; overflow: hidden; background: #03010f; position: relative; }
+        #lesson-root { width: 100%; height: 100%; position: relative; z-index: 1; }
+        body::before, body::after { content: ''; position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+        body::before { width: 72vw; height: 72vw; background: radial-gradient(ellipse at center, rgba(89,0,200,0.24) 0%, transparent 68%); top: -28%; left: -22%; animation: bb1 12s ease-in-out infinite alternate; }
+        body::after  { width: 58vw; height: 58vw; background: radial-gradient(ellipse at center, rgba(0,148,220,0.15) 0%, transparent 68%); bottom: -22%; right: -18%; animation: bb2 16s ease-in-out infinite alternate; }
+        @keyframes bb1 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(8vw,6vh) scale(1.2); } }
+        @keyframes bb2 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-5vw,-8vh) scale(1.12); } }
+    </style>
+</head>
+<body>
+    <div id="lesson-root"></div>
+    <script src="../../core/method-base.js"></script>
+    <script src="../../methods/scenario-based/scenario-based.js"></script>
+    <script src="../../core/lesson-runner.js"></script>
+    <script>
+        const manifest = {
+            "id": "m3l1_scenario",
+            "lessonId": "m3_l1_scenario",
+            "title": "Module 3 Lesson 1 — Applying the Theories - A Practitioner Scenario",
+            "theme": { "primaryColor": "#5900ff", "fontBody": "Rajdhani, sans-serif" },
+            "modules": [{
+                "id": "scenario_3_1_3",
+                "title": "Applying the Theories - A Practitioner Scenario",
+                "type": "scenario-based",
+                "content": {
+                    "scenes": [
+                        {
+                            "id": "q1",
+                            "narrative": "<h3>Raquel's Experience</h3><p>A client named Raquel finishes a 25-minute immersive VR session designed for grief processing. Afterward, during your integration conversation, she describes two distinct things that happened. First. 'I felt like the boundary between me and the space dissolved. Like I wasn't watching it anymore - I was it.' Second. 'There's an intrusive memory I've been trying to work through for two years. During the session, it just stopped playing. For the whole session, it was gone.' She looks lighter. She isn't sure what happened.</p><p><strong>Which theoretical frameworks best explain Raquel's two distinct experiences, and how would you explain them to her?</strong></p>",
+                            "choices": [
+                                {
+                                    "id": "opt_a",
+                                    "label": "Workspace displacement and prediction updating",
+                                    "outcome": "q1_feedback_a"
+                                },
+                                {
+                                    "id": "opt_b",
+                                    "label": "High phi, high coherence",
+                                    "outcome": "q1_feedback_b"
+                                },
+                                {
+                                    "id": "opt_c",
+                                    "label": "The body she inhabited shaped her cognition",
+                                    "outcome": "q1_feedback_c"
+                                },
+                                {
+                                    "id": "opt_d",
+                                    "label": "The science doesn't have answers yet",
+                                    "outcome": "q1_feedback_d"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "q1_feedback_a",
+                            "narrative": "<h3>Choice A. Global Workspace Theory + Predictive Processing</h3><p>The boundary dissolution Raquel described, 'I wasn't watching it, I was it,' is consistent with Global Workspace Theory. The immersive environment occupied her global workspace so comprehensively that the ordinary self-referential processing that maintains the sense of 'a me observing something' lost its broadcast priority. Without that continuous self-reference in the workspace, the felt boundary between self and environment softened.</p><p>The intrusive memory going quiet for the session's duration is also consistent with this. The workspace, occupied with present-moment environmental content, had no bandwidth for the memory's habitual replaying.</p><p>Predictive Processing adds another layer. Raquel's brain had no existing model for the VR environment, so it was forced into genuine updating. That kind of active model revision can temporarily suspend the predictive loops that sustain intrusive memories, which often run partly on the brain's habitual predictions about what is 'about to be thought.'</p><p>In plain language for Raquel. 'What happened is that the experience gave your brain something so new and complete to pay attention to that the memory didn't have anywhere to run. That's not a trick; it's a property of how your attention works. The boundary feeling is related. when attention is that fully occupied by a present experience, the sense of being a separate observer of it can soften.'</p><p><strong>This is the correct answer.</strong></p>",
+                            "choices": [
+                                {
+                                    "id": "continue",
+                                    "label": "Test Your Understanding",
+                                    "outcome": "reflection"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "reflection",
+                            "narrative": "<h3>Reflection</h3><p>Raquel's session was best explained not by one framework, but by two working together. Global Workspace Theory explained why the memory went quiet; it was crowded out, not suppressed. Predictive Processing explained why the boundary between self and space dissolved; her brain had no prior model for the environment, so it stopped trying to assert the usual boundaries.</p><p>This is what it means to hold multiple frameworks as a practitioner. Neither theory alone answered Raquel's question completely. Together, they gave her an explanation she could use, and gave you a map for what to design toward next time. Different theories illuminate different parts of the same experience. The practitioner who knows all four tools is the one who can reach the right one when the client needs it.</p>",
+                            "choices": [
+                                {
+                                    "id": "quiz",
+                                    "label": "Test Your Understanding",
+                                    "outcome": "complete"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "q1_feedback_b",
+                            "narrative": "<h3>Choice B. Only Integrated Information Theory</h3><p>Integrated Information Theory is relevant here. The high phi state produced by a coherent, multi-sensory VR environment may well contribute to the richness of Raquel's experience. But IIT alone doesn't give you a precise account of why self-referential processing diminished or why the intrusive memory was suspended. IIT explains why the experience was rich; it doesn't explain the specific content of what disappeared.</p><p>For a practitioner explaining this to a client, IIT alone would feel incomplete. You'd be saying 'the information was well-integrated' without addressing what that meant for Raquel's specific experience. A fuller account needs Global Workspace Theory and Predictive Processing to explain the displacement and the memory suppression.</p><p>Review the two theories and consider which combination addresses both of Raquel's experiences directly.</p>",
+                            "choices": [
+                                {
+                                    "id": "retry",
+                                    "label": "Try Again",
+                                    "outcome": "q1"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "q1_feedback_c",
+                            "narrative": "<h3>Choice C. Only Embodied Cognition</h3><p>Embodied Cognition is genuinely relevant to session design, but it doesn't provide the primary explanation for what Raquel described. The boundary dissolution and the memory going quiet are about the allocation of attentional and cognitive resources, not primarily about the body she was inhabiting during the experience. Embodied Cognition would be more directly relevant if Raquel had described changes in how she related to her own body, or if a specific avatar choice had been made with therapeutic intent.</p><p>What Raquel described maps more directly to how the workspace was occupied (Global Workspace Theory) and how novel environments disrupt habitual prediction loops (Predictive Processing). Try the answer that combines those two frameworks.</p>",
+                            "choices": [
+                                {
+                                    "id": "retry",
+                                    "label": "Try Again",
+                                    "outcome": "q1"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "q1_feedback_d",
+                            "narrative": "<h3>Choice D. These experiences can't be explained by current theories</h3><p>This response undersells what current frameworks can actually explain. The theories you've learned aren't speculative; they're working models with substantial experimental support, and they do provide plausible mechanistic accounts for what Raquel described. Saying the science has no answers isn't honest calibration; it's overcorrection in the other direction.</p><p>Honest calibration means knowing the difference between 'this is established' and 'this is a framework.' It doesn't mean treating all explanation as unavailable. Raquel's experiences have clear theoretical accounts. Try again and identify the combination that speaks directly to what she described.</p>",
+                            "choices": [
+                                {
+                                    "id": "retry",
+                                    "label": "Try Again",
+                                    "outcome": "q1"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }]
+        };
+        LessonRunner.init('#lesson-root');
+        LessonRunner.loadLesson(manifest);
+    </script>
+</body>
+</html>

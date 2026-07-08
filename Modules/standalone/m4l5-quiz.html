@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M4L5 — Overview</title>
+    <link rel="stylesheet" href="../../core/styles.css">
+    <link rel="stylesheet" href="../../methods/option-selector/option-selector.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; height: 100vh; overflow: hidden; background: #03010f; position: relative; }
+        #lesson-root { width: 100%; height: 100%; position: relative; z-index: 1; }
+        body::before, body::after { content: ''; position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+        body::before { width: 72vw; height: 72vw; background: radial-gradient(ellipse at center, rgba(89,0,200,0.24) 0%, transparent 68%); top: -28%; left: -22%; animation: bb1 12s ease-in-out infinite alternate; }
+        body::after  { width: 58vw; height: 58vw; background: radial-gradient(ellipse at center, rgba(0,148,220,0.15) 0%, transparent 68%); bottom: -22%; right: -18%; animation: bb2 16s ease-in-out infinite alternate; }
+        @keyframes bb1 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(8vw,6vh) scale(1.2); } }
+        @keyframes bb2 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-5vw,-8vh) scale(1.12); } }
+    </style>
+</head>
+<body>
+    <div id="lesson-root"></div>
+    <script src="../../core/method-base.js"></script>
+    <script src="../../methods/option-selector/option-selector.js"></script>
+    <script src="../../core/lesson-runner.js"></script>
+    <script>
+        const manifest = {
+            "id": "m4l5_quiz",
+            "lessonId": "m4_l5_quiz",
+            "title": "Module 4 Lesson 5 Overview",
+            "theme": { "primaryColor": "#5900ff", "fontBody": "Rajdhani, sans-serif" },
+            "modules": [{
+                "id": "quiz_4_5_1",
+                "title": "Module 4 Lesson 5 Overview",
+                "type": "option-selector",
+                "config": {
+                    "mode": "single",
+                    "style": "text",
+                    "questions": [
+                        {
+                            "question": "<h3>Trial & Iterate</h3><p>In the four-step selection framework, why is 'Trial & Iterate' the final step rather than 'Choose the Perfect Platform'?</p>",
+                            "options": [
+                                { "id": "q1_a", "label": "Because no platform is perfect so expectations should be lowered.", "correct": false },
+                                { "id": "q1_b", "label": "Because platforms frequently shut down so users need backup options.", "correct": false },
+                                { "id": "q1_c", "label": "Because it's impossible to know what someone needs without trying everything.", "correct": false },
+                                { "id": "q1_d", "label": "Because what serves someone changes over time, and trial reveals fit better than analysis alone.", "correct": true }
+                            ],
+                            "synthesis": {
+                                "q1_a": "<p>This is too pessimistic. The point is that the right platform for someone evolves as their practice deepens.</p>",
+                                "q1_b": "<p>Stability is a factor, but not the core reason for iteration in facilitation.</p>",
+                                "q1_c": "<p>Trial & Iterate doesn't mean random testing; it means informed starting choices followed by refinement.</p>",
+                                "q1_d": "<p><strong>Correct!</strong> Beginners outgrow beginner platforms, and clinical needs shift as healing progresses. The right answer now isn't the right answer forever.</p>"
+                            }
+                        },
+                        {
+                            "question": "<h3>Assessing Readiness</h3><p>A client says: 'I want the most powerful VR consciousness experience available — whatever produces the deepest altered states.' What's your most important first response?</p>",
+                            "options": [
+                                { "id": "q2_a", "label": "Identify their budget for equipment.", "correct": false },
+                                { "id": "q2_b", "label": "Check their tech comfort level.", "correct": false },
+                                { "id": "q2_c", "label": "Ask about their hoped-for outcome and support systems.", "correct": true },
+                                { "id": "q2_d", "label": "Discuss privacy concerns vs. content access.", "correct": false }
+                            ],
+                            "synthesis": {
+                                "q2_a": "<p>Budget matters eventually, but safety and readiness come first.</p>",
+                                "q2_b": "<p>Tech skills are practical, but psychological readiness for intensity is more critical.</p>",
+                                "q2_c": "<p><strong>Correct!</strong> This explores the underlying need (what are they seeking?) and assesses readiness (do they have preparation and support?). High-intensity work requires a container, not just an app.</p>",
+                                "q2_d": "<p>Privacy is important, but secondary to the safety implications of altered-state requests.</p>"
+                            }
+                        }
+                    ]
+                }
+            }]
+        };
+        LessonRunner.init('#lesson-root');
+        LessonRunner.loadLesson(manifest);
+    </script>
+</body>
+</html>

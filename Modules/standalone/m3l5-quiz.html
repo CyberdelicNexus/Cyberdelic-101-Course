@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M3L5 — Overview</title>
+    <link rel="stylesheet" href="../../core/styles.css">
+    <link rel="stylesheet" href="../../methods/option-selector/option-selector.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; height: 100vh; overflow: hidden; background: #03010f; position: relative; }
+        #lesson-root { width: 100%; height: 100%; position: relative; z-index: 1; }
+        body::before, body::after { content: ''; position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+        body::before { width: 72vw; height: 72vw; background: radial-gradient(ellipse at center, rgba(89,0,200,0.24) 0%, transparent 68%); top: -28%; left: -22%; animation: bb1 12s ease-in-out infinite alternate; }
+        body::after  { width: 58vw; height: 58vw; background: radial-gradient(ellipse at center, rgba(0,148,220,0.15) 0%, transparent 68%); bottom: -22%; right: -18%; animation: bb2 16s ease-in-out infinite alternate; }
+        @keyframes bb1 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(8vw,6vh) scale(1.2); } }
+        @keyframes bb2 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-5vw,-8vh) scale(1.12); } }
+    </style>
+</head>
+<body>
+    <div id="lesson-root"></div>
+    <script src="../../core/method-base.js"></script>
+    <script src="../../methods/option-selector/option-selector.js"></script>
+    <script src="../../core/lesson-runner.js"></script>
+    <script>
+        const manifest = {
+            "id": "m3l5_quiz",
+            "lessonId": "m3_l5_quiz",
+            "title": "Module 3 Lesson 5 Overview",
+            "theme": { "primaryColor": "#5900ff", "fontBody": "Rajdhani, sans-serif" },
+            "modules": [{
+                "id": "ml_3_5_knowledge_check",
+                "title": "Module 3 Lesson 5 Overview",
+                "type": "option-selector",
+                "config": {
+                    "mode": "single",
+                    "style": "text",
+                    "questions": [
+                        {
+                            "question": "<h3>A user engages in a deep meditation and discovers a profound feeling of connection to nature. The next day, they quickly forget the feeling and return to normal routines. Which phase of the States to Traits protocol did they primarily fail to practice?</h3>",
+                            "options": [
+                                {
+                                    "id": "opt_a",
+                                    "label": "Induction, because the meditation wasn't strong enough.",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "opt_b",
+                                    "label": "Encoding, because they did not immediately make sense of or anchor the experience.",
+                                    "correct": true
+                                },
+                                {
+                                    "id": "opt_c",
+                                    "label": "Reinforcement, because tracking wasn't taking place.",
+                                    "correct": false
+                                }
+                            ],
+                            "synthesis": {
+                                "opt_a": "Incorrect. The meditation induced the state successfully, bringing profound feeling.",
+                                "opt_b": "Correct! They failed the Encoding phase, which involves guided reflection and sensemaking immediately after the experience to prevent the insight from fading.",
+                                "opt_c": "Incorrect. While Reinforcement tracking would be helpful eventually, the immediate failure was not anchoring the experience in the moments after it occurred (Encoding)."
+                            }
+                        },
+                        {
+                            "question": "<h3>If a practitioner finds they are much more comfortable with not knowing the 'right answer' and find themselves holding multiple perspectives with curiosity rather than threat, which SWIM domain is showing significant shifts?</h3>",
+                            "options": [
+                                {
+                                    "id": "opt_a",
+                                    "label": "Somatic",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "opt_b",
+                                    "label": "Wisdom",
+                                    "correct": true
+                                },
+                                {
+                                    "id": "opt_c",
+                                    "label": "Interdependence",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "opt_d",
+                                    "label": "Metacognition",
+                                    "correct": false
+                                }
+                            ],
+                            "synthesis": {
+                                "opt_a": "Incorrect. Somatic deals with bodily awareness and regulation.",
+                                "opt_b": "Correct! Wisdom is precisely about shifts in values, holding multiple perspectives, and the capacity to meet uncertainty with curiosity rather than a threat response.",
+                                "opt_c": "Incorrect. Interdependence deals with self-other boundaries.",
+                                "opt_d": "Incorrect. While Metacognition watches the machinery of thought, the specific shift in holding perspectives and ethical comfort with uncertainty belongs to the Wisdom domain."
+                            }
+                        }
+                    ]
+                }
+            }]
+        };
+        LessonRunner.init('#lesson-root');
+        LessonRunner.loadLesson(manifest);
+    </script>
+</body>
+</html>

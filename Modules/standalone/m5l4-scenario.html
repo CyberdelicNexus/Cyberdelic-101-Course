@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M5L4 — Designing a Sustainable Practice</title>
+    <link rel="stylesheet" href="../../core/styles.css">
+    <link rel="stylesheet" href="../../methods/scenario-based/scenario-based.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; height: 100vh; overflow: hidden; background: #03010f; position: relative; }
+        #lesson-root { width: 100%; height: 100%; position: relative; z-index: 1; }
+        body::before, body::after { content: ''; position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+        body::before { width: 72vw; height: 72vw; background: radial-gradient(ellipse at center, rgba(89,0,200,0.24) 0%, transparent 68%); top: -28%; left: -22%; animation: bb1 12s ease-in-out infinite alternate; }
+        body::after  { width: 58vw; height: 58vw; background: radial-gradient(ellipse at center, rgba(0,148,220,0.15) 0%, transparent 68%); bottom: -22%; right: -18%; animation: bb2 16s ease-in-out infinite alternate; }
+        @keyframes bb1 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(8vw,6vh) scale(1.2); } }
+        @keyframes bb2 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-5vw,-8vh) scale(1.12); } }
+    </style>
+</head>
+<body>
+    <div id="lesson-root"></div>
+    <script src="../../core/method-base.js"></script>
+    <script src="../../methods/scenario-based/scenario-based.js"></script>
+    <script src="../../core/lesson-runner.js"></script>
+    <script>
+        const manifest = {
+            "id": "m5l4_scenario",
+            "lessonId": "m5_l4_scenario",
+            "title": "Module 5 Lesson 4 — Designing a Sustainable Practice",
+            "theme": { "primaryColor": "#5900ff", "fontBody": "Rajdhani, sans-serif" },
+            "modules": [{
+                "id": "module_5_4_2_scenario",
+                "title": "Designing a Sustainable Practice",
+                "type": "scenario-based",
+                "content": {
+                    "scenes": [
+                        {
+                            "id": "intro",
+                            "narrative": "<p>You are moving from facilitation training to launching your own private practice. You want a model that produces genuine transformation for your clients and is economically viable for you.</p><p>You are designing your core offering. The local market standard is a \"VR Exploration Session\" for $150, which includes 15 minutes of intake, 60 minutes in the headset, and 15 minutes of wrap-up.</p><p><strong>Work through three decisions to structure your practice in alignment with the Ecology of Practices framework.</strong></p>",
+                            "choices": [
+                                { "id": "choice_1a", "label": "Decision 1 Core Offering - Follow the standard by selling individual 90 minute VR sessions to focus perfectly on induction", "outcome": "outcome_offering_standard" },
+                                { "id": "choice_1b", "label": "Decision 1 Core Offering - Sell a States to Traits package with minimum 3 VR sessions, mandated post session integration calls (Encoding), and daily self guided exercises (Consolidation)", "outcome": "outcome_offering_ecology" }
+                            ]
+                        },
+                        {
+                            "id": "outcome_offering_standard",
+                            "narrative": "<h3>Core Offering, The Standard Session</h3><p><strong>Outcome.</strong> You sell out your schedule quickly because the price point is accessible and the commitment is low. Clients have profound experiences, but by month six, your churn rate is extremely high. Clients feel good for a day, but their baseline doesn't shift, so they stop returning.</p><p><strong>Feedback.</strong> This model offers induction without encoding or consolidation. As the Ecology of Practices framing notes, an experience without structure doesn't lead to lasting change. From an economic perspective, you've optimized for acquisition at the expense of retention, which is exactly why the field struggles to make an economic case to insurers or investors. You are selling a product, not building a practice.</p><p><em>Now consider Decision 2, Your outcome measurement strategy.</em></p>",
+                            "choices": [
+                                { "id": "choice_2a", "label": "Decision 2 Measurement - Track how often clients smile, report \"feeling better\" immediately after, or leave positive reviews", "outcome": "outcome_measurement_basic" },
+                                { "id": "choice_2b", "label": "Decision 2 Measurement - Implement the SWIM framework to track longitudinal change across Somatic, Wisdom, Interdependence, and Metacognition domains", "outcome": "outcome_measurement_swim" }
+                            ]
+                        },
+                        {
+                            "id": "outcome_offering_ecology",
+                            "narrative": "<h3>Core Offering, The Ecology Package</h3><p><strong>Outcome.</strong> It's harder to sell initially. Less committed clients drop off during the intake phase. But the clients who commit begin to show measurable, lasting changes in their daily lives. Over time, your referral rate skyrockets because the transformation is visible to their friends and family.</p><p><strong>Feedback.</strong> You have embedded the VR session within a structured ecology that includes encoding (integration calls) and consolidation (daily exercises). As the Ecology of Practices framework argues, this is how you turn a temporary altered state into trait-level transformation. Economically, while the friction to start is higher, the retention and outcome-driven referrals create a more stable, defensible business model.</p><p><em>Now consider Decision 2, Your outcome measurement strategy.</em></p>",
+                            "choices": [
+                                { "id": "choice_2a", "label": "Decision 2 Measurement - Track how often clients smile, report \"feeling better\" immediately after, or leave positive reviews", "outcome": "outcome_measurement_basic" },
+                                { "id": "choice_2b", "label": "Decision 2 Measurement - Implement the SWIM framework to track longitudinal change across Somatic, Wisdom, Interdependence, and Metacognition domains", "outcome": "outcome_measurement_swim" }
+                            ]
+                        },
+                        {
+                            "id": "outcome_measurement_basic",
+                            "narrative": "<h3>Measurement, Immediate Sentiment</h3><p><strong>Outcome.</strong> Your marketing looks great because of the glowing testimonials. But when you apply for a partnership with a local integrative clinic to accept referrals, the medical director rejects your proposal.</p><p><strong>Feedback.</strong> Subjective, immediate \"feel good\" metrics don't answer the question that insurers, institutions, and clinical partners care about, \"Does this produce lasting change?\" You've optimized for consumer marketing rather than protocol rigor. The clearest path through regulatory and institutional uncertainty is demonstrated, replicable rigor with measurable outcomes over time.</p><p><em>Now, Decision 3, How do you address the Community domain of the ecology?</em></p>",
+                            "choices": [
+                                { "id": "choice_3a", "label": "Decision 3 Community - Refer clients to a monthly peer integration circle you co host with other facilitators", "outcome": "outcome_community_active" },
+                                { "id": "choice_3b", "label": "Decision 3 Community - Expect clients to handle the social aspect of their transformation on their own", "outcome": "outcome_community_passive" }
+                            ]
+                        },
+                        {
+                            "id": "outcome_measurement_swim",
+                            "narrative": "<h3>Measurement, The SWIM Framework</h3><p><strong>Outcome.</strong> You accumulate data showing that after your three month protocol, clients reliably show elevated scores in Interdependence and Metacognition. You use this data to pitch a local employee wellness manager, and you secure a corporate contract.</p><p><strong>Feedback.</strong> This is what rigorous outcome tracking makes possible. By using a framework like SWIM in combination with States to Traits tracking, you generate evidence that your practice produces more than a pleasant recurring experience. You provide data backed proof of lasting change, which solves the fundamental economic problem for cyberdelic credibility. Outcome data is what builds institutional confidence.</p><p><em>Now, Decision 3, How do you address the Community domain of the ecology?</em></p>",
+                            "choices": [
+                                { "id": "choice_3a", "label": "Decision 3 Community - Refer clients to a monthly peer integration circle you co host with other facilitators", "outcome": "outcome_community_active" },
+                                { "id": "choice_3b", "label": "Decision 3 Community - Expect clients to handle the social aspect of their transformation on their own", "outcome": "outcome_community_passive" }
+                            ]
+                        },
+                        {
+                            "id": "outcome_community_active",
+                            "narrative": "<h3>Community, Active Integration</h3><p><strong>Outcome.</strong> Clients who attend the circle find a shared language for their experiences. When they struggle between sessions, they are witnessed by peers who understand. Their transformation holds steady.</p><p><strong>Feedback.</strong> As the Ecology of Practices framework states, change that isn't witnessed tends not to hold. By providing a relational container, you fulfill the fourth requirement of the ecology. The community acts as the sustaining infrastructure between inductions. This proves that you are a field builder, expanding the field's structural depth.</p><p><strong>Reflection.</strong> <em>Notice how an Ecology of Practices isn't just better for the client's growth, it answers the economic and regulatory challenges by providing measurable value, long term retention, and structural rigor. What part of the ecology feels like the biggest stretch for your own practice vision?</em></p>",
+                            "choices": [
+                                { "id": "finish_a", "label": "Reflect & Complete", "outcome": "complete" }
+                            ]
+                        },
+                        {
+                            "id": "outcome_community_passive",
+                            "narrative": "<h3>Community, Passive Assumption</h3><p><strong>Outcome.</strong> Clients make great progress structurally, but eventually feel isolated because their friends and family don't understand the depth of their shifts. They slowly regress to old patterns without a social container to reinforce their new traits.</p><p><strong>Feedback.</strong> You built Induction, Encoding, and Consolidation, but neglected Community. The relational container is the final lock that holds transformation in place. By expecting clients to figure it out alone, you are missing a core piece of the ecology. A practice cannot survive if its participants don't feel held by a shared language and peer witnessing.</p><p><strong>Reflection.</strong> <em>Notice how an Ecology of Practices isn't just better for the client's growth, it answers the economic and regulatory challenges by providing measurable value, long term retention, and structural rigor. What part of the ecology feels like the biggest stretch for your own practice vision?</em></p>",
+                            "choices": [
+                                { "id": "finish_p", "label": "Reflect & Complete", "outcome": "complete" }
+                            ]
+                        }
+                    ]
+                }
+            }]
+        };
+        LessonRunner.init('#lesson-root');
+        LessonRunner.loadLesson(manifest);
+    </script>
+</body>
+</html>

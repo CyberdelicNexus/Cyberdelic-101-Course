@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M4L3 — Three People, Three Needs</title>
+    <link rel="stylesheet" href="../../core/styles.css">
+    <link rel="stylesheet" href="../../methods/scenario-based/scenario-based.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; height: 100vh; overflow: hidden; background: #03010f; position: relative; }
+        #lesson-root { width: 100%; height: 100%; position: relative; z-index: 1; }
+        body::before, body::after { content: ''; position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+        body::before { width: 72vw; height: 72vw; background: radial-gradient(ellipse at center, rgba(89,0,200,0.24) 0%, transparent 68%); top: -28%; left: -22%; animation: bb1 12s ease-in-out infinite alternate; }
+        body::after  { width: 58vw; height: 58vw; background: radial-gradient(ellipse at center, rgba(0,148,220,0.15) 0%, transparent 68%); bottom: -22%; right: -18%; animation: bb2 16s ease-in-out infinite alternate; }
+        @keyframes bb1 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(8vw,6vh) scale(1.2); } }
+        @keyframes bb2 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-5vw,-8vh) scale(1.12); } }
+    </style>
+</head>
+<body>
+    <div id="lesson-root"></div>
+    <script src="../../core/method-base.js"></script>
+    <script src="../../methods/scenario-based/scenario-based.js"></script>
+    <script src="../../core/lesson-runner.js"></script>
+    <script>
+        const manifest = {
+            "id": "m4l3_scenario",
+            "lessonId": "m4_l3_scenario",
+            "title": "Module 4 Lesson 3 — Three People, Three Needs",
+            "theme": { "primaryColor": "#5900ff", "fontBody": "Rajdhani, sans-serif" },
+            "modules": [{
+                "id": "module_4_3_2_scenario",
+                "title": "Scenario: Three People, Three Needs",
+                "type": "scenario-based",
+                "content": {
+                    "scenes": [
+                        {
+                            "id": "intro",
+                            "narrative": "<h3>The Facilitator's Challenge</h3><p>You have three consultations. Each person wants social VR, but their needs are different. Your job is to match them to the right platform from the three you just covered.</p>",
+                            "choices": [
+                                {
+                                    "id": "start_ava",
+                                    "label": "Consult with Ava",
+                                    "outcome": "ava_profile"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "ava_profile",
+                            "narrative": "<h3>Profile. Ava (33)</h3><p><strong>Context.</strong> Introverted, socially anxious. Has practiced solo VR meditation for 6 months.<br><strong>Need.</strong> 'I crave connection but large groups make me panic. I need structure and I need to know what I'm walking into.'</p>",
+                            "choices": [
+                                {
+                                    "id": "a_isness",
+                                    "label": "Isness-D (Research)",
+                                    "outcome": "ava_bad_isness"
+                                },
+                                {
+                                    "id": "a_anuma",
+                                    "label": "aNUma XR (Facilitated Group)",
+                                    "outcome": "ava_optimal"
+                                },
+                                {
+                                    "id": "a_inner",
+                                    "label": "Innerworld (Peer Support)",
+                                    "outcome": "ava_bad_inner"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "ava_optimal",
+                            "narrative": "<h3>Optimal. aNUma XR</h3><p>'aNUma XR runs facilitated group sessions with a skilled guide setting the container before anyone enters. You'll know exactly what the session involves, the group is intentional, and you can book it in advance so there are no surprises. Your six months of solo practice has prepared you for this.'</p><p><strong>Why.</strong> Expert facilitation, a defined container, and advance booking directly address Ava's need for structure and predictability in a group setting.</p>",
+                            "choices": [
+                                {
+                                    "id": "next_ben",
+                                    "label": "Consult with Ben",
+                                    "outcome": "ben_profile"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "ava_bad_isness",
+                            "narrative": "<h3>Inaccessible</h3><p>Isness-D would be a strong match for Ava's readiness level, but it is a research platform and not available for independent use. You can't recommend something she can't access. Return and find the option that delivers a comparable experience today.</p>",
+                            "choices": [
+                                {
+                                    "id": "retry_a",
+                                    "label": "Try Again",
+                                    "outcome": "ava_profile"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "ava_bad_inner",
+                            "narrative": "<h3>Mismatch</h3><p>Innerworld is built for peer mental health support. Ava isn't in crisis and isn't seeking that kind of connection. She's a practitioner looking for a structured contemplative group, which is a different need entirely.</p>",
+                            "choices": [
+                                {
+                                    "id": "retry_a_i",
+                                    "label": "Try Again",
+                                    "outcome": "ava_profile"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "ben_profile",
+                            "narrative": "<h3>Profile. Ben (19)</h3><p><strong>Context.</strong> CS student, psychonaut. Bored by wellness apps.<br><strong>Need.</strong> 'I want something that can actually shift my state. Something with real depth, not just pretty visuals.'</p>",
+                            "choices": [
+                                {
+                                    "id": "b_isness",
+                                    "label": "Isness-D (Research)",
+                                    "outcome": "ben_bad_isness"
+                                },
+                                {
+                                    "id": "b_anuma",
+                                    "label": "aNUma XR (Facilitated Group)",
+                                    "outcome": "ben_optimal"
+                                },
+                                {
+                                    "id": "b_inner",
+                                    "label": "Innerworld (Peer Support)",
+                                    "outcome": "ben_bad_inner"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "ben_optimal",
+                            "narrative": "<h3>Optimal. aNUma XR</h3><p>'Isness-D is the research benchmark for what you're describing, but it's not publicly available. aNUma XR is the closest accessible equivalent. expert-facilitated, 60 minutes, designed explicitly for depth work and altered states in a group container. Go in with an open intention and no expectations about what it will look like.'</p><p><strong>Why.</strong> Ben needs genuine depth, not distraction. aNUma XR's facilitated format and orientation toward ego dissolution and transcendental states is precisely matched to what he's asking for, and it's something he can actually book.</p>",
+                            "choices": [
+                                {
+                                    "id": "next_carmen",
+                                    "label": "Consult with Carmen",
+                                    "outcome": "carmen_profile"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "ben_bad_isness",
+                            "narrative": "<h3>Right Direction, Wrong Access</h3><p>Isness-D is exactly what Ben is describing, and pointing him toward it shows good instinct. But it isn't publicly available. The sophisticated recommendation names the research platform to orient him and then gives him the accessible equivalent he can actually use.</p>",
+                            "choices": [
+                                {
+                                    "id": "retry_b",
+                                    "label": "Try Again",
+                                    "outcome": "ben_profile"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "ben_bad_inner",
+                            "narrative": "<h3>Wrong Category</h3><p>Innerworld is for peer mental health support. Ben isn't seeking therapeutic connection. He's seeking altered states and genuine depth, which puts him in a different category entirely.</p>",
+                            "choices": [
+                                {
+                                    "id": "retry_b_i",
+                                    "label": "Try Again",
+                                    "outcome": "ben_profile"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "carmen_profile",
+                            "narrative": "<h3>Profile. Carmen (56)</h3><p><strong>Context.</strong> Recently widowed, grieving. Not tech-savvy. Fearful of what she might encounter online.<br><strong>Need.</strong> 'I need people who understand loss. And I need someone to help me get set up. The technology intimidates me.'</p>",
+                            "choices": [
+                                {
+                                    "id": "c_isness",
+                                    "label": "Isness-D (Research)",
+                                    "outcome": "carmen_bad_isness"
+                                },
+                                {
+                                    "id": "c_anuma",
+                                    "label": "aNUma XR (Facilitated Group)",
+                                    "outcome": "carmen_bad_anuma"
+                                },
+                                {
+                                    "id": "c_inner",
+                                    "label": "Innerworld + Setup Support",
+                                    "outcome": "carmen_optimal"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "carmen_optimal",
+                            "narrative": "<h3>Optimal. Innerworld</h3><p>'Innerworld has peer grief groups led by guides who have experienced loss themselves. That shared lived experience is something no facilitated session can replicate. And on the tech front. let's schedule a session together before your first group so you walk in feeling prepared, not overwhelmed.'</p><p><strong>Why.</strong> Carmen needs peer connection around a specific lived experience, not a general depth session. Innerworld's grief-specific groups and its peer model match her need precisely. The tech barrier is solved through practical support, not by avoiding VR.</p>",
+                            "choices": [
+                                {
+                                    "id": "finish",
+                                    "label": "Complete Scenarios",
+                                    "outcome": "scenario_complete"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "carmen_bad_isness",
+                            "narrative": "<h3>Inaccessible and Mismatched</h3><p>Isness-D isn't publicly available, which ends the recommendation immediately. Beyond that, Carmen needs peer connection around grief, not a mystical-state session. Reading the specific need matters as much as knowing the platforms.</p>",
+                            "choices": [
+                                {
+                                    "id": "retry_c",
+                                    "label": "Try Again",
+                                    "outcome": "carmen_profile"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "carmen_bad_anuma",
+                            "narrative": "<h3>Close, but Not the Right Container</h3><p>aNUma XR is a strong facilitated experience, but it is designed for contemplative depth work in a general group context. Carmen needs connection around a specific experience. grief. Innerworld's peer model, where guides share lived experience with loss, is the more precise match for what she's actually asking for.</p>",
+                            "choices": [
+                                {
+                                    "id": "retry_c_a",
+                                    "label": "Try Again",
+                                    "outcome": "carmen_profile"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "reflection",
+                            "narrative": "<h3>Facilitation Reflection</h3><p>Three people. Three needs. Three different matches, and the same small platform set.</p><p>Ava needed structure and predictability in a group container. Ben needed genuine depth, the kind that solo wellness apps can't produce. Carmen needed connection around a specific human experience, not a general consciousness journey.</p><p>What the scenario actually tested wasn't your platform knowledge. It was your ability to <em>read the person first</em> and let the platform choice follow from that reading.</p><p><strong>Before you continue.</strong> What signal in each profile made the correct recommendation obvious once you saw it? Naming that signal is how you build pattern recognition for future clients.</p>",
+                            "choices": [
+                                {
+                                    "id": "to_quiz",
+                                    "label": "Proceed to Lesson Quiz",
+                                    "outcome": "complete"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "scenario_complete",
+                            "narrative": "<h3>Scenarios Complete</h3><p>Three different needs, three different matches. Ava needed structure and predictability. Ben needed genuine depth. Carmen needed specific peer connection. The platform set is small. What changes is how precisely you read the person in front of you.</p>",
+                            "choices": [
+                                {
+                                    "id": "continue",
+                                    "label": "Reflect",
+                                    "outcome": "reflection"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }]
+        };
+        LessonRunner.init('#lesson-root');
+        LessonRunner.loadLesson(manifest);
+    </script>
+</body>
+</html>

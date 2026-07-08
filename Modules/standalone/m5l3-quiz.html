@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M5L3 — Overview</title>
+    <link rel="stylesheet" href="../../core/styles.css">
+    <link rel="stylesheet" href="../../methods/option-selector/option-selector.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; height: 100vh; overflow: hidden; background: #03010f; position: relative; }
+        #lesson-root { width: 100%; height: 100%; position: relative; z-index: 1; }
+        body::before, body::after { content: ''; position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+        body::before { width: 72vw; height: 72vw; background: radial-gradient(ellipse at center, rgba(89,0,200,0.24) 0%, transparent 68%); top: -28%; left: -22%; animation: bb1 12s ease-in-out infinite alternate; }
+        body::after  { width: 58vw; height: 58vw; background: radial-gradient(ellipse at center, rgba(0,148,220,0.15) 0%, transparent 68%); bottom: -22%; right: -18%; animation: bb2 16s ease-in-out infinite alternate; }
+        @keyframes bb1 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(8vw,6vh) scale(1.2); } }
+        @keyframes bb2 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-5vw,-8vh) scale(1.12); } }
+    </style>
+</head>
+<body>
+    <div id="lesson-root"></div>
+    <script src="../../core/method-base.js"></script>
+    <script src="../../methods/option-selector/option-selector.js"></script>
+    <script src="../../core/lesson-runner.js"></script>
+    <script>
+        const manifest = {
+            "id": "m5l3_quiz",
+            "lessonId": "m5_l3_quiz",
+            "title": "Module 5 Lesson 3 Overview",
+            "theme": { "primaryColor": "#5900ff", "fontBody": "Rajdhani, sans-serif" },
+            "modules": [{
+                "id": "module_5_3_1_quiz",
+                "title": "Module 5 Lesson 3 Overview",
+                "type": "option-selector",
+                "config": {
+                    "mode": "single",
+                    "style": "text",
+                    "questions": [
+                        {
+                            "question": "<h3>Mission vs. Sustainability</h3><p>A new cyberdelic platform wants to serve lower-income populations and has a strong mission orientation. They need to choose a funding source and business model. Which combination gives them the best chance of achieving both mission AND sustainability?</p>",
+                            "options": [
+                                { "id": "q1_a", "label": "Angel investment + one-time purchase pricing ($25), simple and accessible.", "correct": false },
+                                { "id": "q1_b", "label": "Venture capital + consumer subscription ($15/month), maximum reach and capital.", "correct": false },
+                                { "id": "q1_c", "label": "Grant funding + nonprofit freemium model, mission-first, free access.", "correct": false },
+                                { "id": "q1_d", "label": "Grant funding for Research and Development and validation, clinical licensing, which is B2B, for institutional revenue, with a freemium consumer tier for mission reach.", "correct": true }
+                            ],
+                            "synthesis": {
+                                "q1_a": "Angel + one-time purchase is accessible but not sustainable. One-time purchases don't generate the recurring revenue needed to fund ongoing content development, infrastructure, and team. A platform that can't sustain its operations can't serve anyone.",
+                                "q1_b": "VC + consumer subscription prioritizes scale and growth, which directly conflicts with serving lower-income populations at accessible price points. VC investors expect growth metrics that often pull platforms toward premium pricing and engagement optimization, the opposite of the stated mission.",
+                                "q1_c": "Grant funding + freemium is mission-pure but financially fragile. Grant cycles create organizational instability, and a platform that's entirely grant-dependent can't survive the inevitable funding gaps.",
+                                "q1_d": "<strong>Right.</strong> The hybrid approach aligns each funding and revenue source with what it's best suited for. Grant funding covers research and validation. Clinical licensing provides sustainable institutional revenue without requiring massive consumer scale. The freemium consumer tier serves the lower-income population access mission. The trade-off is organizational complexity, managing multiple revenue streams simultaneously is genuinely hard."
+                            }
+                        },
+                        {
+                            "question": "<h3>The Significance of Precedent</h3><p>Why does XRHealth's Medicare coverage (HCPCS Code E1905) matter for the broader cyberdelic field, and not just for XRHealth's own business?</p>",
+                            "options": [
+                                { "id": "q2_a", "label": "Because it means cyberdelic VR is now covered for all mental health conditions.", "correct": false },
+                                { "id": "q2_b", "label": "Because Medicare is the largest payer in the US and all platforms will automatically qualify now.", "correct": false },
+                                { "id": "q2_c", "label": "Because XRHealth will share the billing code with other platforms.", "correct": false },
+                                { "id": "q2_d", "label": "Because it establishes a regulatory and reimbursement precedent that signals to investors, insurers, and clinical developers that VR therapeutic applications can achieve insurance coverage, de-risking the entire clinical cyberdelic investment category.", "correct": true }
+                            ],
+                            "synthesis": {
+                                "q2_a": "XRHealth's coverage is specific to the applications and conditions it received authorization for, not all mental health conditions. What's significant isn't the scope of coverage, but what the achievement signals about future possibility.",
+                                "q2_b": "Medicare coverage is not automatic or transferable. Each platform seeking reimbursement must independently demonstrate clinical evidence and navigate the relevant regulatory pathway. XRHealth's code covers XRHealth's approved application, not the category broadly.",
+                                "q2_c": "HCPCS billing codes don't transfer between organizations or products. Each platform seeking reimbursement applies through its own regulatory and payer relationships. The significance of E1905 is what it demonstrates, not what it shares.",
+                                "q2_d": "<strong>Right.</strong> Precedent is the key concept. XRHealth's achievement demonstrates that the pathway is navigable, which changes the investment calculation for every clinical platform in the space. Investors who previously saw reimbursement as speculative now see it as demonstrated. Insurers who were waiting for a federal lead now have one to follow. That signal multiplies across the ecosystem."
+                            }
+                        },
+                        {
+                            "question": "<h3>The Wellness Exemption Trade-Off</h3><p>A wellness VR platform currently operating under the wellness exemption wants to add the marketing claim \"clinically proven to reduce anxiety\" to their website. What regulatory consequence does this trigger, and what strategic trade-off does it create?</p>",
+                            "options": [
+                                { "id": "q1_a", "label": "No consequence, wellness platforms can make any claim they want.", "correct": false },
+                                { "id": "q1_b", "label": "The claim triggers FDA Class II oversight, requiring 510(k) clearance before the claim can be legally used, a process taking 6 to 18 months and $50K to $500K+, but which opens the pathway to insurance reimbursement and clinical credibility.", "correct": true },
+                                { "id": "q1_c", "label": "The claim only triggers consequences if a competitor reports it to the FDA.", "correct": false },
+                                { "id": "q1_d", "label": "The claim triggers Class III oversight requiring full PMA clinical trials.", "correct": false }
+                            ],
+                            "synthesis": {
+                                "q1_a": "The wellness exemption specifically requires that platforms <em>not</em> make medical or therapeutic claims. The moment a claim crosses from wellness territory (\"helps you feel calm\") into therapeutic territory (\"clinically proven to reduce anxiety\"), the wellness exemption no longer applies. The FDA's definition of a medical device includes software that makes therapeutic claims.",
+                                "q1_b": "<strong>Right.</strong> The phrase \"clinically proven to reduce anxiety\" transforms the product from a wellness tool into a medical device making a therapeutic claim, triggering FDA Class II oversight. The 510(k) clearance pathway is required before that claim can be legally made. The trade-off is real, the pathway is expensive and slow, but success opens the reimbursement and clinical credibility doors that the wellness exemption permanently closes.",
+                                "q1_c": "FDA oversight is triggered by the claim itself, not by whether someone reports it. Enforcement can be selective in practice, but legal exposure exists the moment the claim is made. Regulators are paying increasing attention to digital health claims.",
+                                "q1_d": "Class III (full PMA) is the highest-risk category and isn't the default outcome for a wellness platform adding a therapeutic claim. The more likely pathway for a VR software application is Class II 510(k) clearance, though the specific classification depends on the condition claimed and the device's risk profile."
+                            }
+                        },
+                        {
+                            "question": "<h3>GDPR Cross-Border Application</h3><p>A cyberdelic facilitator based in Austin, Texas has a client who is a French citizen temporarily living in the US. They conduct sessions via remote VR. Which data protection regulations apply to this facilitator's handling of this client's data, and why?</p>",
+                            "options": [
+                                { "id": "q2_a", "label": "Only US regulations apply because the facilitator is US-based.", "correct": false },
+                                { "id": "q2_b", "label": "Only French regulations apply because the client is French.", "correct": false },
+                                { "id": "q2_c", "label": "GDPR applies to this client's data because GDPR protects EU citizens regardless of where the company or practitioner is located, meaning the US-based facilitator must comply with GDPR requirements for this specific client's data.", "correct": true },
+                                { "id": "q2_d", "label": "No regulations apply because the client is in the US at time of service.", "correct": false }
+                            ],
+                            "synthesis": {
+                                "q2_a": "GDPR's scope is one of the most important things to understand about it, it explicitly applies extraterritorially to any organization processing EU citizens' data, regardless of where that organization is based. The facilitator's Texas location doesn't create a GDPR exemption for this client.",
+                                "q2_b": "GDPR is EU-wide regulation, not French national regulation. The jurisdiction question isn't about geography of service delivery; it's about the citizenship of the data subject. GDPR applies here because the client is an EU citizen.",
+                                "q2_c": "<strong>Right.</strong> GDPR's jurisdiction follows the data subject (the client), not the data controller's location. An EU citizen's personal data carries GDPR protections regardless of where they are or where the practitioner is located. For this facilitator, that means rights including right of access, right to erasure, explicit consent requirements, and strict limitations on data transfer outside the EU. US practitioners working remotely with EU citizen clients have real GDPR obligations that most haven't yet addressed systematically.",
+                                "q2_d": "GDPR protections follow the person, not their physical location at time of service. The client's temporary presence in the US doesn't suspend their GDPR data rights. The facilitator is still handling EU citizen personal data and must comply with GDPR accordingly."
+                            }
+                        }
+                    ]
+                }
+            }]
+        };
+        LessonRunner.init('#lesson-root');
+        LessonRunner.loadLesson(manifest);
+    </script>
+</body>
+</html>

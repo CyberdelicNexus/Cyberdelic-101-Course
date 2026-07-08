@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M3L4 — Overview</title>
+    <link rel="stylesheet" href="../../core/styles.css">
+    <link rel="stylesheet" href="../../methods/option-selector/option-selector.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; height: 100vh; overflow: hidden; background: #03010f; position: relative; }
+        #lesson-root { width: 100%; height: 100%; position: relative; z-index: 1; }
+        body::before, body::after { content: ''; position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+        body::before { width: 72vw; height: 72vw; background: radial-gradient(ellipse at center, rgba(89,0,200,0.24) 0%, transparent 68%); top: -28%; left: -22%; animation: bb1 12s ease-in-out infinite alternate; }
+        body::after  { width: 58vw; height: 58vw; background: radial-gradient(ellipse at center, rgba(0,148,220,0.15) 0%, transparent 68%); bottom: -22%; right: -18%; animation: bb2 16s ease-in-out infinite alternate; }
+        @keyframes bb1 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(8vw,6vh) scale(1.2); } }
+        @keyframes bb2 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-5vw,-8vh) scale(1.12); } }
+    </style>
+</head>
+<body>
+    <div id="lesson-root"></div>
+    <script src="../../core/method-base.js"></script>
+    <script src="../../methods/option-selector/option-selector.js"></script>
+    <script src="../../core/lesson-runner.js"></script>
+    <script>
+        const manifest = {
+            "id": "m3l4_quiz",
+            "lessonId": "m3_l4_quiz",
+            "title": "Module 3 Lesson 4 Overview",
+            "theme": { "primaryColor": "#5900ff", "fontBody": "Rajdhani, sans-serif" },
+            "modules": [{
+                "id": "ml_3_4_1_quiz",
+                "title": "Module 3 Lesson 4 Overview",
+                "type": "option-selector",
+                "config": {
+                    "mode": "single",
+                    "style": "text",
+                    "questions": [
+                        {
+                            "question": "<h3>What made the Isness study's methodology directly comparable to psychedelic research, and why does that matter?</h3>",
+                            "options": [
+                                {
+                                    "id": "opt_a",
+                                    "label": "The study used fMRI to measure brain changes during VR, which is the same technology used in psychedelic neuroscience research",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "opt_c",
+                                    "label": "The researchers partnered directly with Johns Hopkins, giving the study institutional credibility equivalent to their psilocybin trials",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "opt_d",
+                                    "label": "The study used a placebo-controlled design, which is the same standard as clinical psychedelic trials",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "opt_b",
+                                    "label": "The study used the MEQ30 as its primary outcome measure; the same validated scale used in the major psilocybin studies at Johns Hopkins and Imperial College, which means the scores can be placed on the same scale as psychedelic mystical experience scores",
+                                    "correct": true
+                                }
+                            ],
+                            "synthesis": {
+                                "opt_a": "The Isness study used the MEQ30 questionnaire, not fMRI, as its primary outcome measure. fMRI does appear in neural VR research, which is covered in the next mini-lesson. The methodological choice that enabled direct comparison with psychedelic research was the use of the same validated subjective experience scale, not the same neuroimaging technology. Try again.",
+                                "opt_b": "Exactly right. The methodological move that gave the Isness study its comparative standing was choosing the MEQ30 as the primary outcome measure. The MEQ30 is the Mystical Experience Questionnaire used in the major psilocybin research at Johns Hopkins and Imperial College London; it measures specific qualities of non-ordinary experience including unity, transcendence, sacredness, and ineffability. When Isness participants produced average MEQ30 scores above 0.6, and when 53% of participants met the complete mystical experience threshold, those numbers could be placed on the same scale as psilocybin trial results. Not because the experiences are claimed to be identical, but because the same validated ruler was used to measure both.",
+                                "opt_c": "The comparison to Johns Hopkins research isn't based on an institutional partnership; it's based on a methodological one. Glowacki and colleagues chose to use the MEQ30, the same validated instrument Johns Hopkins uses in its psilocybin research. That choice means the scores from both studies speak the same measurement language. Institutional affiliation and methodological alignment are different things, and the second is what makes the comparison meaningful. Try again.",
+                                "opt_d": "The Isness study was not placebo-controlled in the way clinical pharmacological trials are; producing a credible placebo condition for a VR mystical experience study is a genuinely difficult methodological challenge. What made the study comparable to psychedelic research was the use of the MEQ30 as the primary outcome measure, which is the same instrument used in the landmark psilocybin studies. That methodological alignment is what allows the scores to be placed in meaningful proximity to each other. Try again."
+                            }
+                        },
+                        {
+                            "question": "<h3>The Isness study found that multi-person VR sessions produced stronger mystical experience scores than comparable solo VR. What design principle does this suggest for facilitators working with groups?</h3>",
+                            "options": [
+                                {
+                                    "id": "opt_a",
+                                    "label": "Groups should always be kept as large as possible to maximize the amplification effect",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "opt_d",
+                                    "label": "The social element of group VR is sufficient on its own to produce mystical experiences, regardless of environment design",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "opt_b",
+                                    "label": "Shared synchronized presence in abstract virtual environments may amplify individual states; facilitators working with groups can use this as an informed design principle while recognizing the finding comes from a specific protocol",
+                                    "correct": true
+                                },
+                                {
+                                    "id": "opt_c",
+                                    "label": "Multi-person VR is always more effective than solo VR for any therapeutic or consciousness-expansion goal",
+                                    "correct": false
+                                }
+                            ],
+                            "synthesis": {
+                                "opt_a": "The study used groups of two to five participants; the finding doesn't extrapolate to 'larger is always better.' Group size in the Isness protocol was small enough to allow each participant to perceive the others as distinct presences in the space. Very large groups would likely change the dynamic in ways the study doesn't address. The design principle is about shared synchronized presence in abstract environments, not about maximizing group size. Try again.",
+                                "opt_b": "Right. The amplification finding is a specific and useful design principle, and it should be held with appropriate precision. Shared synchronized presence in an abstract environment, where participants can perceive each other without the ordinary social cues of realistic human interaction, appears to enhance individual mystical experience. For facilitators working with groups, this is an informed starting point. abstract body representation, synchronized movement or breath, co-presence in a non-literal environment, and intentional preparation may all contribute to amplifying individual states. It isn't a guarantee, and it comes from a specific protocol. But it's grounded evidence rather than speculation.",
+                                "opt_c": "The finding is specific. shared synchronized presence in abstract virtual environments amplified mystical experience in this particular protocol. Generalizing this to 'multi-person VR is always more effective for any goal' overstates what the evidence shows. Therapeutic applications like exposure therapy or individual trauma processing may be better suited to solo formats. The principle is a contextual design tool, not a universal rule. Try again.",
+                                "opt_d": "The social element was one component of a specific design; abstract body representation, shared movement, intentional preparation, and a carefully designed environment were all part of the protocol. Attributing the amplification effect solely to social presence ignores the design conditions under which that presence operated. A realistic group social VR experience with conventional avatars and a literal environment would likely produce quite different results. Try again."
+                            }
+                        },
+                        {
+                            "question": "<h3>The EEG findings from Greco et al. showed 'increased frontal entropy' during DeepDream VR. What does this mean in practical terms, and why is it significant for understanding how VR alters consciousness?</h3>",
+                            "options": [
+                                {
+                                    "id": "opt_b",
+                                    "label": "The brain's electrical activity in frontal regions became less predictable and more varied than at baseline, which in consciousness neuroscience is associated with increased cognitive flexibility and reduced habitual processing patterns",
+                                    "correct": true
+                                },
+                                {
+                                    "id": "opt_a",
+                                    "label": "The brain's electrical activity in frontal regions became more chaotic and disorganized, indicating stress or cognitive overload",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "opt_c",
+                                    "label": "Frontal entropy refers to the amount of visual information the brain processed; higher entropy means more visual complexity was registered",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "opt_d",
+                                    "label": "Increased frontal entropy indicates the brain entered a sleep-adjacent state, which explains why VR experiences can feel dreamlike",
+                                    "correct": false
+                                }
+                            ],
+                            "synthesis": {
+                                "opt_a": "Increased entropy in this context doesn't indicate distress or overload; that interpretation imports the everyday meaning of 'chaos' into a technical neuroscience measurement. In consciousness neuroscience, higher neural entropy in frontal regions is associated with greater flexibility and less constrained processing, which is part of why it appears in psychedelic and meditative states as well as here. The brain isn't malfunctioning; it's processing less predictably than its habitual baseline, which corresponds to a loosening of rigid cognitive patterns rather than a breakdown. Try again.",
+                                "opt_b": "Exactly right. Frontal entropy in EEG neuroscience refers to the predictability of neural electrical patterns over time. Higher entropy means the patterns are less repetitive and more variable. In ordinary waking consciousness, habitual thought patterns, self-referential loops, and routine cognitive processing generate relatively predictable frontal activity. When frontal entropy increases, as in psychedelic states, deep meditation, and as Greco et al. found in DeepDream VR, those habitual patterns become less stable. The person tends to experience this as thoughts feeling less fixed, associations becoming more fluid, or the usual mental furniture being less solid than normal. This is one of the proposed neural correlates of the psychological flexibility that makes altered states valuable for therapeutic and consciousness-exploration work.",
+                                "opt_c": "Frontal entropy is a measurement of the electrical activity patterns in the brain's frontal regions, not a measure of how much visual information is being processed. EEG entropy measures the predictability of neural oscillations over time; less predictable, more varied patterns produce higher entropy readings. This isn't about visual processing load; it's about how the brain's electrical activity is patterned. Try again.",
+                                "opt_d": "Increased frontal entropy is not a marker of sleep-adjacent states; it actually shows a pattern distinct from what occurs during drowsiness or sleep onset. The alpha wave enhancement finding is more closely associated with restful alertness, and the frontal entropy increase specifically reflects a more flexible, less repetitive processing state. Dreams and sleep involve their own EEG signatures that differ from what Greco et al. found. Try again."
+                            }
+                        },
+                        {
+                            "question": "<h3>A colleague argues that VR-induced altered states aren't 'real' because no chemical changes occur in the brain, unlike with psychedelics or meditation. Using the neural evidence from this lesson, what is the most accurate and calibrated response?</h3>",
+                            "options": [
+                                {
+                                    "id": "opt_a",
+                                    "label": "Agree that VR states aren't equivalent to psychedelic states, because without chemical change the brain can't produce genuine altered states",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "opt_b",
+                                    "label": "Argue that the neural evidence proves VR is identical to psychedelics in its effects on the brain",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "opt_c",
+                                    "label": "Point out that the EEG evidence shows the brain produces measurable neurological changes in response to VR, including shifts in frontal entropy, alpha wave patterns, and DMN activity; these are real neurological events, not imagination, while acknowledging the findings are early and don't establish equivalence to pharmacological states",
+                                    "correct": true
+                                },
+                                {
+                                    "id": "opt_d",
+                                    "label": "Acknowledge there is no neural evidence for VR-induced states and rely entirely on the subjective experience research",
+                                    "correct": false
+                                }
+                            ],
+                            "synthesis": {
+                                "opt_a": "This response concedes too much. The claim that 'without chemical change the brain can't produce genuine altered states' is not supported by the evidence; deep meditation, for example, produces measurable neurological changes without pharmacological intervention, and those changes are associated with significant psychological effects. The neural evidence from DeepDream VR EEG research shows measurable changes in frontal entropy, alpha waves, and DMN activity during VR. These are real neurological events. The colleague's framing is too narrow. Try again.",
+                                "opt_b": "This overclaims in the opposite direction. The Greco et al. findings show neural signatures that resemble patterns seen in psychedelic research; they don't establish identity. The EEG signatures may reflect overlapping mechanisms, similar broad patterns in different underlying processes, or something else entirely. The study is also a single published piece of research rather than a replicated finding. Claiming the neural evidence proves VR is identical to psychedelics misrepresents what the evidence currently shows, and an experienced clinician or researcher would immediately identify the overclaim. Try again.",
+                                "opt_c": "This is the right response, and the calibration is what makes it useful. The colleague's argument rests on the assumption that real neurological change requires pharmacological intervention. The neural evidence directly challenges that assumption. the brain produces measurable changes in frontal entropy, alpha wave patterns, and DMN activity in response to VR, without any chemical agent. Those are real neurological events. At the same time, claiming the evidence proves equivalence to psychedelics would be overclaiming; the Greco et al. findings are a single study showing overlapping patterns, not replicated evidence of identical mechanisms. The practitioner who can make this distinction, real neurological events, early evidence, not equivalence claims, is responding accurately and credibly.",
+                                "opt_d": "There is neural evidence for VR-induced states; that's precisely what this mini-lesson covers. Greco et al. published EEG findings showing measurable changes in frontal entropy, alpha wave activity, and DMN modulation during DeepDream VR. Those findings are early evidence rather than replicated fact, but they exist and are directly relevant to the colleague's claim. Acknowledging no neural evidence when neural evidence exists is as much a calibration error as overclaiming what that evidence proves. Try again."
+                            }
+                        },
+                        {
+                            "question": "<h3>A healthcare provider asks. 'Is there any clinical validation for VR-based applications?' Based on the evidence covered in this lesson, what is the most accurate and evidence-calibrated answer?</h3>",
+                            "options": [
+                                {
+                                    "id": "opt_a",
+                                    "label": "Tell them that VR is still largely experimental and lacks the clinical evidence base to support medical applications",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "opt_b",
+                                    "label": "Tell them that all VR therapeutic applications have the same strong clinical evidence base, comparable to established pharmacological treatments",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "opt_c",
+                                    "label": "Describe the strong replicated evidence for VR exposure therapy and pain management VR, note that broader mental health applications have promising but more varied evidence, and be specific about which application is being discussed",
+                                    "correct": true
+                                },
+                                {
+                                    "id": "opt_d",
+                                    "label": "Focus only on the Isness study as the primary evidence, since mystical experience production is the most relevant application to cyberdelic practice",
+                                    "correct": false
+                                }
+                            ],
+                            "synthesis": {
+                                "opt_a": "This response undersells a substantial evidence base. VR exposure therapy has more than twenty years of replicated clinical research with effectiveness rates comparable to gold-standard in-vivo exposure therapy. SnowWorld pain management VR has multiple published studies showing 35–50% pain reduction with fMRI confirmation. Telling a healthcare provider that VR lacks clinical evidence is inaccurate and could undermine a legitimate clinical conversation. Try again.",
+                                "opt_b": "This response overclaims the evidence base. The exposure therapy and pain management research is strong and replicated. Broader mental health applications have more varied evidence, and consciousness-expansion applications are at an earlier stage. Presenting all VR therapeutic applications as equally well-validated conflates the established evidence with the emerging evidence and would not hold up to scrutiny from a healthcare researcher or clinician. Try again.",
+                                "opt_c": "Right. The calibrated answer distinguishes between the evidence streams rather than flattening them. VR exposure therapy and pain management VR are clinically validated with replicated research over decades; a healthcare provider should know those exist and that they carry serious evidential weight. Broader mental health and consciousness-expansion applications have real but earlier-stage evidence. Being specific about which application is being discussed, and being accurate about where each one sits in the evidence spectrum, is the response that holds up to professional scrutiny. This kind of precision is what makes practitioners credible partners in clinical and research conversations.",
+                                "opt_d": "The Isness study is significant evidence for a specific application, but it's a single published study rather than a replicated clinical finding. Beginning a conversation about clinical validation with a healthcare provider by focusing on mystical experience production also misrepresents the evidence landscape; the most clinically validated applications are exposure therapy and pain management, not mystical experience production. Starting with the strongest and most established evidence, then describing the more emerging applications accurately, is the more credible and useful approach. Try again."
+                            }
+                        },
+                        {
+                            "question": "<h3>A colleague who is enthusiastic about cyberdelic work tells a prospective client. 'Cyberdelic VR experiences have been scientifically proven to be as effective as psychotherapy.' Based on Module 3, is this claim supported, unsupported, or somewhere in between? How would you describe the problem with it?</h3>",
+                            "options": [
+                                {
+                                    "id": "opt_a",
+                                    "label": "The claim is fully supported; the Isness study and neural evidence together establish that cyberdelic VR is as effective as psychotherapy",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "opt_b",
+                                    "label": "The claim is entirely unsupported; there is no research showing any therapeutic benefit from VR",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "opt_c",
+                                    "label": "The claim blends established evidence for specific therapeutic VR applications with overclaiming about consciousness-expansion applications; it is partially grounded in real research but makes a sweeping assertion that the current evidence doesn't support, and overclaiming damages practitioner credibility",
+                                    "correct": true
+                                },
+                                {
+                                    "id": "opt_d",
+                                    "label": "The claim is appropriate for talking to clients because simplifying the evidence makes it more accessible, even if technically imprecise",
+                                    "correct": false
+                                }
+                            ],
+                            "synthesis": {
+                                "opt_a": "Neither the Isness study nor the neural evidence establishes that cyberdelic VR is 'as effective as psychotherapy' as a general claim. The Isness study demonstrates that a specific VR protocol produced mystical experience scores meeting a threshold in more than half of participants; it doesn't compare therapeutic outcomes to psychotherapy. The neural evidence shows measurable brain changes during altered-state VR. The most established therapeutic evidence is for specific applications like exposure therapy and pain management. A sweeping equivalence claim with psychotherapy overstates all of these. Try again.",
+                                "opt_b": "There is substantial research showing therapeutic benefit from VR; dismissing all of it as unsupported is the opposite error from the colleague's overclaim. VR exposure therapy has decades of replicated clinical evidence. Pain management VR has peer-reviewed clinical validation. The problem with the colleague's statement isn't that there's no evidence; it's that the specific claim made is broader than the evidence supports. Try again.",
+                                "opt_c": "Exactly right. The colleague's statement has real evidence behind it. VR does have clinical validation for specific applications, and cyberdelic experiences can produce measurable psychological effects. The problem is the sweeping construction. 'proven to be as effective as psychotherapy' makes a claim that the evidence doesn't support at that level of generality. Therapeutic VR has strong evidence for specific conditions; that's different from claiming equivalence with the broad therapeutic enterprise of psychotherapy. And using 'proven' for what is partly early-stage evidence misrepresents the research. The practitioner who can articulate this distinction, real evidence for specific applications, not a general equivalence claim, is the one whose credibility holds across professional contexts. This is one of the most important calibration skills Module 3 builds.",
+                                "opt_d": "Simplifying evidence for accessibility is a real communication challenge, and there's a version of that argument worth taking seriously. But the claim 'proven to be as effective as psychotherapy' is not a simplification of the evidence; it is an overstatement that will not hold up when the client or anyone else examines the research. When practitioners make claims that don't survive scrutiny, the damage extends beyond the individual conversation. it erodes trust in the field and makes evidence-based practice harder for everyone. Accessibility and accuracy aren't in conflict here; there are plain-language ways to communicate what the evidence genuinely shows. Try again."
+                            }
+                        }
+                    ]
+                }
+            }]
+        };
+        LessonRunner.init('#lesson-root');
+        LessonRunner.loadLesson(manifest);
+    </script>
+</body>
+</html>

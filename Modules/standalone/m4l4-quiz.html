@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M4L4 — Overview</title>
+    <link rel="stylesheet" href="../../core/styles.css">
+    <link rel="stylesheet" href="../../methods/option-selector/option-selector.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; height: 100vh; overflow: hidden; background: #03010f; position: relative; }
+        #lesson-root { width: 100%; height: 100%; position: relative; z-index: 1; }
+        body::before, body::after { content: ''; position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+        body::before { width: 72vw; height: 72vw; background: radial-gradient(ellipse at center, rgba(89,0,200,0.24) 0%, transparent 68%); top: -28%; left: -22%; animation: bb1 12s ease-in-out infinite alternate; }
+        body::after  { width: 58vw; height: 58vw; background: radial-gradient(ellipse at center, rgba(0,148,220,0.15) 0%, transparent 68%); bottom: -22%; right: -18%; animation: bb2 16s ease-in-out infinite alternate; }
+        @keyframes bb1 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(8vw,6vh) scale(1.2); } }
+        @keyframes bb2 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-5vw,-8vh) scale(1.12); } }
+    </style>
+</head>
+<body>
+    <div id="lesson-root"></div>
+    <script src="../../core/method-base.js"></script>
+    <script src="../../methods/option-selector/option-selector.js"></script>
+    <script src="../../core/lesson-runner.js"></script>
+    <script>
+        const manifest = {
+            "id": "m4l4_quiz",
+            "lessonId": "m4_l4_quiz",
+            "title": "Module 4 Lesson 4 Overview",
+            "theme": { "primaryColor": "#5900ff", "fontBody": "Rajdhani, sans-serif" },
+            "modules": [{
+                "id": "quiz_4_4_combined",
+                "title": "Module 4 Lesson 4 Overview",
+                "type": "option-selector",
+                "config": {
+                    "mode": "single",
+                    "style": "text",
+                    "questions": [
+                        {
+                            "question": "<h3>The Soundself Mechanism</h3><p>What mechanism makes Soundself different from a music playlist for altering states?</p>",
+                            "options": [
+                                { "id": "q1_a", "label": "Special brainwave frequencies", "correct": false },
+                                { "id": "q1_b", "label": "Higher audio quality", "correct": false },
+                                { "id": "q1_c", "label": "Designed for psychedelics", "correct": false },
+                                { "id": "q1_d", "label": "Active vocal feedback loop", "correct": true }
+                            ],
+                            "synthesis": {
+                                "q1_a": "<p>Many apps use frequencies. That's not the unique mechanism.</p>",
+                                "q1_b": "<p>Quality matters, but doesn't change the <em>interaction</em>.</p>",
+                                "q1_c": "<p>It's a technology-based alternative, not a companion.</p>",
+                                "q1_d": "<p><strong>Correct!</strong> It creates a 'technodelic loop' where your own voice generates the environment in real-time. You are an active participant, not a passive listener.</p>"
+                            }
+                        },
+                        {
+                            "question": "<h3>Group Facilitation</h3><p>A facilitator wants to lead a synchronized group breathwork session for 8 people with visual pacing. Which platform is best?</p>",
+                            "options": [
+                                { "id": "q2_a", "label": "Soundself", "correct": false },
+                                { "id": "q2_b", "label": "TRIPP", "correct": false },
+                                { "id": "q2_c", "label": "Othership", "correct": true },
+                                { "id": "q2_d", "label": "Wavepaths", "correct": false }
+                            ],
+                            "synthesis": {
+                                "q2_a": "<p>Soundself is for individual vocalization, not group breathing.</p>",
+                                "q2_b": "<p>TRIPP is primarily for solo wellness, not synchronized group facilitation.</p>",
+                                "q2_c": "<p><strong>Correct!</strong> Othership is specifically designed for group facilitation, offering synchronized sessions with clear visual pacing for everyone.</p>",
+                                "q2_d": "<p>Wavepaths provides therapeutic music, not visual breath pacing for groups.</p>"
+                            }
+                        },
+                        {
+                            "question": "<h3>Flow Conditions</h3><p>What helps physical VR movement produce flow state rather than just exercise fatigue?</p>",
+                            "options": [
+                                { "id": "q1_a", "label": "Long duration (45+ mins)", "correct": false },
+                                { "id": "q1_b", "label": "High intensity (burning calories)", "correct": false },
+                                { "id": "q1_c", "label": "Social competition", "correct": false },
+                                { "id": "q1_d", "label": "Clear goals + Challenge-skill balance", "correct": true }
+                            ],
+                            "synthesis": {
+                                "q1_a": "Intensity without balance creates anxiety or exhaustion.",
+                                "q1_b": "Flow happens in minutes if conditions are right.",
+                                "q1_c": "Competition can help some, but isn't a requirement.",
+                                "q1_d": "<strong>Correct!</strong> When the challenge matches your skill and feedback is immediate, action merges with awareness."
+                            }
+                        },
+                        {
+                            "question": "<h3>Agoraphobia Access</h3><p>A client with severe agoraphobia wants to practice being in open environments but cannot leave home. What is the best recommendation?</p>",
+                            "options": [
+                                { "id": "q2_a", "label": "Nature Treks VR (exposure)", "correct": true },
+                                { "id": "q2_b", "label": "Supernatural (distraction)", "correct": false },
+                                { "id": "q2_c", "label": "Wait for therapy progress", "correct": false },
+                                { "id": "q2_d", "label": "VRChat (social support)", "correct": false }
+                            ],
+                            "synthesis": {
+                                "q2_a": "<p><strong>Correct!</strong> It provides a safe, graded way to experience open spaces (70% effective restoration) without triggering the full panic of leaving home.</p>",
+                                "q2_b": "Distraction avoids the issue. Exposure engages it.",
+                                "q2_c": "VR <em>is</em> a valid therapeutic step, significantly better than total isolation.",
+                                "q2_d": "Social support doesn't address the specific environment fear."
+                            }
+                        },
+                        {
+                            "question": "<h3>Riva Research (2025)</h3><p>What did the Milan study demonstrate about experimental VR?</p>",
+                            "options": [
+                                { "id": "q1_a", "label": "It produces comparable short-term effects (insight, catharsis).", "correct": true },
+                                { "id": "q1_b", "label": "It replaces psychedelics perfectly.", "correct": false },
+                                { "id": "q1_c", "label": "It is safe for everyone without prep.", "correct": false },
+                                { "id": "q1_d", "label": "It only works in Italy.", "correct": false }
+                            ],
+                            "synthesis": {
+                                "q1_a": "<p><strong>Correct!</strong> It validated that VR can induce states functionally similar to LSD/psilocybin in key dimensions.</p>",
+                                "q1_b": "It's comparable, not identical.",
+                                "q1_c": "Intensity creates <em>more</em> need for prep.",
+                                "q1_d": "The research was conducted in Milan but the findings apply broadly to the field."
+                            }
+                        },
+                        {
+                            "question": "<h3>Ethical Obligation</h3><p>Which is <strong>NOT</strong> an ethical requirement for high-intensity facilitation?</p>",
+                            "options": [
+                                { "id": "q2_a", "label": "Preparation protocols", "correct": false },
+                                { "id": "q2_b", "label": "Integration support", "correct": false },
+                                { "id": "q2_c", "label": "Legal liability waiver", "correct": true },
+                                { "id": "q2_d", "label": "Psychological screening", "correct": false }
+                            ],
+                            "synthesis": {
+                                "q2_a": "Required for safety.",
+                                "q2_b": "Required for meaning-making.",
+                                "q2_d": "Required to filter contraindications.",
+                                "q2_c": "<strong>Correct!</strong> Waivers are a legal/business protection, not an ethical care requirement. Facilitators minimize harm, lawyers minimize liability."
+                            }
+                        },
+                        {
+                            "question": "<h3>The Comfort vs. Budget Trade-off</h3><p>Client wants to do 60-minute sessions and can afford ~$500. They have no gaming PC. Why recommend Quest 3 over Quest 3S?</p>",
+                            "options": [
+                                { "id": "q1_a", "label": "Quest 3S runs fewer apps.", "correct": false },
+                                { "id": "q1_b", "label": "Quest 3S requires a PC.", "correct": false },
+                                { "id": "q1_c", "label": "Quest 3 has significantly better comfort/optics for long wear.", "correct": true },
+                                { "id": "q1_d", "label": "Quest 3 tracks more biofeedback.", "correct": false }
+                            ],
+                            "synthesis": {
+                                "q1_a": "They run the same library.",
+                                "q1_b": "Both are standalone.",
+                                "q1_c": "<strong>Correct!</strong> For 60-minute sessions, the front-heavy Quest 3S becomes painful. Pancake lenses and balance justify the cost.",
+                                "q1_d": "Neither has built-in biofeedback tracking beyond standard controllers."
+                            }
+                        },
+                        {
+                            "question": "<h3>The Hierarchy of Needs</h3><p>What is the single most important factor to verify first when selecting a VR headset?</p>",
+                            "options": [
+                                { "id": "q2_a", "label": "Display Resolution", "correct": false },
+                                { "id": "q2_b", "label": "Content Compatibility", "correct": true },
+                                { "id": "q2_c", "label": "Release Date", "correct": false },
+                                { "id": "q2_d", "label": "Field of View", "correct": false }
+                            ],
+                            "synthesis": {
+                                "q2_a": "Useless if the app doesn't run.",
+                                "q2_c": "Newer isn't always better for specific apps.",
+                                "q2_d": "Field of view matters for immersion but can't compensate for missing content.",
+                                "q2_b": "<strong>Correct!</strong> Hardware is a vehicle for software. If it can't run TRIPP/Enosis, it fails the mission regardless of specs."
+                            }
+                        }
+                    ]
+                }
+            }]
+        };
+        LessonRunner.init('#lesson-root');
+        LessonRunner.loadLesson(manifest);
+    </script>
+</body>
+</html>

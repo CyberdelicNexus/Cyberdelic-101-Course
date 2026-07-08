@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M5L5 — Overview</title>
+    <link rel="stylesheet" href="../../core/styles.css">
+    <link rel="stylesheet" href="../../methods/option-selector/option-selector.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; height: 100vh; overflow: hidden; background: #03010f; position: relative; }
+        #lesson-root { width: 100%; height: 100%; position: relative; z-index: 1; }
+        body::before, body::after { content: ''; position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+        body::before { width: 72vw; height: 72vw; background: radial-gradient(ellipse at center, rgba(89,0,200,0.24) 0%, transparent 68%); top: -28%; left: -22%; animation: bb1 12s ease-in-out infinite alternate; }
+        body::after  { width: 58vw; height: 58vw; background: radial-gradient(ellipse at center, rgba(0,148,220,0.15) 0%, transparent 68%); bottom: -22%; right: -18%; animation: bb2 16s ease-in-out infinite alternate; }
+        @keyframes bb1 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(8vw,6vh) scale(1.2); } }
+        @keyframes bb2 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-5vw,-8vh) scale(1.12); } }
+    </style>
+</head>
+<body>
+    <div id="lesson-root"></div>
+    <script src="../../core/method-base.js"></script>
+    <script src="../../methods/option-selector/option-selector.js"></script>
+    <script src="../../core/lesson-runner.js"></script>
+    <script>
+        const manifest = {
+            "id": "m5l5_quiz",
+            "lessonId": "m5_l5_quiz",
+            "title": "Module 5 Lesson 5 Overview",
+            "theme": { "primaryColor": "#5900ff", "fontBody": "Rajdhani, sans-serif" },
+            "modules": [{
+                "id": "module_5_5_1_quiz",
+                "title": "Module 5 Lesson 5 Overview",
+                "type": "option-selector",
+                "config": {
+                    "mode": "single",
+                    "style": "text",
+                    "questions": [
+                        {
+                            "question": "<h3>Pathway Matching Decision</h3><p>A licensed therapist reaches out. She's interested in either the Cyberdelic Nexus facilitator certification or integrating VR directly into her existing clinical practice. She asks which pathway is right for her. What single question would most effectively help her determine which to pursue, and why does it matter?</p>",
+                            "options": [
+                                { "id": "q1_a", "label": "\"How much time do you have for training?\"", "correct": false },
+                                { "id": "q1_b", "label": "\"What VR platforms are you most interested in?\"", "correct": false },
+                                { "id": "q1_c", "label": "\"Are you planning to offer VR experiences within your current licensed clinical scope of practice, or do you want to offer them as a separate non clinical service?\"", "correct": true },
+                                { "id": "q1_d", "label": "\"How much are you willing to invest in equipment?\"", "correct": false }
+                            ],
+                            "synthesis": {
+                                "q1_a": "Time availability is a practical consideration, but it doesn't determine which pathway is structurally correct. Both pathways have training time requirements; the question of which pathway is right doesn't resolve based on schedule. What's the more fundamental structural question she needs to answer first?",
+                                "q1_b": "Platform preference is an implementation detail, not a pathway determining factor. Either pathway involves platform selection; it's not what distinguishes them. What's the structural question that determines which certification and which liability framework applies to her work?",
+                                "q1_c": "<strong>Right.</strong> This question cuts directly to the structural distinction that determines everything else. If she plans to use VR as a tool within her licensed clinical practice, with her current clients, billing through her practice, applying clinical judgment, then her existing license already covers the scope and she needs VR therapeutics training, not a separate facilitation certification. If she wants to offer non clinical cyberdelic experiences outside her clinical scope, then facilitation certification is appropriate and she needs to understand the scope boundaries clearly. Getting this question wrong creates either unnecessary duplication or real professional risk.",
+                                "q1_d": "Equipment investment is a practical factor, but both pathways require hardware investment at similar scales. The pathway decision should be made on structural and professional identity grounds, not primarily cost. What's the question that determines scope of practice?"
+                            }
+                        },
+                        {
+                            "question": "<h3>Advocacy's Ecosystem Value</h3><p>Advocacy and education is described as \"usually not a primary income source,\" especially early in a practitioner's career. Why does it still matter as a contribution to the ecosystem, and which other ecosystem component does it most directly strengthen?</p>",
+                            "options": [
+                                { "id": "q2_a", "label": "It matters because social media reach creates brand awareness, and it strengthens Technology Providers by promoting their platforms.", "correct": false },
+                                { "id": "q2_b", "label": "It matters only after you've built a successful primary practice, because you need income stability before you can invest in free contributions.", "correct": false },
+                                { "id": "q2_c", "label": "It matters primarily for personal brand building, and strengthens Economic Infrastructure by attracting investors to the field.", "correct": false },
+                                { "id": "q2_d", "label": "It matters because public education expands the field's cultural credibility and accessible user base, builds the evidence and standards infrastructure that gives all practitioners more legitimacy, and directly strengthens Regulatory and Knowledge Sharing, the component responsible for how quickly the field's knowledge spreads and how clearly its professional standards are understood.", "correct": true }
+                            ],
+                            "synthesis": {
+                                "q2_a": "Advocacy and education isn't primarily about platform promotion or social media; it's about building field credibility, accurate public understanding, and professional standards. Technology Providers benefit from broader awareness, but they're not the primary ecosystem component strengthened by advocacy work. What does \"knowledge sharing\" mean at the field level?",
+                                "q2_b": "This misunderstands the timing. Advocacy doesn't wait for career stability; early practitioners who contribute to field standards and public education are doing ecosystem building work that benefits from their fresh perspective and current engagement. The field's standards are being written right now; waiting until income is stable means missing the formation window.",
+                                "q2_c": "Personal brand building is a secondary effect of genuine contribution, not the primary purpose of advocacy work. And while better field reputation can attract investment, the economic infrastructure effect is indirect. The most direct contribution is to the knowledge and standards infrastructure. What does the Regulatory and Knowledge Sharing component actually do for the field?",
+                                "q2_d": "<strong>Right.</strong> The leverage of advocacy and education work is asymmetric; one well crafted piece of field communication can shift how thousands of practitioners, potential clients, regulators, or investors understand the field. The component it most directly strengthens is Regulatory and Knowledge Sharing, the infrastructure through which the field's knowledge disseminates and its standards become understood and adopted. Practitioners who write clearly about scope of practice are building the regulatory and professional understanding that protects all facilitators. Advocates who engage with policy are accelerating the regulatory clarity that removes barriers for every practitioner who comes after them."
+                            }
+                        }
+                    ]
+                }
+            }]
+        };
+        LessonRunner.init('#lesson-root');
+        LessonRunner.loadLesson(manifest);
+    </script>
+</body>
+</html>

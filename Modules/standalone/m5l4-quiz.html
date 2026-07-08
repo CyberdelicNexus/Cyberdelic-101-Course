@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M5L4 — Overview</title>
+    <link rel="stylesheet" href="../../core/styles.css">
+    <link rel="stylesheet" href="../../methods/option-selector/option-selector.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; height: 100vh; overflow: hidden; background: #03010f; position: relative; }
+        #lesson-root { width: 100%; height: 100%; position: relative; z-index: 1; }
+        body::before, body::after { content: ''; position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+        body::before { width: 72vw; height: 72vw; background: radial-gradient(ellipse at center, rgba(89,0,200,0.24) 0%, transparent 68%); top: -28%; left: -22%; animation: bb1 12s ease-in-out infinite alternate; }
+        body::after  { width: 58vw; height: 58vw; background: radial-gradient(ellipse at center, rgba(0,148,220,0.15) 0%, transparent 68%); bottom: -22%; right: -18%; animation: bb2 16s ease-in-out infinite alternate; }
+        @keyframes bb1 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(8vw,6vh) scale(1.2); } }
+        @keyframes bb2 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-5vw,-8vh) scale(1.12); } }
+    </style>
+</head>
+<body>
+    <div id="lesson-root"></div>
+    <script src="../../core/method-base.js"></script>
+    <script src="../../methods/option-selector/option-selector.js"></script>
+    <script src="../../core/lesson-runner.js"></script>
+    <script>
+        const manifest = {
+            "id": "m5l4_quiz",
+            "lessonId": "m5_l4_quiz",
+            "title": "Module 5 Lesson 4 Overview",
+            "theme": { "primaryColor": "#5900ff", "fontBody": "Rajdhani, sans-serif" },
+            "modules": [{
+                "id": "module_5_4_1_quiz",
+                "title": "Module 5 Lesson 4 Overview",
+                "type": "option-selector",
+                "config": {
+                    "mode": "single",
+                    "style": "text",
+                    "questions": [
+                        {
+                            "question": "<h3>Responding to Skepticism</h3><p>A colleague at a wellness conference dismisses your cyberdelic facilitation work as \"just VR gaming for wellness.\" What's the most effective response that takes their concern seriously while making the field's distinction clear?</p>",
+                            "options": [
+                                { "id": "q1_a", "label": "\"You're completely wrong; VR gaming and cyberdelic facilitation have nothing in common.\"", "correct": false },
+                                { "id": "q1_b", "label": "\"Gaming can be transformative too; the distinction doesn't really matter.\"", "correct": false },
+                                { "id": "q1_c", "label": "\"I understand why it looks that way from the outside. The distinction isn't the technology, it's the intentional use of specific VR environments to facilitate genuine altered states, with preparation, skilled facilitation, and integration support designed to produce lasting change rather than entertainment engagement. The Isness-D study published in PLOS ONE measured mystical experience scores comparable to medium dose psychedelics. Would you be open to looking at that research?\"", "correct": true },
+                                { "id": "q1_d", "label": "\"VR gaming is entertainment. What I do is therapeutic, which is a completely different category.\"", "correct": false }
+                            ],
+                            "synthesis": {
+                                "q1_a": "Flat contradiction rarely shifts skepticism; it just creates defensiveness on both sides. The colleague's perception isn't completely wrong either, both activities use the same hardware and involve immersive virtual content. The meaningful distinction is in intent, methodology, and outcome measurement. How do you acknowledge partial validity while making the real distinction clear?",
+                                "q1_b": "This response concedes too much. While gaming can produce positive psychological effects, treating the distinction as unimportant undermines the entire framework that gives cyberdelic facilitation its professional identity and its credibility with clinical partners. What specifically makes the distinction meaningful?",
+                                "q1_c": "<strong>Right.</strong> This response works because it does three things simultaneously, acknowledges the concern as legitimate rather than dismissing it, offers a specific and substantive distinction (intentional altered state facilitation vs. entertainment engagement), and invites engagement with evidence rather than asserting authority. The reference to the PLOS ONE study gives the skeptic something concrete to evaluate, moving the conversation from opinion to evidence without being condescending.",
+                                "q1_d": "This response makes a clinical claim (\"therapeutic\") that a non licensed facilitator may not be authorized to make, and the binary framing (entertainment vs. therapy) misses the wellness and growth categories where most facilitation actually operates. The more accurate framing is about intentionality and outcome orientation, not a simple entertainment or therapy split."
+                            }
+                        },
+                        {
+                            "question": "<h3>Fragmentation's Direct Impact</h3><p>Hardware fragmentation (content built for Quest won't run on PSVR or Vision Pro) most directly constrains which ecosystem component, and through what mechanism?</p>",
+                            "options": [
+                                { "id": "q2_a", "label": "Users and Communities, because fragmented platforms create fragmented communities.", "correct": false },
+                                { "id": "q2_b", "label": "Knowledge Producers, because research studies become platform specific, limiting replication and generalizability.", "correct": false },
+                                { "id": "q2_c", "label": "Economic Infrastructure, because smaller per platform addressable markets reduce investor confidence.", "correct": false },
+                                { "id": "q2_d", "label": "Technology Providers (Software Developers), because the requirement to build and maintain separate versions of the same application for multiple incompatible platforms multiplies development costs and timelines, directly constraining what small teams and research labs can build and sustain.", "correct": true }
+                            ],
+                            "synthesis": {
+                                "q2_a": "Community fragmentation is a real secondary effect, Quest users and Vision Pro users can't share the same social VR spaces, but it's downstream of the developer constraint. The most direct impact lands first on the people who have to actually build the content. What does \"direct constraint\" mean in terms of who has to do extra work immediately?",
+                                "q2_b": "Research replication challenges are a genuine issue; a study conducted on Quest may not generalize to PSVR2 users. But this is a methodological concern researchers navigate through study design choices, it doesn't directly prevent research from happening. What constraint is most immediate and resource intensive?",
+                                "q2_c": "Investor hesitancy is a real downstream effect of fragmented markets, but the mechanism runs through developers first, fragmented platforms leading to higher development costs leading to smaller teams leading to slower iteration leading to less impressive products leading to smaller markets leading to investor hesitancy. The most direct constraint is at the developer level.",
+                                "q2_d": "<strong>Right.</strong> Software developers bear the most direct impact because they're the ones who have to translate \"reach more users\" into \"build and maintain separate codebases for incompatible platforms.\" A team that could build one excellent platform instead splits its resources across two or three platform specific versions, each requiring separate maintenance, testing, and update cycles. This constraint cascades, underfunded small teams can't afford it, research labs choose one platform and lose generalizability, and clinical platforms face integration barriers in institutions with different hardware investments."
+                            }
+                        },
+                        {
+                            "question": "<h3>The Precedent Effect</h3><p>Why does XRHealth's Medicare coverage create a market opportunity that extends beyond XRHealth's own business, and what specific mechanism makes it valuable to other clinical developers?</p>",
+                            "options": [
+                                { "id": "q1_a", "label": "Because the precedent demonstrates to investors, insurers, and developers that the reimbursement pathway is navigable, de-risking the entire clinical cyberdelic investment category and signaling to commercial insurers that a federal payer has validated the category.", "correct": true },
+                                { "id": "q1_b", "label": "Because XRHealth will license their billing code to other platforms.", "correct": false },
+                                { "id": "q1_c", "label": "Because Medicare will automatically cover all VR mental health applications now.", "correct": false },
+                                { "id": "q1_d", "label": "Because the HCPCS code E1905 applies to any VR wellness product.", "correct": false }
+                            ],
+                            "synthesis": {
+                                "q1_a": "<strong>Right.</strong> Precedent works through signaling, not through direct transfer of coverage. Investors who were uncertain about whether clinical cyberdelic applications could achieve reimbursement now have a concrete demonstration that the pathway is navigable. Commercial insurers who were waiting for a federal lead now have one. Clinical developers weighing the FDA pathway now have a documented case study of what success looks like. Each of these signal effects accelerates activity across the ecosystem, the Medicare milestone changes the risk calculation for every player who was watching.",
+                                "q1_b": "HCPCS billing codes don't transfer or license between organizations. Each platform seeking reimbursement must navigate its own regulatory and payer relationships independently. The value of XRHealth's achievement is what it demonstrates, not what it directly enables for others.",
+                                "q1_c": "Medicare coverage is specific to the applications and conditions that received authorization through the required regulatory pathway. It doesn't extend automatically to other platforms, each must demonstrate clinical evidence and navigate its own approval process. The significance is the precedent, not automatic coverage expansion.",
+                                "q1_d": "HCPCS Code E1905 applies to XRHealth's specifically authorized application for specific covered conditions, not to any VR wellness product broadly. The code is a billing mechanism for an authorized intervention, not a category designation."
+                            }
+                        },
+                        {
+                            "question": "<h3>The WEIRD Research Gap</h3><p>Most current cyberdelic research was conducted with WEIRD populations (Western, Educated, Industrialized, Rich, Democratic). Why is this a problem for the field's credibility and adoption, and what opportunity does addressing it create?</p>",
+                            "options": [
+                                { "id": "q2_a", "label": "It's not a problem, the initial research just needs to work for any population first.", "correct": false },
+                                { "id": "q2_b", "label": "It means the field is only suitable for Western users.", "correct": false },
+                                { "id": "q2_c", "label": "It only matters if the field wants to expand outside North America.", "correct": false },
+                                { "id": "q2_d", "label": "Research with WEIRD populations limits the generalizability of findings to other demographic groups, undermines the equity case for broad access, and creates clinical credibility gaps in non Western healthcare markets, but addressing it through inclusive research creates both scientific credibility and access expansion simultaneously.", "correct": true }
+                            ],
+                            "synthesis": {
+                                "q2_a": "This underestimates how much demographic and cultural context shapes both the mechanisms and the outcomes of consciousness work. Set and setting are culturally variable. Meaning making frameworks differ. The therapeutic relationship models that produce good integration vary across cultural contexts. Research conducted in WEIRD samples may be systematically wrong about populations it didn't study.",
+                                "q2_b": "The implication isn't that the field is only suitable for Western users, it's that we don't yet have adequate evidence of its effectiveness and safety for non Western populations. That's a research gap, not a fundamental limitation. The opportunity is filling that gap.",
+                                "q2_c": "The WEIRD bias affects domestic credibility as well as international expansion. US and European healthcare systems serve diverse populations. Clinical practitioners serving these populations need evidence that speaks to their specific patients, not just to the populations most convenient for university recruitment.",
+                                "q2_d": "<strong>Right.</strong> The WEIRD bias creates real problems across multiple dimensions. Clinicians working with diverse populations can't confidently generalize WEIRD sample findings to their patients. Insurance coverage decisions require evidence of effectiveness across covered populations, not just research-convenient ones. And the equity argument for making these tools accessible to lower income and non Western populations is much harder to make when the evidence base doesn't include those populations. Research that closes this gap simultaneously advances scientific credibility, expands clinical applicability, and makes the justice case for accessibility investment, one of the highest leverage research investments available."
+                            }
+                        }
+                    ]
+                }
+            }]
+        };
+        LessonRunner.init('#lesson-root');
+        LessonRunner.loadLesson(manifest);
+    </script>
+</body>
+</html>

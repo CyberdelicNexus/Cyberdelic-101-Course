@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M4L1 — Overview</title>
+    <link rel="stylesheet" href="../../core/styles.css">
+    <link rel="stylesheet" href="../../methods/option-selector/option-selector.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; height: 100vh; overflow: hidden; background: #03010f; position: relative; }
+        #lesson-root { width: 100%; height: 100%; position: relative; z-index: 1; }
+        body::before, body::after { content: ''; position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+        body::before { width: 72vw; height: 72vw; background: radial-gradient(ellipse at center, rgba(89,0,200,0.24) 0%, transparent 68%); top: -28%; left: -22%; animation: bb1 12s ease-in-out infinite alternate; }
+        body::after  { width: 58vw; height: 58vw; background: radial-gradient(ellipse at center, rgba(0,148,220,0.15) 0%, transparent 68%); bottom: -22%; right: -18%; animation: bb2 16s ease-in-out infinite alternate; }
+        @keyframes bb1 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(8vw,6vh) scale(1.2); } }
+        @keyframes bb2 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-5vw,-8vh) scale(1.12); } }
+    </style>
+</head>
+<body>
+    <div id="lesson-root"></div>
+    <script src="../../core/method-base.js"></script>
+    <script src="../../methods/option-selector/option-selector.js"></script>
+    <script src="../../core/lesson-runner.js"></script>
+    <script>
+        const manifest = {
+            "id": "m4l1_quiz",
+            "lessonId": "m4_l1_quiz",
+            "title": "Module 4 Lesson 1 Overview",
+            "theme": { "primaryColor": "#5900ff", "fontBody": "Rajdhani, sans-serif" },
+            "modules": [{
+                "id": "quiz_4_1_1",
+                "title": "Module 4 Lesson 1 Quiz",
+                "type": "option-selector",
+                "config": {
+                    "mode": "single",
+                    "style": "text",
+                    "questions": [
+                        {
+                            "question": "<h3>Scenario 1. Marcus</h3><p>Marcus is 34, works in tech, and is 'stressed but functional.' He's never meditated but wants a 10-15 minute morning routine to feel calmer. He has no diagnosed conditions and is comfortable with technology.</p><p><strong>Which category best fits his needs?</strong></p>",
+                            "options": [
+                                {
+                                    "id": "q1_a",
+                                    "label": "Therapeutic & Clinical",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "q1_b",
+                                    "label": "Biofeedback-Enhanced",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "q1_c",
+                                    "label": "Exploratory & Transformational",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "q1_d",
+                                    "label": "Meditation & Mindfulness",
+                                    "correct": true
+                                }
+                            ],
+                            "synthesis": {
+                                "q1_a": "<p>Not quite. Therapeutic & Clinical applications are for treating diagnosed conditions with professional oversight. Marcus is 'stressed but functional' and looking for a wellness practice, not medical treatment.</p>",
+                                "q1_b": "<p>Not the best fit. Biofeedback requires extra sensors and has a steeper curve. Marcus wants something simple and accessible for a morning routine.</p>",
+                                "q1_c": "<p>Incorrect. Exploratory experiences are for deep consciousness work and altered states, not a quick 15-minute stress reduction practice.</p>",
+                                "q1_d": "<p><strong>Correct!</strong> Marcus fits squarely in Meditation & Mindfulness - daily wellness practice, no diagnosis, beginner-friendly, designed for solo use. This is the accessible foundation he needs.</p>"
+                            }
+                        },
+                        {
+                            "question": "<h3>Scenario 2. Dr. Sarah Chen</h3><p>Dr. Chen is a licensed psychologist treating a patient with severe PTSD. Traditional talk therapy has stalled, so she wants to use VR exposure therapy to gradually expose the patient to driving scenarios while monitoring their anxiety.</p><p><strong>Which category does this fall into?</strong></p>",
+                            "options": [
+                                {
+                                    "id": "q2_a",
+                                    "label": "Meditation & Mindfulness",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "q2_b",
+                                    "label": "Biofeedback-Enhanced",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "q2_c",
+                                    "label": "Therapeutic & Clinical",
+                                    "correct": true
+                                },
+                                {
+                                    "id": "q2_d",
+                                    "label": "Exploratory & Transformational",
+                                    "correct": false
+                                }
+                            ],
+                            "synthesis": {
+                                "q2_a": "<p>Incorrect. While reducing anxiety is a goal, this is a targeted intervention for a diagnosed condition (PTSD), not a general wellness practice.</p>",
+                                "q2_b": "<p>You noticed the monitoring aspect, but that's just a feature. The defining characteristics are the diagnosis (PTSD), the licensed clinician, and the therapeutic protocol.</p>",
+                                "q2_d": "<p>Incorrect. While profound, this is clinical treatment of a disorder, not the open-ended consciousness exploration that defines the Exploratory category.</p>",
+                                "q2_c": "<p><strong>Correct!</strong> This is Therapeutic & Clinical. The key factors are. diagnosed condition (PTSD), professional oversight (licensed psychologist), and evidence-based treatment protocols. The context makes it clinical.</p>"
+                            }
+                        },
+                        {
+                            "question": "<h3>Scenario 1. Jamie</h3><p>Jamie (28) is a 'visual learner who needs structure.' They've tried phone apps but quit because they couldn't tell if it was 'working.' They want to build a consistent practice and don't mind paying $15/mo for something engaging.</p><p><strong>Which platform should you recommend?</strong></p>",
+                            "options": [
+                                {
+                                    "id": "q1_a",
+                                    "label": "TRIPP",
+                                    "correct": true
+                                },
+                                {
+                                    "id": "q1_b",
+                                    "label": "FloatVR",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "q1_c",
+                                    "label": "Neither (needs in-person instruction first)",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "q1_d",
+                                    "label": "Neither (should build a phone-based practice first)",
+                                    "correct": false
+                                }
+                            ],
+                            "synthesis": {
+                                "q1_b": "<p>Not the best fit. FloatVR is built on the principle that you just enter and drift, with no structure or guidance required. That's exactly the problem Jamie already has. they tried phone apps, felt calmer in the moment, but couldn't tell if it was working and lost motivation. FloatVR would recreate the same experience with better visuals but no more feedback. Try again and focus on Jamie's need for structure, visible progress, and something that actively shows them their practice is having an effect.</p>",
+                                "q1_c": "<p>There's no indication Jamie needs in-person instruction or a stepping-stone app. They've tried meditation before and understood the concept. they just struggled with consistency and motivation. VR can address that directly. Try again and think about which VR platform is specifically designed to keep beginners engaged through structure, tracking, and visible progress.</p>",
+                                "q1_d": "<p>There's no indication Jamie needs in-person instruction or a stepping-stone app. They've tried meditation before and understood the concept. they just struggled with consistency and motivation. VR can address that directly. Try again and think about which VR platform is specifically designed to keep beginners engaged through structure, tracking, and visible progress.</p>",
+                                "q1_a": "<p><strong>Correct!</strong> Jamie is the textbook TRIPP user. needs structure, visual feedback, gamified progress, and is willing to pay for engagement. TRIPP directly addresses the 'is it working?' doubt.</p>"
+                            }
+                        },
+                        {
+                            "question": "<h3>Scenario 2. Amir</h3><p>Amir has meditated daily for 8 years (Zen style, silence). He's curious about VR but worried about 'too many features' getting in the way. He wants to continue his practice in a new environment but doesn't need guidance or gamification, and he's on a budget.</p><p><strong>Which platform fits best?</strong></p>",
+                            "options": [
+                                {
+                                    "id": "q2_a",
+                                    "label": "FloatVR",
+                                    "correct": true
+                                },
+                                {
+                                    "id": "q2_b",
+                                    "label": "TRIPP (Deep Mode)",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "q2_c",
+                                    "label": "Neither (FloatVR requires too much tech comfort)",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "q2_d",
+                                    "label": "Wait on VR",
+                                    "correct": false
+                                }
+                            ],
+                            "synthesis": {
+                                "q2_a": "<p><strong>Correct!</strong> FloatVR suits Amir precisely because it makes no demands on him. He already knows how to be present. FloatVR's generative worlds give him something genuinely new each session without asking him to do anything differently than he already does. That's the match.</p>",
+                                "q2_b": "<p>Not quite. While 'Deep' mode is intense, TRIPP's gamification and structure are exactly what Amir wants to avoid. He finds features distracting from his practice.</p>",
+                                "q2_c": "<p>There's no indication Amir is uncomfortable with technology. he's simply concerned about too many features getting in the way. And FloatVR doesn't require any tech sophistication beyond putting the headset on. The question isn't whether he can use it but whether it matches how he practices. Try again and focus on what FloatVR's philosophy actually demands of its users.</p>",
+                                "q2_d": "<p>Incorrect. An experienced meditator is perfectly capable of using VR. The key is finding a platform that doesn't interrupt his practice with unnecessary features.</p>"
+                            }
+                        },
+                        {
+                            "question": "<h3>Enosis Therapeutics</h3><p>What is the most accurate description of how Enosis Therapeutics uses VR in psychedelic-assisted therapy?</p>",
+                            "options": [
+                                {
+                                    "id": "q1_a",
+                                    "label": "Enosis creates immersive VR journeys that replace the psychedelic experience for patients who can't access substances",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "q1_b",
+                                    "label": "Enosis provides a facilitated VR platform that therapists can offer independently, without requiring a substance session",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "q1_c",
+                                    "label": "Enosis deploys VR at specific points in a clinical protocol - before and after the peak experience - to reduce anxiety and anchor insights",
+                                    "correct": true
+                                },
+                                {
+                                    "id": "q1_d",
+                                    "label": "Enosis is a consumer wellness app that uses psychedelic-inspired visuals to simulate altered states",
+                                    "correct": false
+                                }
+                            ],
+                            "synthesis": {
+                                "q1_a": "<p>Enosis is not a replacement for the psychedelic experience and does not attempt to simulate it. The VR headset comes off before the substance reaches its peak effect. The goal is to work around the experience, not replicate it. The problem Enosis solves is about memory and integration, not generating the altered state itself.</p>",
+                                "q1_b": "<p>Enosis is not a standalone facilitated platform that practitioners can offer independently. Its tools are designed as adjuncts to sessions where a licensed medical provider has already administered a psychedelic substance. There is no Enosis session without the clinical context. This is why Enosis is a referral destination, not something a facilitator deploys directly.</p>",
+                                "q1_c": "<p><strong>Correct!</strong> Enosis uses two core VR tools at precise points in the protocol. SurrenderVR on dose day before the peak, to reduce anxiety and support the patient's ability to let go, and AnchoringVR after the peak resolves, to capture insights in the patient's own voice while the emotional quality of the experience is still accessible. Neither tool is used during the active psychedelic state.</p>",
+                                "q1_d": "<p>Enosis is not a consumer app and does not attempt to simulate psychedelic states visually. The environments used, particularly AnchoringVR, are deliberately calm and neutral. a simple beachside scene with floating objects. The design priority is safety and ease of use during a vulnerable post-peak window, not visual intensity.</p>"
+                            }
+                        },
+                        {
+                            "question": "<h3>Peer Support Model</h3><p>What is the primary advantage and risk of Innerworld's peer-support model?</p>",
+                            "options": [
+                                {
+                                    "id": "q2_a",
+                                    "label": "Pro. Free / Con. Wild west",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "q2_b",
+                                    "label": "Pro. Convenience / Con. Less effective",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "q2_c",
+                                    "label": "Pro. No training / Con. Replaces therapy",
+                                    "correct": false
+                                },
+                                {
+                                    "id": "q2_d",
+                                    "label": "Pro. Authentic Connection / Con. Variable Quality",
+                                    "correct": true
+                                }
+                            ],
+                            "synthesis": {
+                                "q2_a": "<p>It's not just about cost, and safety standards do exist.</p>",
+                                "q2_b": "<p>Effectiveness is different, not 'less'. Different tools for different jobs.</p>",
+                                "q2_c": "<p>While training varies, that's part of the quality concern, not a standalone benefit/risk framing.</p>",
+                                "q2_d": "<p><strong>Correct!</strong> The power is shared lived experience. The risk is that volunteers have different skill levels and aren't equipped for acute crises.</p>"
+                            }
+                        }
+                    ]
+                }
+            }]
+        };
+        LessonRunner.init('#lesson-root');
+        LessonRunner.loadLesson(manifest);
+    </script>
+</body>
+</html>

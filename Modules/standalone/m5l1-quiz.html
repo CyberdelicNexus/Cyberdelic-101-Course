@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M5L1 — Overview</title>
+    <link rel="stylesheet" href="../../core/styles.css">
+    <link rel="stylesheet" href="../../methods/option-selector/option-selector.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; height: 100vh; overflow: hidden; background: #03010f; position: relative; }
+        #lesson-root { width: 100%; height: 100%; position: relative; z-index: 1; }
+        body::before, body::after { content: ''; position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+        body::before { width: 72vw; height: 72vw; background: radial-gradient(ellipse at center, rgba(89,0,200,0.24) 0%, transparent 68%); top: -28%; left: -22%; animation: bb1 12s ease-in-out infinite alternate; }
+        body::after  { width: 58vw; height: 58vw; background: radial-gradient(ellipse at center, rgba(0,148,220,0.15) 0%, transparent 68%); bottom: -22%; right: -18%; animation: bb2 16s ease-in-out infinite alternate; }
+        @keyframes bb1 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(8vw,6vh) scale(1.2); } }
+        @keyframes bb2 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-5vw,-8vh) scale(1.12); } }
+    </style>
+</head>
+<body>
+    <div id="lesson-root"></div>
+    <script src="../../core/method-base.js"></script>
+    <script src="../../methods/option-selector/option-selector.js"></script>
+    <script src="../../core/lesson-runner.js"></script>
+    <script>
+        const manifest = {
+            "id": "m5l1_quiz",
+            "lessonId": "m5_l1_quiz",
+            "title": "Module 5 Lesson 1 Overview",
+            "theme": { "primaryColor": "#5900ff", "fontBody": "Rajdhani, sans-serif" },
+            "modules": [{
+                "id": "module_5_1_1_quiz",
+                "title": "Module 5 Lesson 1 Overview",
+                "type": "option-selector",
+                "config": {
+                    "mode": "single",
+                    "style": "text",
+                    "questions": [
+                        {
+                            "question": "<h3>Ecosystem Cascade</h3><p>If a major VR hardware manufacturer discontinues a popular headset, which ecosystem components are immediately affected?</p>",
+                            "options": [
+                                { "id": "q1_a", "label": "Only Technology Providers are affected, as it's a hardware issue.", "correct": false },
+                                { "id": "q1_b", "label": "Only Users are affected because they can no longer buy the headset.", "correct": false },
+                                { "id": "q1_c", "label": "Economic Infrastructure is the only component affected because of the financial loss.", "correct": false },
+                                { "id": "q1_d", "label": "Technology Providers, Software Developers, Facilitators, and Clinical Practitioners are all immediately affected, as developers lose a platform and practitioners lose a tool.", "correct": true }
+                            ],
+                            "synthesis": {
+                                "q1_a": "Hardware issues rarely stay contained at the Technology Provider level. Think about what happens to all the platforms built for that headset, and all the facilitators who recommended it.",
+                                "q1_b": "Users are affected, but they're not the only ones. Who builds the software running on that hardware? Who recommends the device to clients? Multiple components feel this simultaneously.",
+                                "q1_c": "Financial effects do ripple through Economic Infrastructure, but the immediate effects land elsewhere first — developers lose a platform, facilitators lose a tool, clinicians lose a clinical option.",
+                                "q1_d": "<strong>Exactly right.</strong> A headset discontinuation immediately affects software developers who built for that platform, facilitators and clinicians who recommend it to clients, and the economic infrastructure whose business models depended on it. The hardware decision is never just a hardware decision — it's an ecosystem event."
+                            }
+                        },
+                        {
+                            "question": "<h3>The Credibility Chain</h3><p>Which ecosystem component provides the scientific credibility that allows clinical practitioners to adopt new VR tools?</p>",
+                            "options": [
+                                { "id": "q2_a", "label": "Economic Infrastructure, because funding drives development.", "correct": false },
+                                { "id": "q2_b", "label": "Educators & Trainers, because they teach practitioners how to use the tools.", "correct": false },
+                                { "id": "q2_c", "label": "Knowledge Producers, because peer-reviewed research establishes safety and effectiveness.", "correct": true },
+                                { "id": "q2_d", "label": "Technology Providers, because the tools have to exist before anyone can adopt them.", "correct": false }
+                            ],
+                            "synthesis": {
+                                "q2_a": "Funding enables development, but it doesn't provide clinical credibility. A well-funded app with no research backing still won't earn adoption from cautious clinical practitioners.",
+                                "q2_b": "Educators train practitioners to use validated tools. But they're not the ones who establish whether a tool should be used — that requires the evidence base educators then teach from.",
+                                "q2_d": "The tools obviously have to exist, but existence alone doesn't confer clinical credibility. What separates a research-validated VR protocol from a therapy app a clinician won't touch?",
+                                "q2_c": "<strong>Yes.</strong> Knowledge Producers — researchers and academic institutions — generate the peer-reviewed evidence that clinical practitioners require before integrating new tools into patient care. Without that validation, a VR application is an interesting product, not a credible intervention."
+                            }
+                        },
+                        {
+                            "question": "<h3>The Reach Compromise</h3><p>A cyberdelic developer wants maximum reach for their new platform. Why does this almost certainly mean building for Meta Quest first, even if they have concerns about Meta's data practices?</p>",
+                            "options": [
+                                { "id": "q1_a", "label": "Because Meta controls approximately 77% of consumer VR headset shipments, making it the only platform that provides access to most potential VR users.", "correct": true },
+                                { "id": "q1_b", "label": "Because Meta's content policies are more permissive for consciousness applications.", "correct": false },
+                                { "id": "q1_c", "label": "Because Meta headsets are the only ones compatible with biofeedback peripherals.", "correct": false },
+                                { "id": "q1_d", "label": "Because Meta has better graphics capabilities than all other headsets.", "correct": false }
+                            ],
+                            "synthesis": {
+                                "q1_a": "<strong>Right.</strong> Market share is the driver. Bypassing Meta means reaching a fraction of your potential audience. That mission constraint often outweighs other considerations for developers seeking widespread adoption, even ones with real concerns about Meta's data practices.",
+                                "q1_b": "Meta's content policies are actually a constraint for some consciousness applications, not an advantage. The reason to build for Meta is more fundamental.",
+                                "q1_c": "Biofeedback compatibility varies by application and headset, but it's not the primary reason Meta dominates developer decision-making.",
+                                "q1_d": "Graphics capabilities are platform-dependent but not the decisive factor here. A developer with privacy-friendly values would still choose Meta for a different reason related to audience scale."
+                            }
+                        },
+                        {
+                            "question": "<h3>The Alternative Context</h3><p>Why is Pico growing internationally while remaining relatively niche in the US market?</p>",
+                            "options": [
+                                { "id": "q2_a", "label": "Because Pico hardware has higher resolution displays than Meta.", "correct": false },
+                                { "id": "q2_b", "label": "Because Pico is cheaper than Meta Quest in all markets.", "correct": false },
+                                { "id": "q2_c", "label": "Because Meta faces significant regulatory resistance and procurement friction in European/Asian markets around data privacy, making Pico an easier option for institutions there.", "correct": true },
+                                { "id": "q2_d", "label": "Because Pico has more consciousness-focused applications in its app store.", "correct": false }
+                            ],
+                            "synthesis": {
+                                "q2_a": "Hardware specs are comparable between major manufacturers and aren't the primary driver of Pico's international market share.",
+                                "q2_b": "Pico's pricing is competitive but not uniformly cheaper than Meta, especially given Meta's subsidized hardware strategy.",
+                                "q2_d": "Pico doesn't have a significantly larger consciousness-focused app library than Meta. The growth is driven by regulatory and institutional context, not content differentiation.",
+                                "q2_c": "<strong>Exactly.</strong> Regulatory and procurement context drives Pico's international growth. European institutions operating under GDPR often find Meta's data collection model creates compliance obstacles. Pico's positioning as a privacy-friendlier alternative navigates that procurement friction more easily in many institutional contexts."
+                            }
+                        },
+                        {
+                            "question": "<h3>The Ripple of Open Hardware</h3><p>What does it mean for the cyberdelic ecosystem that OpenBCI lowered the cost of EEG equipment from $2,000+ to $200–$500? Which ecosystem components benefit most and how?</p>",
+                            "options": [
+                                { "id": "q1_a", "label": "Only Technology Providers benefit, as it's a hardware cost reduction.", "correct": false },
+                                { "id": "q1_b", "label": "Only Users benefit because they can now afford personal EEG equipment.", "correct": false },
+                                { "id": "q1_c", "label": "Economic Infrastructure benefits through lower hardware costs driving more investment.", "correct": false },
+                                { "id": "q1_d", "label": "Knowledge Producers benefit through expanded research access; Technology Providers benefit through new application categories; Facilitators benefit through affordable biofeedback integration.", "correct": true }
+                            ],
+                            "synthesis": {
+                                "q1_a": "Cost reduction in hardware originates with Technology Providers, but the effects don't stay there. Who needs affordable neurofeedback equipment most?",
+                                "q1_b": "Personal EEG use by individuals is one effect, but the largest gains were in research and facilitation contexts that previously faced institutional procurement barriers.",
+                                "q1_c": "Investment may follow expanded capability, but the immediate beneficiaries are the practitioners and researchers who could now afford equipment.",
+                                "q1_d": "<strong>Exactly right.</strong> Cost democratization in hardware ripples across multiple components. Researchers who couldn't afford institutional EEG can now run neurofeedback studies. Developers can build biofeedback-responsive platforms. Facilitators can integrate real-time brainwave monitoring into session contexts. The price drop expanded what multiple ecosystem components could do."
+                            }
+                        },
+                        {
+                            "question": "<h3>Borrowed Frameworks</h3><p>Name two concepts borrowed from psychedelic therapy that cyberdelic platforms now use, and explain why they transferred so naturally.</p>",
+                            "options": [
+                                { "id": "q2_a", "label": "Clinical trial methodology and risk assessment, as VR platforms can be considered medical devices.", "correct": false },
+                                { "id": "q2_b", "label": "Subscription pricing and content licensing, as psychedelic therapy and VR apps share business models.", "correct": false },
+                                { "id": "q2_c", "label": "Set and setting, and the preparation-experience-integration arc, as both fields work with altered states and require intentional context to produce beneficial outcomes.", "correct": true },
+                                { "id": "q2_d", "label": "Flow state optimization and UI accessibility, as therapy and game design have always overlapped.", "correct": false }
+                            ],
+                            "synthesis": {
+                                "q2_a": "Clinical trial methodology and risk assessment come from healthcare research generally, not from psychedelic therapy specifically.",
+                                "q2_b": "Business model concepts aren't what cyberdelics borrowed from psychedelic therapy. The transfer was about guiding humans through non-ordinary states.",
+                                "q2_c": "<strong>Right.</strong> Set (mindset, intention) and setting (environment, support) transfer directly because cyberdelic experiences, like psychedelic sessions, are powerfully context-dependent. The preparation-experience-integration arc transfers because both fields recognize that the session itself is not the whole intervention; the context before and after determines if the experience becomes lasting transformation. Altered states require intentional context.",
+                                "q2_d": "Flow state optimization comes from gaming research, and accessibility principles come from HCI. Those did not originate in psychedelic therapy."
+                            }
+                        }
+                    ]
+                }
+            }]
+        };
+        LessonRunner.init('#lesson-root');
+        LessonRunner.loadLesson(manifest);
+    </script>
+</body>
+</html>

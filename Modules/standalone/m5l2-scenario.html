@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M5L2 — The Scope of Practice Test</title>
+    <link rel="stylesheet" href="../../core/styles.css">
+    <link rel="stylesheet" href="../../methods/scenario-based/scenario-based.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; height: 100vh; overflow: hidden; background: #03010f; position: relative; }
+        #lesson-root { width: 100%; height: 100%; position: relative; z-index: 1; }
+        body::before, body::after { content: ''; position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+        body::before { width: 72vw; height: 72vw; background: radial-gradient(ellipse at center, rgba(89,0,200,0.24) 0%, transparent 68%); top: -28%; left: -22%; animation: bb1 12s ease-in-out infinite alternate; }
+        body::after  { width: 58vw; height: 58vw; background: radial-gradient(ellipse at center, rgba(0,148,220,0.15) 0%, transparent 68%); bottom: -22%; right: -18%; animation: bb2 16s ease-in-out infinite alternate; }
+        @keyframes bb1 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(8vw,6vh) scale(1.2); } }
+        @keyframes bb2 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-5vw,-8vh) scale(1.12); } }
+    </style>
+</head>
+<body>
+    <div id="lesson-root"></div>
+    <script src="../../core/method-base.js"></script>
+    <script src="../../methods/scenario-based/scenario-based.js"></script>
+    <script src="../../core/lesson-runner.js"></script>
+    <script>
+        const manifest = {
+            "id": "m5l2_scenario",
+            "lessonId": "m5_l2_scenario",
+            "title": "Module 5 Lesson 2 — The Scope of Practice Test",
+            "theme": { "primaryColor": "#5900ff", "fontBody": "Rajdhani, sans-serif" },
+            "modules": [{
+                "id": "module_5_2_3_scenario",
+                "title": "The Scope of Practice Test, and the Professional Identity Moment",
+                "type": "scenario-based",
+                "content": {
+                    "scenes": [
+                        {
+                            "id": "intro",
+                            "narrative": "<p>You receive the following message from a potential new client.</p><blockquote><em>\"Hi, I found you through a friend who worked with you last year. I've been seeing a therapist for PTSD for 18 months and I think VR could really help me. I've read about the Isness study and I've had some experiences with breathwork that felt similar. My therapist is skeptical about it and honestly I think I've kind of hit a ceiling with the traditional approach. Can you work with me directly, even without my therapist's involvement?\"</em></blockquote><p>Before you respond, sit with two questions, <strong>What does professional scope of practice require here?</strong> And, noticing your own reaction, does this feel like a situation you'd feel equipped and called to navigate?</p><p><strong>How do you respond?</strong></p>",
+                            "choices": [
+                                { "id": "choice_a", "label": "Path A. Decline, \"I'm sorry, I don't work with clients who have active mental health diagnoses.\"", "outcome": "outcome_a" },
+                                { "id": "choice_b", "label": "Path B. Accept, \"Absolutely, I'd love to work with you. VR can definitely help with PTSD.\"", "outcome": "outcome_b" },
+                                { "id": "choice_c", "label": "Path C. Engage with honesty and care, acknowledge scope, propose coordination with her therapist, and leave the decision with her.", "outcome": "outcome_c" }
+                            ]
+                        },
+                        {
+                            "id": "outcome_a",
+                            "narrative": "<h3>Path A. Refusal Without Engagement</h3><p><strong>Outcome.</strong> You've technically stayed within scope, but you've failed this person and the field.</p><p><strong>Feedback.</strong> A blanket refusal here treats a thoughtful, informed human being as a liability rather than a person with real curiosity and real options. Scope of practice means knowing what you <em>can't</em> do safely, it doesn't mean refusing to engage with anyone who has a mental health history. This response doesn't help the client understand what facilitation is, doesn't acknowledge their valid interest, doesn't explore whether a collaborative pathway with their therapist might be possible, and doesn't demonstrate the professional maturity that builds trust in facilitation as a field. Refusal isn't professionalism; nuanced engagement is.</p>",
+                            "choices": [
+                                { "id": "retry_a", "label": "Try Again", "outcome": "intro" }
+                            ]
+                        },
+                        {
+                            "id": "outcome_b",
+                            "narrative": "<h3>Path B. Accept Without Boundaries</h3><p><strong>Outcome.</strong> You've accepted a client whose clinical needs exceed your scope and implicitly positioned yourself as an alternative to clinical care.</p><p><strong>Feedback.</strong> This response has several serious problems. First, \"VR can definitely help with PTSD\" is a clinical claim you're not licensed to make for a specific person, especially one whose therapist (who has 18 months of clinical relationship with her) is skeptical. Second, accepting someone into facilitation while they're actively working with a therapist on PTSD, without any coordination, creates a fragmented care situation that benefits no one and creates real risk. Third, you're positioning facilitation as a substitute for clinical care rather than a complement to it. This is where facilitation loses its credibility, and sometimes its clients.</p>",
+                            "choices": [
+                                { "id": "retry_b", "label": "Try Again", "outcome": "intro" }
+                            ]
+                        },
+                        {
+                            "id": "outcome_c",
+                            "narrative": "<h3>Path C. Nuanced Navigation</h3><p><strong>Outcome.</strong> You've honored the person's autonomy, been transparent about scope, opened a collaborative rather than competitive relationship with the clinical practitioner, and demonstrated the professional maturity the facilitation field needs.</p><p>Here's how that response might look.</p><blockquote><em>\"Thank you for reaching out, and for the thoughtfulness with which you've approached this. I want to be clear about what I can and can't offer, because I think you deserve an honest picture.</em><br><br><em>Cyberdelic facilitation is a non-clinical practice. I'm not a therapist and I don't treat PTSD, so I wouldn't be working with you in that clinical capacity. What I can offer is a supported, intentional VR experience designed for personal exploration and insight, with careful preparation and integration support.</em><br><br><em>Given that you're actively working on PTSD with a therapist, I'd want to do this in coordination with her rather than around her, not because of liability, but because fragmented care rarely serves people well. I'd love to reach out to her directly if you're open to it, explain what cyberdelic facilitation involves, and see if she'd be willing to hold the clinical container while we explore the experiential dimension. If she remains skeptical after that conversation, that's important information too.</em><br><br><em>If you're not ready for that coordination yet, I'm happy to talk more about what this work involves and let you make the decision. What's most useful for you right now?\"</em></blockquote><p><strong>Feedback.</strong> This is the response that builds both individual trust and field credibility. Notice what it does. it names scope honestly without turning it into a wall; it recognizes the therapist as a collaborator, not a competitor; it puts the client's wellbeing at the center; and it leaves the door open without overcommitting. Scope of practice as a tool for good facilitation, not a reason to disengage.</p><p><strong>Reflection.</strong> <em>Reading through these three paths, which felt most natural to you? What does that tell you about where you are in developing your professional identity as a potential facilitator? There's no wrong answer here. Noticing your instinct is part of the work.</em></p>",
+                            "choices": [
+                                { "id": "finish_c", "label": "Reflect & Complete", "outcome": "complete" }
+                            ]
+                        }
+                    ]
+                }
+            }]
+        };
+        LessonRunner.init('#lesson-root');
+        LessonRunner.loadLesson(manifest);
+    </script>
+</body>
+</html>
