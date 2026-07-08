@@ -33,6 +33,7 @@
             if (!this.container) {
                 console.error('[LessonRunner] Container not found');
             }
+            this._initBackground();
         }
 
         loadLesson(manifest) {
@@ -291,6 +292,50 @@
 
             console.log('[LessonRunner] Sending LESSON_COMPLETE to Framer:', payload);
             window.parent.postMessage(payload, '*');
+        }
+
+        _initBackground() {
+            if (document.getElementById('lr-bg-canvas')) return;
+            const canvas = document.createElement('canvas');
+            canvas.id = 'lr-bg-canvas';
+            canvas.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;';
+            document.body.prepend(canvas);
+
+            const ctx = canvas.getContext('2d');
+            const mouse = { x: -9999, y: -9999 };
+            const GRID = 44;
+            const GLOW_R = 160;
+
+            const resize = () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            };
+            window.addEventListener('resize', resize);
+            document.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+
+            const draw = () => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                const cols = Math.ceil(canvas.width / GRID) + 1;
+                const rows = Math.ceil(canvas.height / GRID) + 1;
+                for (let i = 0; i < cols; i++) {
+                    for (let j = 0; j < rows; j++) {
+                        const x = i * GRID;
+                        const y = j * GRID;
+                        const dist = Math.hypot(x - mouse.x, y - mouse.y);
+                        const t = Math.max(0, 1 - dist / GLOW_R);
+                        const alpha = 0.05 + t * 0.3;
+                        const r = 1.2 + t * 2.4;
+                        ctx.beginPath();
+                        ctx.arc(x, y, r, 0, Math.PI * 2);
+                        ctx.fillStyle = `rgba(130,90,255,${alpha.toFixed(2)})`;
+                        ctx.fill();
+                    }
+                }
+                requestAnimationFrame(draw);
+            };
+
+            resize();
+            draw();
         }
 
         _applyTheme(theme) {

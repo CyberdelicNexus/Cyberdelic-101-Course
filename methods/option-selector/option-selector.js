@@ -345,7 +345,9 @@
 
                     if (_selectedEl) {
                         _selectedEl.classList.add('os-answer-incorrect');
-                        setTimeout(() => _selectedEl.classList.remove('os-answer-incorrect'), 500);
+                        _selectedEl.addEventListener('animationend', () => {
+                            _selectedEl.classList.remove('os-answer-incorrect');
+                        }, { once: true });
                     }
                     if (_responseArea) {
                         _responseArea.classList.remove('os-response-correct');

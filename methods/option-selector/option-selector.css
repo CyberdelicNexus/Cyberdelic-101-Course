@@ -58,7 +58,6 @@
     background: rgba(10, 7, 28, 0.82);
     backdrop-filter: blur(36px);
     -webkit-backdrop-filter: blur(36px);
-    border: 1px solid rgba(130, 90, 255, 0.25);
     border-radius: 20px;
     box-shadow:
         0 20px 60px rgba(0, 0, 0, 0.6),
@@ -416,14 +415,14 @@
     100% { box-shadow: 0 2px 16px rgba(130, 90, 255, 0.12); background: rgba(130, 90, 255, 0.13); }
 }
 
-@keyframes os-incorrect-shake {
-    0%  { transform: translateX(0); }
-    15% { transform: translateX(-7px); }
-    30% { transform: translateX(6px); }
-    45% { transform: translateX(-5px); }
-    60% { transform: translateX(4px); }
-    75% { transform: translateX(-2px); }
-    100% { transform: translateX(0); }
+@keyframes os-incorrect-full {
+    0%, 58%  { transform: translateX(0); border-color: rgba(255, 80, 80, 0.65); background: rgba(255, 80, 80, 0.1); }
+    10%      { transform: translateX(-7px); }
+    22%      { transform: translateX(6px); }
+    34%      { transform: translateX(-5px); }
+    46%      { transform: translateX(4px); }
+    58%      { transform: translateX(-2px); }
+    100%     { transform: translateX(0); border-color: rgba(130, 90, 255, 0.15); background: rgba(255, 255, 255, 0.03); }
 }
 
 .os-option-text.os-answer-correct {
@@ -439,14 +438,13 @@
 }
 
 .os-option-text.os-answer-incorrect {
-    border-color: rgba(255, 80, 80, 0.65) !important;
-    background: rgba(255, 80, 80, 0.1) !important;
-    animation: os-incorrect-shake 0.45s ease-in-out;
+    animation: os-incorrect-full 1.3s ease-in-out forwards;
 }
 
 .os-option-text.os-answer-incorrect::before {
     background: rgba(255, 80, 80, 0.75) !important;
     border-color: rgba(255, 80, 80, 0.9) !important;
+    transition: background 0.6s ease, border-color 0.6s ease;
 }
 
 /* Response area tint based on outcome */
