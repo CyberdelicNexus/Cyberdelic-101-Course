@@ -1741,6 +1741,16 @@ button.btn-continue:hover,
     50% { filter: drop-shadow(0 0 20px rgba(180, 155, 255, 0.8)) drop-shadow(0 0 40px rgba(130, 90, 255, 0.35)); }
 }
 
+@keyframes lc-icon-pulse {
+    0%, 100% { box-shadow: 0 0 16px rgba(130, 90, 255, 0.3), inset 0 0 12px rgba(130, 90, 255, 0.1); opacity: 0.8; }
+    50% { box-shadow: 0 0 36px rgba(130, 90, 255, 0.55), inset 0 0 20px rgba(130, 90, 255, 0.2); opacity: 1; }
+}
+
+@keyframes lc-arrow-bounce {
+    0%, 100% { transform: translateY(0); opacity: 0.4; }
+    50% { transform: translateY(5px); opacity: 0.7; }
+}
+
 .lesson-complete-screen {
     display: flex;
     flex-direction: column;
@@ -1753,9 +1763,10 @@ button.btn-continue:hover,
     padding: var(--space-xl);
     position: relative;
     overflow: hidden;
+    gap: 0;
 }
 
-/* Course background image at low opacity */
+/* Course background image */
 .lesson-complete-screen::before {
     content: '';
     position: absolute;
@@ -1763,7 +1774,7 @@ button.btn-continue:hover,
     background-image: url('../assets/images/weavy-Magnific Precision Upscale V2-2025-12-05 at 21.45.03 (Large).png');
     background-size: cover;
     background-position: center;
-    opacity: 0.07;
+    opacity: 0.14;
     pointer-events: none;
     z-index: 0;
 }
@@ -1773,16 +1784,30 @@ button.btn-continue:hover,
     z-index: 1;
 }
 
-.completed-icon {
-    display: none;
+.completed-icon { display: none; }
+
+/* Completion icon ring */
+.lc-icon {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(190, 165, 255, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    color: rgba(210, 190, 255, 0.85);
+    margin-bottom: 1.5rem;
+    animation: lc-icon-pulse 3s ease-in-out infinite;
+    flex-shrink: 0;
 }
 
 .lesson-complete-title {
     font-size: clamp(1.8rem, 4.5vw, 3.5rem);
-    margin-bottom: var(--space-md);
+    margin-bottom: 0.3rem;
     color: #fff;
     font-family: 'Cloudsters', var(--font-family);
-    line-height: 1.4;
+    line-height: 1.2;
     letter-spacing: -0.01em;
     animation: lc-title-glow 3.5s ease-in-out infinite;
 }
@@ -1790,20 +1815,44 @@ button.btn-continue:hover,
 .lesson-complete-subtitle {
     font-size: var(--font-size-xl);
     color: var(--color-text-secondary);
-    margin-bottom: var(--space-2xl);
+    margin-bottom: var(--space-xl);
     max-width: 600px;
-    line-height: 1.6;
+    line-height: 1.2;
 }
 
 .lesson-complete-subtitle strong {
     color: #fff;
     display: block;
-    margin-top: var(--space-md);
-    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    margin-top: 0.2rem;
+    font-size: clamp(1.4rem, 2.8vw, 2.2rem);
     font-family: 'Cloudsters', var(--font-family);
     font-weight: normal;
-    letter-spacing: px;
-    line-height: 1.4;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+}
+
+/* Down arrow hint */
+.lc-scroll-hint {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    margin-top: 0.5rem;
+}
+
+.lc-scroll-hint-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 1.5px;
+    color: rgba(160, 155, 200, 0.5);
+    text-transform: uppercase;
+}
+
+.lc-scroll-hint-arrow {
+    font-size: 1.1rem;
+    color: rgba(160, 155, 200, 0.4);
+    animation: lc-arrow-bounce 2s ease-in-out infinite;
+    line-height: 1;
 }
 
 .lesson-complete-actions {

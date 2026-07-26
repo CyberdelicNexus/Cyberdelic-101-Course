@@ -259,10 +259,14 @@
                        <p class="lesson-complete-next-title">${nextLesson.title}</p>
                        ${nextLesson.description ? `<p class="lesson-complete-next-desc">${nextLesson.description}</p>` : ''}
                    </div>`
-                : '<p class="lesson-complete-return-hint">Mark this lesson complete, then move forward.</p>';
+                : `<div class="lc-scroll-hint">
+                       <p class="lc-scroll-hint-text">Mark this lesson complete, then move forward.</p>
+                       <span class="lc-scroll-hint-arrow">↓</span>
+                   </div>`;
 
             container.innerHTML = `
                 <div class="lesson-complete-screen">
+                    <div class="lc-icon">✦</div>
                     <h1 class="lesson-complete-title">LESSON COMPLETE</h1>
                     <p class="lesson-complete-subtitle">
                         <strong>${this.currentLesson.title}</strong>

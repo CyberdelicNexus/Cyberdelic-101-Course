@@ -57,7 +57,7 @@
 .os-container {
     --border-angle: 0deg;
     background:
-        linear-gradient(rgba(10, 7, 28, 0.82), rgba(10, 7, 28, 0.82)) padding-box,
+        linear-gradient(rgba(10, 7, 28, 1), rgba(10, 7, 28, 1)) padding-box,
         conic-gradient(from var(--border-angle) at 50% 50%,
             rgba(80, 40, 180, 0) 0%,
             rgba(80, 40, 180, 0) 62%,
@@ -84,7 +84,7 @@
     scrollbar-color: rgba(130, 90, 255, 0.35) transparent;
     box-sizing: border-box;
     position: relative;
-    animation: border-rotate 6s linear infinite;
+    animation: border-rotate 14s linear infinite;
 }
 
 /* ---------- Progress indicator ---------- */
