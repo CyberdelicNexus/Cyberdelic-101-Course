@@ -266,7 +266,7 @@
 
             container.innerHTML = `
                 <div class="lesson-complete-screen">
-                    <div class="lc-icon">✦</div>
+                    <div class="lc-icon">◎</div>
                     <h1 class="lesson-complete-title">LESSON COMPLETE</h1>
                     <p class="lesson-complete-subtitle">
                         <strong>${this.currentLesson.title}</strong>
