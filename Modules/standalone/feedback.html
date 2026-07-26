@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Feedback</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap">
+    <style>
+        /* ── Reset ── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        /* ── Base ── */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #03010f;
+            color: #e8e8f0;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── Animated blob backgrounds ── */
+        body::before, body::after {
+            content: ''; position: fixed; border-radius: 50%;
+            pointer-events: none; z-index: 0;
+        }
+        body::before {
+            width: 72vw; height: 72vw;
+            background: radial-gradient(ellipse at center, rgba(89,0,200,0.22) 0%, transparent 68%);
+            top: -28%; left: -22%;
+            animation: bb1 12s ease-in-out infinite alternate;
+        }
+        body::after {
+            width: 58vw; height: 58vw;
+            background: radial-gradient(ellipse at center, rgba(89,0,200,0.14) 0%, transparent 68%);
+            bottom: -22%; right: -18%;
+            animation: bb2 16s ease-in-out infinite alternate;
+        }
+        @keyframes bb1 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(8vw,6vh) scale(1.2); } }
+        @keyframes bb2 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-5vw,-8vh) scale(1.12); } }
+
+        /* ── Root ── */
+        #feedback-root { position: relative; z-index: 2; width: 100%; height: 100vh; }
+
+        /* ── Page wrapper ── */
+        .fb-page {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding: 2rem;
+            animation: fb-page-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+        @keyframes fb-page-in {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── Rotating border card ── */
+        @property --border-angle {
+            syntax: '<angle>'; inherits: false; initial-value: 0deg;
+        }
+        @keyframes border-rotate { to { --border-angle: 360deg; } }
+
+        .fb-card {
+            --border-angle: 0deg;
+            background:
+                linear-gradient(rgba(10, 7, 28, 1), rgba(10, 7, 28, 1)) padding-box,
+                conic-gradient(from var(--border-angle) at 50% 50%,
+                    rgba(80,40,180,0) 0%,
+                    rgba(80,40,180,0) 62%,
+                    rgba(145,100,255,0.75) 74%,
+                    rgba(205,175,255,0.95) 81%,
+                    rgba(145,100,255,0.75) 88%,
+                    rgba(80,40,180,0) 100%
+                ) border-box;
+            border: 1.5px solid transparent;
+            border-radius: 20px;
+            backdrop-filter: blur(36px);
+            -webkit-backdrop-filter: blur(36px);
+            box-shadow:
+                0 20px 60px rgba(0,0,0,0.6),
+                0 0 0 1px rgba(255,255,255,0.04) inset,
+                0 1px 0 rgba(255,255,255,0.08) inset,
+                0 0 80px rgba(89,0,200,0.08);
+            padding: 2rem 2.5rem;
+            width: 100%;
+            max-width: 600px;
+            max-height: calc(100vh - 64px);
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(130,90,255,0.35) transparent;
+            animation: border-rotate 14s linear infinite;
+        }
+
+        /* ── Eyebrow ── */
+        .fb-eyebrow {
+            font-size: 0.67rem;
+            font-weight: 600;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: rgba(190,165,255,0.6);
+            margin-bottom: 0.5rem;
+        }
+
+        /* ── Title ── */
+        .fb-title {
+            font-size: clamp(1.3rem, 3vw, 1.75rem);
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 0.3rem;
+            line-height: 1.3;
+        }
+
+        .fb-subtitle {
+            font-size: 0.88rem;
+            color: rgba(190,185,220,0.55);
+            margin-bottom: 1.75rem;
+        }
+
+        /* ── Divider ── */
+        .fb-divider {
+            border: none;
+            border-top: 1px solid rgba(130,90,255,0.12);
+            margin-bottom: 1.5rem;
+        }
+
+        /* ── Field wrapper ── */
+        .fb-field { margin-bottom: 1.5rem; }
+
+        /* ── Labels ── */
+        .fb-label {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: rgba(220,215,248,0.9);
+            margin-bottom: 0.65rem;
+        }
+        .fb-optional {
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: rgba(160,155,200,0.5);
+        }
+
+        /* ── Rating row ── */
+        .fb-rating-wrap { display: flex; flex-direction: column; gap: 0.45rem; }
+
+        .fb-rating-row {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .fb-rating-btn {
+            flex: 1;
+            height: 40px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(130,90,255,0.2);
+            border-radius: 8px;
+            color: rgba(200,195,240,0.7);
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.18s ease;
+        }
+        .fb-rating-btn:hover {
+            background: rgba(130,90,255,0.1);
+            border-color: rgba(130,90,255,0.4);
+            color: #fff;
+        }
+        .fb-rating-btn.active {
+            background: rgba(130,90,255,0.22);
+            border-color: rgba(190,165,255,0.7);
+            color: #fff;
+            box-shadow: 0 0 14px rgba(130,90,255,0.25);
+        }
+
+        .fb-rating-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.68rem;
+            color: rgba(160,155,200,0.45);
+            letter-spacing: 0.3px;
+            padding: 0 2px;
+        }
+
+        /* ── Textareas ── */
+        .fb-textarea {
+            width: 100%;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(130,90,255,0.18);
+            border-radius: 12px;
+            padding: 0.85rem 1rem;
+            color: rgba(220,215,248,0.92);
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.88rem;
+            line-height: 1.6;
+            resize: vertical;
+            min-height: 80px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            outline: none;
+        }
+        .fb-textarea::placeholder { color: rgba(140,135,180,0.4); }
+        .fb-textarea:focus {
+            border-color: rgba(130,90,255,0.45);
+            box-shadow: 0 0 0 3px rgba(130,90,255,0.08);
+        }
+
+        /* ── Error ── */
+        .fb-error {
+            font-size: 0.78rem;
+            color: rgba(255,100,100,0.85);
+            margin-bottom: 0.75rem;
+            display: none;
+        }
+        .fb-error.visible { display: block; }
+
+        /* ── Submit button ── */
+        .fb-submit {
+            display: block;
+            width: 100%;
+            padding: 0.8rem 2rem;
+            background: transparent;
+            border: 1.5px solid rgba(130,90,255,0.5);
+            border-radius: 100px;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 0 16px rgba(130,90,255,0.1);
+        }
+        .fb-submit:hover:not(:disabled) {
+            background: rgba(130,90,255,0.12);
+            border-color: rgba(190,165,255,0.85);
+            box-shadow: 0 0 24px rgba(130,90,255,0.28);
+            transform: translateY(-1px);
+        }
+        .fb-submit:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+        .fb-submit.loading {
+            opacity: 0.6;
+            cursor: wait;
+        }
+
+        /* ── Success screen ── */
+        .fb-success-page {
+            display: none;
+            position: absolute;
+            inset: 0;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            animation: fb-page-in 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+            z-index: 10;
+        }
+        .fb-success-page.visible { display: flex; }
+
+        @keyframes lc-icon-pulse {
+            0%, 100% { box-shadow: 0 0 16px rgba(130,90,255,0.3), inset 0 0 12px rgba(130,90,255,0.1); opacity: 0.8; }
+            50% { box-shadow: 0 0 36px rgba(130,90,255,0.55), inset 0 0 20px rgba(130,90,255,0.2); opacity: 1; }
+        }
+
+        .fb-success-icon {
+            width: 68px; height: 68px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(190,165,255,0.45);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.6rem;
+            color: rgba(210,190,255,0.85);
+            margin-bottom: 1.5rem;
+            animation: lc-icon-pulse 3s ease-in-out infinite;
+        }
+
+        .fb-success-title {
+            font-size: clamp(1.8rem, 4.5vw, 3rem);
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.01em;
+        }
+
+        .fb-success-sub {
+            font-size: 0.95rem;
+            color: rgba(190,185,220,0.65);
+            max-width: 380px;
+            line-height: 1.65;
+        }
+
+        /* ── Scrollbar ── */
+        .fb-card::-webkit-scrollbar { width: 6px; }
+        .fb-card::-webkit-scrollbar-track { background: transparent; }
+        .fb-card::-webkit-scrollbar-thumb { background: rgba(130,90,255,0.3); border-radius: 3px; }
+
+        /* ── Responsive ── */
+        @media (max-width: 480px) {
+            .fb-page { padding: 1.25rem; }
+            .fb-card { padding: 1.5rem 1.25rem; }
+        }
+    </style>
+</head>
+<body>
+<div id="feedback-root">
+
+    <!-- Form page -->
+    <div class="fb-page" id="fb-form-page">
+        <div class="fb-card">
+            <p class="fb-eyebrow" id="fb-eyebrow">Module · End of Module</p>
+            <h1 class="fb-title">How was this module?</h1>
+            <p class="fb-subtitle">Your feedback directly shapes this course.</p>
+            <hr class="fb-divider">
+
+            <!-- Q1: Overall rating -->
+            <div class="fb-field">
+                <label class="fb-label">Overall experience of this module</label>
+                <div class="fb-rating-wrap">
+                    <div class="fb-rating-row" id="rating-overall">
+                        <button class="fb-rating-btn" data-val="1" data-group="overall">1</button>
+                        <button class="fb-rating-btn" data-val="2" data-group="overall">2</button>
+                        <button class="fb-rating-btn" data-val="3" data-group="overall">3</button>
+                        <button class="fb-rating-btn" data-val="4" data-group="overall">4</button>
+                        <button class="fb-rating-btn" data-val="5" data-group="overall">5</button>
+                    </div>
+                    <div class="fb-rating-labels">
+                        <span>Not great</span>
+                        <span>Amazing</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q2: Most valuable -->
+            <div class="fb-field">
+                <label class="fb-label" for="fb-valuable">What was most valuable or insightful?</label>
+                <textarea class="fb-textarea" id="fb-valuable" rows="3"
+                    placeholder="What stuck with you from this module..."></textarea>
+            </div>
+
+            <!-- Q3: Confidence rating -->
+            <div class="fb-field">
+                <label class="fb-label">How confident do you feel about the concepts covered?</label>
+                <div class="fb-rating-wrap">
+                    <div class="fb-rating-row" id="rating-confidence">
+                        <button class="fb-rating-btn" data-val="1" data-group="confidence">1</button>
+                        <button class="fb-rating-btn" data-val="2" data-group="confidence">2</button>
+                        <button class="fb-rating-btn" data-val="3" data-group="confidence">3</button>
+                        <button class="fb-rating-btn" data-val="4" data-group="confidence">4</button>
+                        <button class="fb-rating-btn" data-val="5" data-group="confidence">5</button>
+                    </div>
+                    <div class="fb-rating-labels">
+                        <span>Still fuzzy</span>
+                        <span>Got it</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q4: Improve -->
+            <div class="fb-field">
+                <label class="fb-label" for="fb-improve">
+                    What could be clearer or improved?
+                    <span class="fb-optional">(optional)</span>
+                </label>
+                <textarea class="fb-textarea" id="fb-improve" rows="2"
+                    placeholder="Any suggestions..."></textarea>
+            </div>
+
+            <!-- Q5: Extra -->
+            <div class="fb-field">
+                <label class="fb-label" for="fb-comments">
+                    Anything else on your mind?
+                    <span class="fb-optional">(optional)</span>
+                </label>
+                <textarea class="fb-textarea" id="fb-comments" rows="2"
+                    placeholder="Open thoughts, questions, vibes..."></textarea>
+            </div>
+
+            <p class="fb-error" id="fb-error">Please rate your overall experience before submitting.</p>
+            <button class="fb-submit" id="fb-submit">Submit Feedback</button>
+        </div>
+    </div>
+
+    <!-- Success page -->
+    <div class="fb-success-page" id="fb-success-page">
+        <div class="fb-success-icon">◎</div>
+        <h1 class="fb-success-title">Thank you</h1>
+        <p class="fb-success-sub">Your feedback helps make Cyberdelic 101 better for everyone who comes next.</p>
+    </div>
+
+</div>
+
+<script>
+(function () {
+    'use strict';
+
+    /* ── Canvas dot grid (same as lesson embeds) ── */
+    const canvas = document.createElement('canvas');
+    canvas.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;';
+    document.body.prepend(canvas);
+    const ctx = canvas.getContext('2d');
+    const mouse = { x: -9999, y: -9999 };
+    const GRID = 44, GLOW_R = 160;
+    const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
+    window.addEventListener('resize', resize);
+    document.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+    const drawGrid = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const cols = Math.ceil(canvas.width / GRID) + 1;
+        const rows = Math.ceil(canvas.height / GRID) + 1;
+        for (let i = 0; i < cols; i++) {
+            for (let j = 0; j < rows; j++) {
+                const x = i * GRID, y = j * GRID;
+                const dist = Math.hypot(x - mouse.x, y - mouse.y);
+                const t = Math.max(0, 1 - dist / GLOW_R);
+                ctx.beginPath();
+                ctx.arc(x, y, 1.2 + t * 2.4, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(130,90,255,${(0.05 + t * 0.3).toFixed(2)})`;
+                ctx.fill();
+            }
+        }
+        requestAnimationFrame(drawGrid);
+    };
+    resize(); drawGrid();
+
+    /* ── Module detection ── */
+    const MODULE_NAMES = {
+        '3': 'Scientific Understanding',
+        '5': 'The Cyberdelic Ecosystem'
+    };
+    const params = new URLSearchParams(window.location.search);
+    const moduleNum = params.get('module') || '3';
+    const moduleName = MODULE_NAMES[moduleNum] || `Module ${moduleNum}`;
+    document.getElementById('fb-eyebrow').textContent = `Module ${moduleNum} · ${moduleName}`;
+
+    /* ── Rating buttons ── */
+    const ratings = { overall: 0, confidence: 0 };
+
+    document.querySelectorAll('.fb-rating-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const group = btn.dataset.group;
+            const val = parseInt(btn.dataset.val, 10);
+            ratings[group] = val;
+
+            // Update visual state for this group
+            document.querySelectorAll(`.fb-rating-btn[data-group="${group}"]`).forEach(b => {
+                b.classList.toggle('active', parseInt(b.dataset.val, 10) === val);
+            });
+
+            // Clear error if overall was just set
+            if (group === 'overall') {
+                document.getElementById('fb-error').classList.remove('visible');
+            }
+        });
+    });
+
+    /* ── Submission ── */
+    const SUPABASE_URL  = 'https://ncsnucvmemtzwiyebxav.supabase.co';
+    const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5jc251Y3ZtZW10endpeWVieGF2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ1Mjk1MTYsImV4cCI6MjEwMDEwNTUxNn0.HCS-jw_n952cEUE6Sr901ewrBmMsm-SfRc8xGAEgT0k';
+
+    document.getElementById('fb-submit').addEventListener('click', async () => {
+        if (!ratings.overall) {
+            document.getElementById('fb-error').classList.add('visible');
+            return;
+        }
+
+        const btn = document.getElementById('fb-submit');
+        btn.disabled = true;
+        btn.classList.add('loading');
+        btn.textContent = 'Sending…';
+
+        const payload = {
+            module:                `module_${moduleNum}`,
+            overall_rating:        ratings.overall || null,
+            confidence_rating:     ratings.confidence || null,
+            most_valuable:         document.getElementById('fb-valuable').value.trim() || null,
+            could_improve:         document.getElementById('fb-improve').value.trim() || null,
+            additional_comments:   document.getElementById('fb-comments').value.trim() || null
+        };
+
+        try {
+            const res = await fetch(`${SUPABASE_URL}/rest/v1/course_feedback`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'apikey': SUPABASE_ANON,
+                    'Authorization': `Bearer ${SUPABASE_ANON}`,
+                    'Prefer': 'return=minimal'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!res.ok) {
+                const text = await res.text();
+                throw new Error(text);
+            }
+
+            // Show success
+            document.getElementById('fb-form-page').style.display = 'none';
+            document.getElementById('fb-success-page').classList.add('visible');
+
+        } catch (err) {
+            console.error('[Feedback] Submission error:', err);
+            btn.disabled = false;
+            btn.classList.remove('loading');
+            btn.textContent = 'Submit Feedback';
+            document.getElementById('fb-error').textContent = 'Something went wrong. Please try again.';
+            document.getElementById('fb-error').classList.add('visible');
+        }
+    });
+})();
+</script>
+</body>
+</html>
