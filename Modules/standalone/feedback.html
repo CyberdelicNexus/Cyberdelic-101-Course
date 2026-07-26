@@ -315,14 +315,14 @@
     <!-- Form page -->
     <div class="fb-page" id="fb-form-page">
         <div class="fb-card">
-            <p class="fb-eyebrow" id="fb-eyebrow">Module · End of Module</p>
-            <h1 class="fb-title">How was this module?</h1>
-            <p class="fb-subtitle">Your feedback directly shapes this course.</p>
+            <p class="fb-eyebrow" id="fb-eyebrow">Course Feedback</p>
+            <h1 class="fb-title" id="fb-title">How was the course?</h1>
+            <p class="fb-subtitle">Your feedback directly shapes what comes next.</p>
             <hr class="fb-divider">
 
             <!-- Q1: Overall rating -->
             <div class="fb-field">
-                <label class="fb-label">Overall experience of this module</label>
+                <label class="fb-label">Overall experience of this course</label>
                 <div class="fb-rating-wrap">
                     <div class="fb-rating-row" id="rating-overall">
                         <button class="fb-rating-btn" data-val="1" data-group="overall">1</button>
@@ -392,7 +392,7 @@
     <div class="fb-success-page" id="fb-success-page">
         <div class="fb-success-icon">◎</div>
         <h1 class="fb-success-title">Thank you</h1>
-        <p class="fb-success-sub">Your feedback helps make Cyberdelic 101 better for everyone who comes next.</p>
+        <p class="fb-success-sub" id="fb-success-sub">Your feedback helps make this course better for everyone who comes next.</p>
     </div>
 
 </div>
@@ -430,15 +430,25 @@
     };
     resize(); drawGrid();
 
-    /* ── Module detection ── */
-    const MODULE_NAMES = {
-        '3': 'Scientific Understanding',
-        '5': 'The Cyberdelic Ecosystem'
+    /* ── Course detection ── */
+    const COURSE_MAP = {
+        '3': {
+            key:     'cyberdelic_foundations',
+            name:    'Cyberdelic Foundations',
+            tagline: 'Your feedback helps make Cyberdelic Foundations better for everyone who comes next.'
+        },
+        '5': {
+            key:     'cyberdelics_101',
+            name:    'Cyberdelics 101',
+            tagline: 'Your feedback helps make Cyberdelics 101 better for everyone who comes next.'
+        }
     };
     const params = new URLSearchParams(window.location.search);
     const moduleNum = params.get('module') || '3';
-    const moduleName = MODULE_NAMES[moduleNum] || `Module ${moduleNum}`;
-    document.getElementById('fb-eyebrow').textContent = `Module ${moduleNum} · ${moduleName}`;
+    const course = COURSE_MAP[moduleNum] || COURSE_MAP['3'];
+    document.getElementById('fb-eyebrow').textContent = course.name;
+    document.getElementById('fb-title').textContent   = `How was ${course.name}?`;
+    document.getElementById('fb-success-sub').textContent = course.tagline;
 
     /* ── Rating buttons ── */
     const ratings = { overall: 0, confidence: 0 };
@@ -477,7 +487,7 @@
         btn.textContent = 'Sending…';
 
         const payload = {
-            module:                `module_${moduleNum}`,
+            module:                course.key,
             overall_rating:        ratings.overall || null,
             confidence_rating:     ratings.confidence || null,
             most_valuable:         document.getElementById('fb-valuable').value.trim() || null,
