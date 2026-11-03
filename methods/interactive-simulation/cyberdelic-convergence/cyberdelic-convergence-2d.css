@@ -1,0 +1,658 @@
+/* Cyberdelic Convergence 2D (SVG fallback) - Engine Styles
+   Visual language matched to the Cyberdelic Nexus core site design system
+   (github.com/CyberdelicNexus/cyberdelic-nexus-core, .claude/skills/cyberdelic-design):
+   dark-only, ambient blob light, glass plates with hairline borders, glow as inner
+   radiance, Poppins for UI, Cloudsters for hero numerals, two motion speeds. */
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
+
+@font-face {
+    font-family: "Cloudsters";
+    src: url("fonts/Cloudsters-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* =========================================
+   TOKENS (subset of the core site's --cn-* tokens)
+   ========================================= */
+.interactive-simulation-container:is([data-engine="CyberdelicConvergence2D"], [data-engine="cyberdelic-convergence-2d"]),
+svg.convergence-viz,
+.help-modal,
+.help-hint-btn {
+    --cn-bg-void: #000000;
+    --cn-bg-surface: #080611;
+    --cn-bg-raised: #0F0B1A;
+    --cn-bg-overlay: #160F24;
+    --cn-bg-sunken: #0A0609;
+    --cn-text-primary: #F1EEFB;
+    --cn-text-secondary: #ABA4C9;
+    --cn-text-tertiary: #9890BB;
+    --cn-cyan: #4CDCEF;
+    --cn-violet: #B49BF8;
+    --cn-violet-deep: #7C4FF0;
+    --cn-indigo: #7E8BF5;
+    --cn-magenta: #E562A4;
+    --cn-orchid: #B964F5;
+    --cn-blob-violet: #4A2C95;
+    --cn-blob-blue: #1B3A78;
+    --cn-blob-magenta: #5D2A6E;
+    --cn-grad-brand: linear-gradient(100deg, #4CDCEF 0%, #B49BF8 50%, #E562A4 100%);
+    --cn-grad-cta: linear-gradient(100deg, #4CDCEF 0%, #7E8BF5 52%, #7C4FF0 100%);
+    --cn-orbit-cta: conic-gradient(#0E1B26, #152647, #1F2260, #2C1F63, #0E1B26);
+    --cn-orbit-cta-rim: conic-gradient(#4CDCEF, #7E8BF5, #7C4FF0, #B49BF8, #4CDCEF);
+    --cn-glass-fill: rgba(255, 255, 255, 0.045);
+    --cn-glass-fill-hover: rgba(255, 255, 255, 0.075);
+    --cn-glass-border: rgba(255, 255, 255, 0.11);
+    --cn-glass-border-accent: rgba(180, 155, 248, 0.36);
+    --cn-glass-blur: blur(22px) saturate(155%);
+    --cn-shadow-lg: 0 18px 48px rgba(0, 0, 0, .55);
+    --cn-shadow-glow-violet: 0 0 32px rgba(180, 155, 248, .35);
+    --cn-shadow-glow-cyan: 0 0 32px rgba(76, 220, 239, .32);
+    --cn-font-display: "Cloudsters", "Poppins", system-ui, sans-serif;
+    --cn-font-sans: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --cn-font-mono: "JetBrains Mono", "SF Mono", ui-monospace, Menlo, monospace;
+    --cn-radius-sm: 8px;
+    --cn-radius-xl: 22px;
+    --cn-radius-2xl: 28px;
+    --cn-radius-full: 999px;
+    --cn-duration-fast: 150ms;
+    --cn-duration-normal: 240ms;
+    --cn-duration-slow: 400ms;
+    --cn-duration-reveal: 700ms;
+    --cn-ease-standard: cubic-bezier(.4, 0, .2, 1);
+    --cn-ease-entrance: cubic-bezier(.16, 1, .3, 1);
+}
+
+/* =========================================
+   STAGE: near-black with drifting radial blob light
+   ========================================= */
+svg.convergence-viz {
+    cursor: grab;
+    font-family: var(--cn-font-sans);
+    background:
+        radial-gradient(50% 60% at 20% 25%, rgba(74, 44, 149, 0.55), transparent 70%),
+        radial-gradient(50% 60% at 82% 75%, rgba(93, 42, 110, 0.5), transparent 70%),
+        radial-gradient(60% 55% at 50% 105%, rgba(27, 58, 120, 0.55), transparent 70%),
+        radial-gradient(circle at 50% 50%, #0b0718 0%, var(--cn-bg-void) 75%);
+    background-size: 140% 140%, 140% 140%, 140% 140%, 100% 100%;
+    animation: cn-blob-drift 30s ease-in-out infinite alternate;
+}
+
+svg.convergence-viz:active {
+    cursor: grabbing;
+}
+
+@keyframes cn-blob-drift {
+    0%   { background-position: 0% 0%, 100% 100%, 50% 100%, 50% 50%; }
+    100% { background-position: 30% 20%, 70% 80%, 40% 70%, 50% 50%; }
+}
+
+/* =========================================
+   CENTER HUB
+   ========================================= */
+.convergence-viz #center-circle {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: cn-ring-turn 9s linear infinite;
+}
+
+@keyframes cn-ring-turn {
+    to { transform: rotate(1turn); }
+}
+
+.convergence-viz #center-halo {
+    transition: opacity var(--cn-duration-slow) var(--cn-ease-standard);
+}
+
+.convergence-viz .center-label {
+    font-family: var(--cn-font-sans);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    pointer-events: none;
+}
+
+/* =========================================
+   DOMAIN NODES: obsidian plates, colour at the rim
+   ========================================= */
+.convergence-viz .domain-node {
+    cursor: pointer;
+    transition: opacity var(--cn-duration-reveal) var(--cn-ease-standard);
+}
+
+.convergence-viz .node-halo {
+    opacity: 0.45;
+    transition: opacity var(--cn-duration-normal) var(--cn-ease-standard);
+}
+
+.convergence-viz .node-circle {
+    transition: stroke-width var(--cn-duration-normal) var(--cn-ease-standard),
+                fill-opacity var(--cn-duration-normal) var(--cn-ease-standard);
+}
+
+.convergence-viz .node-inner-ring {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: cn-ring-turn 60s linear infinite;
+}
+
+/* Hover: the glow brightens; nothing changes size */
+.convergence-viz .domain-node:hover .node-halo {
+    opacity: 0.95;
+}
+
+.convergence-viz .domain-node:hover .node-circle {
+    stroke-width: 2.5px;
+}
+
+/* Pulse when a particle leaves the node: fast swell of the halo, no bounce */
+@keyframes cn-node-pulse {
+    0%   { opacity: 0.45; }
+    35%  { opacity: 0.9; }
+    100% { opacity: 0.45; }
+}
+
+.convergence-viz .domain-node.ripple-source .node-halo {
+    animation: cn-node-pulse 0.8s var(--cn-ease-standard);
+}
+
+.convergence-viz .node-label {
+    font-family: var(--cn-font-sans);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    paint-order: stroke;
+    stroke: rgba(8, 6, 17, 0.6);
+    stroke-width: 2px;
+    pointer-events: none;
+}
+
+/* =========================================
+   CONNECTIONS & PARTICLES
+   ========================================= */
+.convergence-viz .connection-line,
+.convergence-viz .connection-glow {
+    stroke-linecap: round;
+    transition: stroke-width var(--cn-duration-normal) var(--cn-ease-standard),
+                opacity var(--cn-duration-normal) var(--cn-ease-standard);
+}
+
+.convergence-viz .center-connection-line {
+    animation: cn-spoke-flow 2.4s linear infinite;
+}
+
+@keyframes cn-spoke-flow {
+    to { stroke-dashoffset: -16; }
+}
+
+#particle-group {
+    mix-blend-mode: screen;
+    pointer-events: none;
+}
+
+/* =========================================
+   ZOOMED CONTENT PANELS
+   ========================================= */
+.convergence-viz .content-rings .content-section {
+    animation: cn-panel-in var(--cn-duration-reveal) var(--cn-ease-entrance) both;
+}
+
+.convergence-viz .content-rings .content-section:nth-child(2) { animation-delay: 60ms; }
+.convergence-viz .content-rings .content-section:nth-child(3) { animation-delay: 120ms; }
+.convergence-viz .content-rings .content-section:nth-child(4) { animation-delay: 180ms; }
+
+/* Entrances are fade + rise; nothing scales in */
+@keyframes cn-panel-in {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.convergence-viz .panel-title {
+    font-family: var(--cn-font-sans);
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.convergence-viz .panel-text {
+    font-family: var(--cn-font-sans);
+    font-weight: 400;
+}
+
+.convergence-viz .panel-name {
+    font-family: var(--cn-font-sans);
+}
+
+.convergence-viz .example-card {
+    transition: fill-opacity var(--cn-duration-fast) var(--cn-ease-standard),
+                stroke var(--cn-duration-fast) var(--cn-ease-standard);
+}
+
+.convergence-viz .example-card:hover {
+    fill-opacity: 0.14;
+    stroke: rgba(180, 155, 248, 0.6);
+}
+
+/* =========================================
+   HELP MODAL: glass dialog
+   ========================================= */
+.help-modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, calc(-50% + 8px));
+    width: min(400px, calc(100% - 32px));
+    box-sizing: border-box;
+    background: rgba(22, 15, 36, 0.72);
+    -webkit-backdrop-filter: var(--cn-glass-blur);
+    backdrop-filter: var(--cn-glass-blur);
+    border: 1px solid var(--cn-glass-border);
+    border-radius: var(--cn-radius-2xl);
+    padding: 28px;
+    color: var(--cn-text-secondary);
+    box-shadow: var(--cn-shadow-lg);
+    z-index: 2000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--cn-duration-slow) var(--cn-ease-entrance),
+                transform var(--cn-duration-slow) var(--cn-ease-entrance);
+    font-family: var(--cn-font-sans);
+    overflow: hidden;
+    isolation: isolate;
+}
+
+/* Aura bloom rising from the top edge */
+.help-modal::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        radial-gradient(ellipse 55% 62% at 18% -12%, rgba(90, 53, 240, 0.55), transparent 70%),
+        radial-gradient(ellipse 50% 58% at 55% -16%, rgba(194, 59, 220, 0.45), transparent 70%),
+        radial-gradient(ellipse 42% 52% at 88% -8%, rgba(76, 220, 239, 0.35), transparent 70%);
+}
+
+.help-modal.active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, -50%);
+}
+
+.help-modal .help-eyebrow {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--cn-cyan);
+}
+
+.help-modal h2 {
+    margin: 6px 0 0;
+    font-family: var(--cn-font-sans);
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+    color: var(--cn-text-primary);
+    border: none;
+    padding: 0;
+}
+
+.help-modal .help-underbar {
+    display: block;
+    width: 64px;
+    height: 3px;
+    border-radius: 2px;
+    margin: 12px 0 18px;
+    background: var(--cn-grad-brand);
+}
+
+.help-keyable {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    font-size: 0.92rem;
+    border-bottom: 1px solid var(--cn-glass-border);
+}
+
+.help-keyable:last-of-type {
+    border-bottom: none;
+}
+
+.key-badge {
+    display: inline-block;
+    min-width: 1.6em;
+    text-align: center;
+    background: var(--cn-bg-sunken);
+    border: 1px solid var(--cn-glass-border);
+    border-radius: var(--cn-radius-sm);
+    padding: 2px 8px;
+    font-family: var(--cn-font-mono);
+    font-size: 0.8rem;
+    color: var(--cn-text-primary);
+}
+
+.help-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 22px;
+}
+
+.help-close,
+.help-restart-tutorial {
+    flex: 1;
+    min-height: 44px;
+    padding: 0 18px;
+    border-radius: var(--cn-radius-full);
+    font-family: var(--cn-font-sans);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: box-shadow var(--cn-duration-normal) var(--cn-ease-standard),
+                transform var(--cn-duration-normal) var(--cn-ease-standard),
+                background var(--cn-duration-normal) var(--cn-ease-standard),
+                border-color var(--cn-duration-normal) var(--cn-ease-standard);
+}
+
+/* Primary: the calm CTA gradient, white type */
+.help-close {
+    border: none;
+    background: var(--cn-grad-cta);
+    color: #fff;
+}
+
+.help-close:hover {
+    box-shadow: var(--cn-shadow-glow-violet);
+    transform: translateY(-1px);
+}
+
+.help-close:active {
+    background: var(--cn-violet-deep);
+    transform: none;
+}
+
+/* Ghost: hairline pill that gains a glass fill */
+.help-restart-tutorial {
+    background: transparent;
+    border: 1px solid var(--cn-glass-border);
+    color: var(--cn-text-primary);
+}
+
+.help-restart-tutorial:hover {
+    background: var(--cn-glass-fill-hover);
+    border-color: var(--cn-glass-border-accent);
+}
+
+.help-close:focus-visible,
+.help-restart-tutorial:focus-visible,
+.help-hint-btn:focus-visible {
+    outline: 2px solid var(--cn-cyan);
+    outline-offset: 2px;
+}
+
+/* Hint button: glass pill with a travelling rim of light (as the site's header Join) */
+.help-hint-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    min-height: 44px;
+    padding: 0 8px 0 18px;
+    border: none;
+    border-radius: var(--cn-radius-full);
+    background: transparent;
+    color: var(--cn-text-primary);
+    cursor: pointer;
+    font-family: var(--cn-font-sans);
+    font-size: 0.85rem;
+    font-weight: 500;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    overflow: hidden;
+    isolation: isolate;
+    transition: box-shadow var(--cn-duration-normal) var(--cn-ease-standard),
+                transform var(--cn-duration-normal) var(--cn-ease-standard);
+}
+
+.help-hint-btn::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 300%;
+    aspect-ratio: 1;
+    translate: -50% -50%;
+    z-index: -2;
+    background: var(--cn-orbit-cta-rim);
+    -webkit-mask: conic-gradient(#000 0deg, #000 60deg, rgba(0, 0, 0, .18) 150deg, rgba(0, 0, 0, .18) 360deg);
+    mask: conic-gradient(#000 0deg, #000 60deg, rgba(0, 0, 0, .18) 150deg, rgba(0, 0, 0, .18) 360deg);
+    animation: cn-ring-turn 4s linear infinite;
+}
+
+.help-hint-btn::after {
+    content: "";
+    position: absolute;
+    inset: 1.5px;
+    z-index: -1;
+    border-radius: inherit;
+    background: rgba(15, 11, 26, 0.92);
+}
+
+.help-hint-btn:hover {
+    box-shadow: var(--cn-shadow-glow-violet);
+    transform: translateY(-1px);
+}
+
+.help-hint-btn .key-badge {
+    border-radius: var(--cn-radius-full);
+    padding: 3px 10px;
+}
+
+/* =========================================
+   TIMELINE CONTROLS (VERTICAL) — layout
+   ========================================= */
+.interactive-simulation-container[data-engine="CyberdelicConvergence2D"] {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    /* allow header/footer to stack */
+}
+
+/* Header and footer take full width */
+.interactive-simulation-container[data-engine="CyberdelicConvergence2D"] .sim-header,
+.interactive-simulation-container[data-engine="CyberdelicConvergence2D"] .sim-footer {
+    width: 100%;
+    flex: 0 0 100%;
+}
+
+.interactive-simulation-container[data-engine="CyberdelicConvergence2D"] .sim-footer {
+    position: relative;
+    z-index: 1000;
+    pointer-events: auto;
+}
+
+.interactive-simulation-container[data-engine="CyberdelicConvergence2D"] .sim-controls {
+    display: flex !important;
+    flex-direction: column;
+    position: static;
+    flex: 0 0 40px !important;
+    /* Force width within flexbox */
+    min-width: 88px !important;
+    /* Override the 250px inherited from other stylesheets */
+    align-self: center;
+    background: transparent;
+    border: none;
+    padding: 0 !important;
+    /* remove inline padding from lesson-runner */
+    margin-right: 5px;
+}
+
+/* Ensure viewport fills horizontal space */
+.interactive-simulation-container[data-engine="CyberdelicConvergence2D"] .sim-viewport {
+    flex: 1 1 0% !important;
+    min-width: 0 !important;
+    width: auto !important;
+}
+
+/* =========================================
+   TIMELINE CONTROLS — look
+   ========================================= */
+.interactive-simulation-container:is([data-engine="CyberdelicConvergence2D"], [data-engine="cyberdelic-convergence-2d"]) .control-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+}
+
+/* Year readout: a glass plate with an aura glowing up from the bottom edge */
+.interactive-simulation-container:is([data-engine="CyberdelicConvergence2D"], [data-engine="cyberdelic-convergence-2d"]) .control-label {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 14px 8px 12px;
+    border-radius: 16px;
+    border: 1px solid var(--cn-glass-border);
+    background: rgba(15, 11, 26, 0.78);
+    -webkit-backdrop-filter: var(--cn-glass-blur);
+    backdrop-filter: var(--cn-glass-blur);
+    box-shadow: none;
+    text-align: center;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.interactive-simulation-container:is([data-engine="CyberdelicConvergence2D"], [data-engine="cyberdelic-convergence-2d"]) .control-label::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        radial-gradient(ellipse 60% 55% at 20% 115%, rgba(90, 53, 240, 0.7), transparent 70%),
+        radial-gradient(ellipse 55% 50% at 80% 118%, rgba(76, 220, 239, 0.45), transparent 70%);
+}
+
+/* "YEAR" eyebrow */
+.interactive-simulation-container:is([data-engine="CyberdelicConvergence2D"], [data-engine="cyberdelic-convergence-2d"]) .control-label span:first-child {
+    font-family: var(--cn-font-sans);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--cn-cyan);
+    text-shadow: none;
+}
+
+/* Year numeral: the display face, filled with the brand gradient */
+.interactive-simulation-container:is([data-engine="CyberdelicConvergence2D"], [data-engine="cyberdelic-convergence-2d"]) .control-label span:last-child {
+    font-family: var(--cn-font-display);
+    font-size: 1.55rem;
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: 0.02em;
+    background: var(--cn-grad-brand);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: none;
+}
+
+/* Vertical slider */
+.interactive-simulation-container:is([data-engine="CyberdelicConvergence2D"], [data-engine="cyberdelic-convergence-2d"]) input[type=range] {
+    -webkit-appearance: slider-vertical;
+    appearance: slider-vertical;
+    height: 400px;
+    width: 30px;
+    margin: 10px;
+    background: transparent;
+    cursor: grab;
+    accent-color: var(--cn-violet);
+    transform: rotate(180deg);
+}
+
+.interactive-simulation-container:is([data-engine="CyberdelicConvergence2D"], [data-engine="cyberdelic-convergence-2d"]) input[type=range]:focus-visible {
+    outline: 2px solid var(--cn-cyan);
+    outline-offset: 2px;
+    border-radius: var(--cn-radius-full);
+}
+
+/* Track: a hairline channel lit by the brand gradient */
+.interactive-simulation-container:is([data-engine="CyberdelicConvergence2D"], [data-engine="cyberdelic-convergence-2d"]) input[type=range]::-webkit-slider-runnable-track {
+    width: 4px;
+    height: 100%;
+    border-radius: var(--cn-radius-full);
+    border: none;
+    background: linear-gradient(0deg, rgba(76, 220, 239, 0.55), rgba(180, 155, 248, 0.55) 50%, rgba(229, 98, 164, 0.55));
+    box-shadow: 0 0 12px rgba(180, 155, 248, 0.25);
+}
+
+/* Thumb: dark plate with a bright rim and violet bloom */
+.interactive-simulation-container:is([data-engine="CyberdelicConvergence2D"], [data-engine="cyberdelic-convergence-2d"]) input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 22px;
+    width: 22px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 50%, #F1EEFB 0 3px, #0F0B1A 4px);
+    border: 1.5px solid var(--cn-violet);
+    box-shadow: 0 0 16px rgba(180, 155, 248, 0.7), 0 0 32px rgba(76, 220, 239, 0.3);
+    cursor: pointer;
+    margin-left: -9px;
+    transition: box-shadow var(--cn-duration-fast) var(--cn-ease-standard),
+                border-color var(--cn-duration-fast) var(--cn-ease-standard);
+}
+
+.interactive-simulation-container:is([data-engine="CyberdelicConvergence2D"], [data-engine="cyberdelic-convergence-2d"]) input[type=range]:hover::-webkit-slider-thumb,
+.interactive-simulation-container:is([data-engine="CyberdelicConvergence2D"], [data-engine="cyberdelic-convergence-2d"]) input[type=range]:active::-webkit-slider-thumb {
+    border-color: var(--cn-cyan);
+    box-shadow: 0 0 22px rgba(76, 220, 239, 0.8), 0 0 40px rgba(180, 155, 248, 0.5);
+}
+
+/* Firefox */
+.interactive-simulation-container:is([data-engine="CyberdelicConvergence2D"], [data-engine="cyberdelic-convergence-2d"]) input[type=range]::-moz-range-track {
+    width: 4px;
+    border-radius: var(--cn-radius-full);
+    background: linear-gradient(0deg, rgba(76, 220, 239, 0.55), rgba(180, 155, 248, 0.55) 50%, rgba(229, 98, 164, 0.55));
+}
+
+.interactive-simulation-container:is([data-engine="CyberdelicConvergence2D"], [data-engine="cyberdelic-convergence-2d"]) input[type=range]::-moz-range-thumb {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 50%, #F1EEFB 0 3px, #0F0B1A 4px);
+    border: 1.5px solid var(--cn-violet);
+    box-shadow: 0 0 16px rgba(180, 155, 248, 0.7);
+}
+
+/* =========================================
+   REDUCED MOTION
+   ========================================= */
+@media (prefers-reduced-motion: reduce) {
+    svg.convergence-viz,
+    .convergence-viz #center-circle,
+    .convergence-viz .node-inner-ring,
+    .convergence-viz .center-connection-line,
+    .convergence-viz .content-rings .content-section,
+    .help-hint-btn::before {
+        animation: none !important;
+    }
+
+    .help-modal,
+    .help-close,
+    .help-restart-tutorial,
+    .help-hint-btn {
+        transition: none;
+    }
+}
