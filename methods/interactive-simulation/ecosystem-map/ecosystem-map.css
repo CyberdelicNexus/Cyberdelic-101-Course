@@ -1,600 +1,185 @@
-/* ============================================
-   ECOSYSTEM MAP - Simulation Styles
-   Tier 3 Full Redesign: Accordion Sidebar,
-   Ripple Trace, Connection Descriptions
-   ============================================ */
+/* Ecosystem Map - 3D "Woven Loom" engine styles
+   Visual language from the Cyberdelic Nexus core design system: dark-only, glass plates with
+   hairline borders, glow as inner radiance, Poppins for UI, JetBrains Mono for data.
+   Everything is scoped under .em3d so it cannot leak into other engines.
+   The previous 2D version's styles live in ecosystem-map-2d.css. */
 
-/* Wrapper: SVG + panel side by side */
-.ecosystem-map-wrapper {
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* ===== HOST LAYOUT: the viewport fills the block, no side controls ===== */
+.interactive-simulation-container:is([data-engine="EcosystemMap"], [data-engine="ecosystem-map"]) {
     display: flex;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-    gap: 0;
-    align-items: stretch;
-    background: radial-gradient(circle at center, rgba(6, 182, 212, 0.06) 0%, rgba(2, 6, 12, 1) 100%), #02060c;
-    border: 1px solid rgba(0, 217, 255, 0.1);
-    border-radius: 8px;
-    overflow: hidden;
+    flex-direction: column;
+    align-items: stretch !important;
 }
-
-/* SVG takes up left portion */
-.ecosystem-map-svg-container {
-    flex: 1 1 60%;
-    min-width: 0;
+.interactive-simulation-container:is([data-engine="EcosystemMap"], [data-engine="ecosystem-map"]) .sim-viewport {
+    flex: 1 1 auto;
+    width: 100% !important;
+    align-self: stretch;
+    min-height: clamp(600px, 84vh, 900px);
+    background: #000;
+    border-radius: 22px;
     position: relative;
-    /* Transparent so the wrapper's background glows through seamlessly */
-    background: transparent;
-}
-
-.ecosystem-map-svg-container svg {
-    width: 100%;
-    height: 100%;
-    cursor: default;
-}
-
-/* Detail panel — hidden until a node is selected */
-.ecosystem-map-panel {
-    flex: 0 0 40%;
-    max-width: 380px;
-    background: #0a1628;
-    border-left: 1px solid #1e293b;
-    display: flex;
-    flex-direction: column;
-    opacity: 0;
-    transform: translateX(20px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    pointer-events: none;
     overflow: hidden;
 }
-
-.ecosystem-map-panel.visible {
-    opacity: 1;
-    transform: translateX(0);
-    pointer-events: auto;
-}
-
-/* ── Panel Header ───────────────────────────── */
-.em-panel-header {
-    padding: 12px 14px;
-    border-bottom: 1px solid #1e293b;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-shrink: 0;
-}
-
-.em-panel-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-
-.em-panel-title {
-    font-family: 'Orbitron', monospace;
-    font-size: 14px;
-    font-weight: bold;
-    letter-spacing: 1px;
-    flex: 1;
-}
-
-.em-panel-subtitle {
-    color: #475569;
-    font-size: 12px;
-    margin-top: 2px;
-}
-
-/* ── Scrollable Panel Body ──────────────────── */
-.em-panel-body {
-    flex: 1;
-    padding: 0;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: #1e293b #0a1628;
-}
-
-.em-panel-body::-webkit-scrollbar {
-    width: 5px;
-}
-
-.em-panel-body::-webkit-scrollbar-track {
-    background: #0a1628;
-}
-
-.em-panel-body::-webkit-scrollbar-thumb {
-    background: #1e293b;
-    border-radius: 3px;
-}
-
-/* ── Accordion Sections ─────────────────────── */
-.em-accordion-section {
-    border-bottom: 1px solid #1e293b;
-}
-
-.em-accordion-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 14px;
-    cursor: pointer;
-    user-select: none;
-    transition: background 0.2s;
-}
-
-.em-accordion-header:hover {
-    background: rgba(255, 255, 255, 0.03);
-}
-
-.em-accordion-title {
-    font-family: 'Orbitron', monospace;
-    font-size: 11px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: #64748b;
-    transition: color 0.2s;
-}
-
-.em-accordion-section.open .em-accordion-title {
-    color: #94a3b8;
-}
-
-.em-accordion-arrow {
-    font-size: 10px;
-    color: #334155;
-    transition: transform 0.3s ease, color 0.2s;
-    flex-shrink: 0;
-}
-
-.em-accordion-section.open .em-accordion-arrow {
-    transform: rotate(180deg);
-    color: #64748b;
-}
-
-.em-accordion-preview {
-    font-size: 12px;
-    color: #334155;
-    margin-left: 8px;
-    flex: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: right;
-    padding-right: 8px;
-}
-
-.em-accordion-section.open .em-accordion-preview {
-    display: none;
-}
-
-.em-accordion-body {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.35s ease, padding 0.35s ease;
-    padding: 0 14px;
-}
-
-.em-accordion-section.open .em-accordion-body {
-    max-height: 1200px;
-    padding: 0 14px 12px;
-}
-
-/* ── Content Styles ─────────────────────────── */
-.em-role-text {
-    color: #94a3b8;
-    font-size: 14px;
-    line-height: 1.65;
-}
-
-/* Key Players list */
-.em-player-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.em-player-item {
-    padding: 6px 0;
-    border-bottom: 1px solid rgba(30, 41, 59, 0.5);
-}
-
-.em-player-item:last-child {
-    border-bottom: none;
-}
-
-.em-player-name {
-    font-family: 'Orbitron', monospace;
-    font-size: 12px;
-    font-weight: bold;
-    letter-spacing: 0.5px;
-}
-
-.em-player-detail {
-    color: #64748b;
-    font-size: 12px;
-    line-height: 1.5;
-    margin-top: 2px;
-}
-
-/* Landmark Studies */
-.em-study-item {
-    padding: 6px 0;
-    border-bottom: 1px solid rgba(30, 41, 59, 0.5);
-}
-
-.em-study-item:last-child {
-    border-bottom: none;
-}
-
-.em-study-name {
-    font-size: 11px;
-    font-weight: bold;
-    letter-spacing: 0.3px;
-}
-
-.em-study-finding {
-    color: #64748b;
-    font-size: 11px;
-    line-height: 1.5;
-    margin-top: 2px;
-}
-
-/* Generic detail list (used for funding sources, FDA pathway, etc.) */
-.em-detail-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.em-detail-list li {
-    padding: 5px 0;
-    border-bottom: 1px solid rgba(30, 41, 59, 0.5);
-    color: #94a3b8;
-    font-size: 12px;
-    line-height: 1.5;
-}
-
-.em-detail-list li:last-child {
-    border-bottom: none;
-}
-
-.em-detail-label {
-    font-family: 'Orbitron', monospace;
-    font-size: 10px;
-    font-weight: bold;
-    display: block;
-    margin-bottom: 2px;
-}
-
-.em-detail-text {
-    color: #64748b;
-    font-size: 11px;
-    line-height: 1.5;
-}
-
-/* Challenge / Opportunity cards */
-.em-challenge-card {
-    background: rgba(248, 113, 113, 0.07);
-    border: 1px solid rgba(248, 113, 113, 0.2);
-    border-radius: 6px;
-    padding: 10px;
-    color: #fca5a5;
-    font-size: 13px;
-    line-height: 1.6;
-}
-
-.em-opportunity-card {
-    background: rgba(52, 211, 153, 0.07);
-    border: 1px solid rgba(52, 211, 153, 0.2);
-    border-radius: 6px;
-    padding: 10px;
-    color: #6ee7b7;
-    font-size: 13px;
-    line-height: 1.6;
-}
-
-/* Connection descriptions in sidebar */
-.em-connection-item {
-    display: flex;
-    gap: 8px;
-    padding: 6px 0;
-    border-bottom: 1px solid rgba(30, 41, 59, 0.5);
-    align-items: flex-start;
-}
-
-.em-connection-item:last-child {
-    border-bottom: none;
-}
-
-.em-connection-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    margin-top: 3px;
-}
-
-.em-connection-info {
-    flex: 1;
-    min-width: 0;
-}
-
-.em-connection-name {
-    font-family: 'Orbitron', monospace;
-    font-size: 11px;
-    font-weight: bold;
-    letter-spacing: 0.5px;
-    margin-bottom: 2px;
-}
-
-.em-connection-desc {
-    color: #64748b;
-    font-size: 12px;
-    line-height: 1.45;
-}
-
-/* Player chips (legacy, still used for compact lists) */
-.em-chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-}
-
-.em-chip {
-    background: #1e293b;
-    border: 1px solid #334155;
-    color: #94a3b8;
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-size: 11px;
-}
-
-/* ── Ripple Trace ───────────────────────────── */
-.em-ripple-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(6, 182, 212, 0.1);
-    border: 1px solid rgba(6, 182, 212, 0.3);
-    color: #06b6d4;
-    font-family: 'Orbitron', monospace;
-    font-size: 11px;
-    letter-spacing: 1px;
-    padding: 8px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.2s, border-color 0.2s, transform 0.15s;
-    margin-top: 4px;
-}
-
-.em-ripple-btn:hover {
-    background: rgba(6, 182, 212, 0.2);
-    border-color: rgba(6, 182, 212, 0.5);
-    transform: scale(1.02);
-}
-
-.em-ripple-btn:active {
-    transform: scale(0.98);
-}
-
-.em-ripple-btn.playing {
-    background: rgba(6, 182, 212, 0.25);
-    border-color: #06b6d4;
-    pointer-events: none;
-    animation: em-ripple-btn-pulse 1.5s ease infinite;
-}
-
-@keyframes em-ripple-btn-pulse {
-
-    0%,
-    100% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0.6;
-    }
-}
-
-.em-ripple-options {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-/* Ripple step overlay on SVG */
-.em-ripple-label {
-    position: absolute;
-    pointer-events: none;
-    z-index: 50;
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 11px;
-    color: #e2e8f0;
-    background: rgba(10, 22, 40, 0.92);
-    border: 1px solid rgba(6, 182, 212, 0.3);
-    padding: 4px 10px;
-    border-radius: 4px;
-    white-space: nowrap;
-    max-width: 220px;
-    white-space: normal;
-    text-align: center;
-    line-height: 1.3;
-    opacity: 0;
-    transform: translateY(-4px);
-    transition: opacity 0.3s, transform 0.3s;
-}
-
-.em-ripple-label.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Ripple step badge on node */
-.em-ripple-badge {
-    font-family: 'Orbitron', monospace;
-    font-size: 8px;
-    font-weight: bold;
-    fill: #080d14;
-    pointer-events: none;
-}
-
-.em-ripple-badge-bg {
-    pointer-events: all;
-    cursor: pointer;
-    transform-origin: center;
-}
-
-.em-ripple-badge-bg.ripple-complete {
-    animation: em-badge-glow 1.2s infinite alternate ease-in-out;
-}
-
-@keyframes em-badge-glow {
-    0% {
-        filter: drop-shadow(0 0 2px #06b6d4);
-    }
-
-    100% {
-        filter: drop-shadow(0 0 10px #06b6d4);
-    }
-}
-
-/* ── Panel Footer (ripple summary) ──────────── */
-.em-panel-footer {
-    padding: 10px 14px;
-    border-top: 1px solid #1e293b;
-    background: #060d1a;
-    font-size: 12px;
-    line-height: 1.5;
-    flex-shrink: 0;
-    color: #64748b;
-}
-
-/* ── Progress bar ───────────────────────────── */
-.em-progress-bar-container {
-    position: absolute;
-    bottom: 8px;
-    left: 8px;
-    right: 8px;
-    background: #1e293b;
-    border-radius: 4px;
-    height: 4px;
-    overflow: hidden;
-}
-
-.em-progress-bar-fill {
-    height: 100%;
-    background: #06b6d4;
-    border-radius: 4px;
-    width: 0%;
-    transition: width 0.4s ease, background 0.3s ease;
-}
-
-.em-progress-bar-fill.complete {
-    background: #34d399;
-}
-
-/* Progress label */
-.em-progress-label {
-    position: absolute;
-    bottom: 16px;
-    left: 8px;
-    font-size: 9px;
-    color: #475569;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
-
-/* ── Node Styles ────────────────────────────── */
-.ecosystem-node {
-    cursor: pointer;
-}
-
-.ecosystem-node circle {
-    transition: fill-opacity 0.2s, stroke-width 0.2s;
-}
-
-.ecosystem-node.dimmed {
-    opacity: 0.12;
-    pointer-events: none;
-}
-
-.ecosystem-node.active circle {
-    stroke-width: 3;
-    fill-opacity: 0.3;
-}
-
-/* Ripple trace active state — node pulses */
-.ecosystem-node.ripple-active circle {
-    stroke-width: 3;
-    fill-opacity: 0.4;
-}
-
-.ecosystem-node.ripple-source circle {
-    stroke-width: 4;
-    fill-opacity: 0.5;
-    animation: em-node-ripple-glow 0.8s ease-out;
-}
-
-@keyframes em-node-ripple-glow {
-    0% {
-        stroke-width: 2;
-        fill-opacity: 0.15;
-    }
-
-    50% {
-        stroke-width: 5;
-        fill-opacity: 0.6;
-    }
-
-    100% {
-        stroke-width: 3;
-        fill-opacity: 0.4;
-    }
-}
-
-/* Instruction hint */
-.em-hint {
-    position: absolute;
-    top: 8px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 10px;
-    color: #334155;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    white-space: nowrap;
-    pointer-events: none;
-    transition: opacity 0.5s;
-}
-
-/* Hidden badge (legacy, kept for backward compat) */
-.em-visited-badge {
+.interactive-simulation-container:is([data-engine="EcosystemMap"], [data-engine="ecosystem-map"]) .sim-controls:empty {
     display: none !important;
 }
 
-/* ── Mobile: stack panel below SVG ──────────── */
-@media (max-width: 600px) {
-    .ecosystem-map-wrapper {
-        flex-direction: column;
-    }
-
-    .ecosystem-map-svg-container {
-        flex: 0 0 55%;
-    }
-
-    .ecosystem-map-panel {
-        flex: 0 0 45%;
-        max-width: 100%;
-        border-left: none;
-        border-top: 1px solid #1e293b;
-        transform: translateY(20px);
-    }
-
-    .ecosystem-map-panel.visible {
-        transform: translateY(0);
-    }
+/* ===== ROOT ===== */
+.em3d {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    background: #000;
+    color: #F1EEFB;
+    font-family: Poppins, system-ui, sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: normal;
+    text-align: left;
+    -webkit-font-smoothing: antialiased;
+    isolation: isolate;
 }
+.em3d *, .em3d *::before, .em3d *::after { box-sizing: border-box; }
+/* the lesson page styles headings, paragraphs and lists globally; start from zero in here */
+.em3d :is(h1, h2, h3, h4, p, ul, ol, li) { margin: 0; padding: 0; }
+.em3d canvas.em3d-canvas { position: absolute; inset: 0; }
+.em3d .em3d-status {
+    position: absolute; inset: 0; display: grid; place-items: center; padding: 24px;
+    font: 500 .86rem Poppins, sans-serif; color: #9890BB; text-align: center;
+}
+.em3d .em3d-status.error { color: #FF5C72; }
+
+/* ===== SCENE UI ===== */
+.em3d {--cyan:#4CDCEF;--violet:#B49BF8;--text:#F1EEFB;--text2:#ABA4C9;--text3:#9890BB;--line:rgba(255,255,255,.11);--line-hi:rgba(180,155,248,.36);
+      --blur:blur(22px) saturate(155%);--brand:linear-gradient(100deg,#4CDCEF,#B49BF8 50%,#E562A4);--ease:cubic-bezier(.16,1,.3,1);--opp:#5FDFA6;--con:#FF5C72}
+.em3d canvas {display:block;width:100%;height:100%;cursor:grab;touch-action:none}
+.em3d.hovering canvas {cursor:pointer}
+.em3d :where(button):focus-visible {outline:2px solid var(--cyan);outline-offset:2px}
+.em3d .eb {display:block;font-size:.72rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan)}
+.em3d .bar {display:block;width:64px;height:3px;border-radius:2px;background:var(--brand)}
+.em3d .glass {border:1px solid var(--line);background:rgba(15,11,26,.62);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur)}
+.em3d .head {position:absolute;top:24px;left:24px;max-width:360px;pointer-events:none;transition:opacity .4s}
+.em3d.zoomed .head {opacity:0}
+.em3d .head h1 {margin:6px 0 10px;font-size:1.7rem;font-weight:700;letter-spacing:-.015em;line-height:1.2}
+.em3d .head p {margin:12px 0 0;font-size:.86rem;line-height:1.6;color:var(--text3)}
+.em3d .explored {position:absolute;top:24px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;padding:10px 18px;border-radius:999px}
+.em3d .explored .dots {display:flex;gap:6px}
+.em3d .explored .dots i {width:10px;height:10px;border-radius:50%;border:1.5px solid var(--c);opacity:.5;transition:background .4s,opacity .4s,box-shadow .4s}
+.em3d .explored .dots i.on {background:var(--c);opacity:1;box-shadow:0 0 10px var(--c)}
+.em3d .explored span {font:500 .72rem 'JetBrains Mono',monospace;color:var(--text2);min-width:92px}
+.em3d .explored.done span {color:var(--opp)}
+.em3d .rmenu {position:absolute;left:24px;top:196px;bottom:24px;width:300px;display:flex;flex-direction:column;gap:12px;padding:16px;border-radius:22px;transition:opacity .4s,transform .6s var(--ease)}
+.em3d.zoomed .rmenu {opacity:0;transform:translateX(-16px);pointer-events:none}
+.em3d .rmenu .lbl {font:600 .62rem Poppins,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--text3)}
+.em3d .rmenu .seg {display:flex;padding:3px;border-radius:999px;background:rgba(255,255,255,.04)}
+.em3d .rmenu .seg button {flex:1;min-height:34px;padding:0 12px;border:none;border-radius:999px;background:transparent;color:var(--text2);font:500 .76rem Poppins,sans-serif;cursor:pointer;white-space:nowrap}
+.em3d .rmenu .seg button[aria-pressed=true] {background:rgba(180,155,248,.16);color:var(--text)}
+.em3d .rmenu .seg button[data-k=opp][aria-pressed=true] {color:var(--opp)}
+.em3d .rmenu .seg button[data-k=con][aria-pressed=true] {color:var(--con)}
+.em3d .rmenu .list {flex:1;min-height:0;overflow-y:auto;display:grid;align-content:start;gap:6px;margin-right:-6px;padding-right:6px;scrollbar-width:thin;scrollbar-color:rgba(180,155,248,.35) transparent}
+.em3d .rmenu .item {display:grid;grid-template-columns:10px 1fr;column-gap:10px;align-items:baseline;width:100%;padding:10px 12px;border-radius:14px;border:1px solid transparent;background:transparent;color:var(--text);text-align:left;font:500 .8rem Poppins,sans-serif;cursor:pointer;transition:border-color .2s,background .2s}
+.em3d .rmenu .item:hover {background:rgba(255,255,255,.05)}
+.em3d .rmenu .item i {width:8px;height:8px;border-radius:50%;background:var(--c);box-shadow:0 0 8px var(--c);align-self:center}
+.em3d .rmenu .item small {grid-column:2;margin-top:4px;font:400 .72rem/1.5 Poppins,sans-serif;color:var(--text3);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.em3d .rmenu .item.on {border-color:var(--line-hi);background:rgba(180,155,248,.08)}
+.em3d .rmenu .item.on small {-webkit-line-clamp:unset;color:var(--text2)}
+.em3d .rmenu .nav {display:flex;align-items:center;gap:8px}
+.em3d .rmenu .nav button {flex:1;min-height:36px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--text);font:500 .76rem Poppins,sans-serif;cursor:pointer}
+.em3d .rmenu .nav button:hover {border-color:var(--line-hi);background:rgba(255,255,255,.06)}
+.em3d .rmenu .nav span {font:500 .7rem 'JetBrains Mono',monospace;color:var(--text3);min-width:44px;text-align:center}
+.em3d .steplog {position:absolute;left:336px;top:196px;bottom:24px;width:290px;display:flex;flex-direction:column;padding:16px;border-radius:22px;opacity:0;transform:translateX(-12px);pointer-events:none;transition:opacity .35s,transform .5s var(--ease)}
+.em3d .steplog.show {opacity:1;transform:none;pointer-events:auto}
+.em3d.zoomed .steplog {opacity:0;pointer-events:none}
+.em3d .steplog .eb {color:var(--k);padding-right:24px}
+.em3d .steplog h4 {margin:6px 0 0;font-size:1rem;font-weight:600;line-height:1.3}
+.em3d .steplog .route {margin-top:6px;font:500 .7rem 'JetBrains Mono',monospace;color:var(--text3)}
+.em3d .steplog .desc {margin:8px 0 0;font-size:.8rem;line-height:1.5;color:var(--text2)}
+.em3d .steplog .x {position:absolute;top:10px;right:10px;min-width:30px;min-height:30px;border:none;border-radius:999px;background:transparent;color:var(--text3);font-size:.9rem;cursor:pointer}
+.em3d .steplog .x:hover {color:var(--text);background:rgba(255,255,255,.06)}
+.em3d .steplog ol {list-style:none;margin:14px -6px 0 0;padding:0 6px 0 0;flex:1;min-height:0;overflow-y:auto;display:grid;align-content:start;gap:8px;scrollbar-width:thin;scrollbar-color:rgba(180,155,248,.35) transparent}
+.em3d .steplog li {padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.02);animation:em3dStepIn .5s var(--ease);transition:border-color .3s,background .3s}
+.em3d .steplog li.now {border-color:var(--k);background:rgba(255,255,255,.05)}
+.em3d .steplog li .n {display:flex;justify-content:space-between;font:600 .6rem Poppins,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--k)}
+.em3d .steplog li .rt {display:block;margin-top:4px;font:500 .7rem 'JetBrains Mono',monospace;color:var(--text2)}
+.em3d .steplog li p {margin:4px 0 0;font-size:.82rem;line-height:1.5;color:var(--text)}
+.em3d .steplog li.sum {border-style:dashed}
+.em3d .steplog li.sum p {color:var(--text2)}
+@keyframes em3dStepIn{from{opacity:0;transform:translateY(8px)}}
+.em3d .panel .pn {display:flex;gap:8px;margin-top:22px;padding-top:16px;border-top:1px solid var(--line)}
+.em3d .panel .pn button {flex:1;min-width:0;min-height:38px;padding:0 12px;border-radius:12px;border:1px solid var(--line);background:transparent;color:var(--text);font:500 .74rem Poppins,sans-serif;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.em3d .panel .pn button:hover {border-color:var(--line-hi);background:rgba(255,255,255,.06)}
+.em3d .panel .pn button:last-child {text-align:right}
+.em3d .panel {position:absolute;top:84px;right:24px;width:min(380px,calc(100% - 48px));max-height:calc(100% - 190px);overflow-y:auto;padding:24px;border-radius:22px;
+      border:1px solid var(--line);background:rgba(22,15,36,.66);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);box-shadow:0 18px 48px rgba(0,0,0,.55);
+      opacity:0;transform:translateX(24px);pointer-events:none;transition:opacity .4s,transform .7s var(--ease);scrollbar-width:thin;scrollbar-color:rgba(180,155,248,.35) transparent}
+.em3d .panel.open {opacity:1;transform:none;pointer-events:auto}
+.em3d .panel .eb {color:var(--c)}
+.em3d .panel h2 {margin:6px 0 12px;font-size:1.3rem;font-weight:700;line-height:1.25}
+.em3d .panel p {margin:12px 0 0;font-size:.88rem;line-height:1.6;color:var(--text2)}
+.em3d .panel h3 {margin:18px 0 8px;font:600 .62rem Poppins,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--text3)}
+.em3d .panel ul {list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.em3d .panel li {font-size:.8rem;line-height:1.45;color:var(--text2)}
+.em3d .panel li b {display:block;color:var(--text);font-weight:600}
+.em3d .panel .cc {display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.em3d .panel .cc div {padding:12px;border-radius:14px;border:1px solid var(--line);font-size:.78rem;line-height:1.5;color:var(--text2)}
+.em3d .panel .cc b {display:block;margin-bottom:4px;font:600 .6rem Poppins,sans-serif;letter-spacing:.16em;text-transform:uppercase}
+.em3d .panel .cc .c b {color:var(--con)}
+.em3d .panel .cc .o b {color:var(--opp)}
+.em3d .panel .rip {margin-top:12px;font-size:.8rem;color:var(--text3)}
+.em3d .panel .links {display:flex;flex-wrap:wrap;gap:6px}
+.em3d .panel .links button,
+.em3d .panel .trace button {display:flex;align-items:center;gap:7px;min-height:32px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--text);font:500 .74rem Poppins,sans-serif;cursor:pointer}
+.em3d .panel .links button i {width:8px;height:8px;border-radius:50%;background:var(--c)}
+.em3d .panel .trace {display:grid;gap:6px}
+.em3d .panel .trace button {justify-content:space-between;border-radius:12px;padding:8px 12px;text-align:left}
+.em3d .panel .trace button small {font:500 .62rem Poppins,sans-serif;letter-spacing:.12em;text-transform:uppercase}
+.em3d .panel .links button:hover,
+.em3d .panel .trace button:hover {border-color:var(--line-hi);background:rgba(255,255,255,.06)}
+.em3d .panel .close {float:right;margin:-6px -6px 0 0;min-height:32px;padding:0 10px;border:none;border-radius:999px;background:transparent;color:var(--text);cursor:pointer}
+.em3d .labels {position:absolute;inset:0;pointer-events:none}
+.em3d .lab {position:absolute;left:0;top:0;font:600 .74rem/1.25 Poppins,sans-serif;letter-spacing:.06em;text-align:center;white-space:pre-line;color:var(--text);
+      text-shadow:0 0 12px #000,0 0 4px #000;pointer-events:auto;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px;transition:opacity .3s}
+.em3d .lab::after {content:"";width:16px;height:2px;border-radius:2px;background:var(--c);box-shadow:0 0 8px var(--c)}
+.em3d .lab.visited::before {content:"✓";font-size:.62rem;color:var(--c)}
+.em3d .lab.plain {pointer-events:none;cursor:default;font-weight:500;color:var(--text2);letter-spacing:.16em;font-size:.66rem}
+.em3d .lab.plain::after {display:none}
+.em3d .lab.small {font:500 .68rem/1.2 Poppins,sans-serif;letter-spacing:.02em;align-items:flex-start;text-align:left;pointer-events:none;padding:4px 9px;border-radius:8px;background:rgba(12,9,22,.82);border:1px solid var(--line);border-left:2px solid var(--c);text-shadow:none;white-space:nowrap}
+.em3d .lab.small::after {display:none}
+.em3d .lab.small i {display:none}
+.em3d .lab.gone {opacity:0;pointer-events:none}
+.em3d.em3d--compact .head p {display:none}
+.em3d.em3d--compact .rmenu {top:120px}
+.em3d.em3d--compact .steplog {left:auto;right:16px;top:auto;bottom:16px;width:min(340px,calc(100% - 32px));max-height:45%}
+.em3d.em3d--narrow .rmenu {top:auto;left:16px;right:16px;width:auto;max-height:42%}
+.em3d.em3d--narrow .steplog {top:84px;bottom:auto;left:16px;right:16px;width:auto;max-height:36%}
+
+/* ===== Ripple menu header + tablet / phone layout =====
+   While a ripple plays on smaller screens the menu shrinks to a bar (title, prev/next, "Show list")
+   and the step log takes the space; showing the list again hides the step log. */
+.em3d .rmenu .rhead { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.em3d .rmenu .rhead .cur { display: none; flex: 1; min-width: 0; font: 600 .8rem Poppins, sans-serif; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.em3d .rmenu .tog { display: none; flex: none; margin-left: auto; min-height: 32px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--text2); font: 500 .72rem Poppins, sans-serif; cursor: pointer; white-space: nowrap; }
+.em3d .rmenu .tog:hover { border-color: var(--line-hi); color: var(--text); }
+.em3d.em3d--compact.em3d--rippling .rmenu .tog { display: block; }
+.em3d.em3d--menu-min .rmenu { bottom: auto; gap: 10px; padding: 12px 14px; }
+.em3d.em3d--menu-min .rmenu .seg,
+.em3d.em3d--menu-min .rmenu .list { display: none; }
+.em3d.em3d--menu-min .rmenu .rhead .cur { display: block; }
+.em3d.em3d--compact.em3d--rippling:not(.em3d--menu-min) .steplog.show { opacity: 0; transform: translateY(8px); pointer-events: none; }
+
+/* phone / portrait tablet: title and progress stacked at the top, menu docked at the bottom */
+.em3d.em3d--narrow .head { top: 16px; left: 16px; right: 16px; max-width: none; }
+.em3d.em3d--narrow .head h1 { font-size: 1.3rem; margin: 4px 0 6px; }
+.em3d.em3d--narrow .head .bar { display: none; }
+.em3d.em3d--narrow .explored { top: 76px; left: 16px; transform: none; padding: 8px 14px; gap: 10px; }
+.em3d.em3d--narrow .explored span { min-width: 0; }
+.em3d.em3d--narrow .rmenu { top: auto; bottom: 16px; left: 16px; right: 16px; width: auto; max-height: 42%; padding: 14px; }
+.em3d.em3d--narrow.em3d--menu-min .rmenu { max-height: none; }
+.em3d.em3d--narrow .steplog { top: auto; left: 16px; right: 16px; width: auto; bottom: 132px; max-height: 38%; }
+.em3d.em3d--narrow.em3d--rippling .head,
+.em3d.em3d--narrow.em3d--rippling .explored { opacity: 0; pointer-events: none; }
+/* smaller scene labels so neighbouring actor names don't collide on phones */
+.em3d.em3d--phone .lab:not(.small) { font-size: .54rem; letter-spacing: .02em; gap: 3px; }
+.em3d.em3d--phone .lab:not(.small)::after { width: 10px; }
