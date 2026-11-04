@@ -1,435 +1,316 @@
-/* Cybernetic Loop Canvas overlay styles */
-.interactive-simulation-container[data-engine="CyberneticLoop"] {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background: #02020c;
-    color: #aac0d0;
-    font-family: 'DM Mono', monospace;
-}
+/* Cybernetic Loop - 3D "Biofeedback Loop" engine styles
+   Visual language from the Cyberdelic Nexus core design system: dark-only, glass plates
+   with hairline borders, glow as inner radiance, Poppins for UI, JetBrains Mono for data.
+   Everything is scoped under .cl3d so it cannot leak into other engines.
+   The previous 2D version's styles live in cybernetic-loop-2d.css. */
 
-.interactive-simulation-container[data-engine="CyberneticLoop"] .sim-header,
-.interactive-simulation-container[data-engine="CyberneticLoop"] .btn-continue {
-    width: 100%;
-    flex: 0 0 100%;
-}
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
 
-.interactive-simulation-container[data-engine="CyberneticLoop"] .sim-header {
-    order: 1;
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .btn-continue {
-    order: 4;
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .sim-viewport {
-    order: 3;
-    flex: 1 1 0% !important;
-    min-width: 0 !important;
-    width: auto !important;
-    display: flex;
-    position: relative;
-    overflow: hidden;
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] #canvas-wrap {
-    flex: 1;
-    position: relative;
-    overflow: hidden;
-}
-
-/* SIGNAL TYPE SELECTORS */
-.interactive-simulation-container[data-engine="CyberneticLoop"] .sim-signal-selectors {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    right: 20px;
-    display: flex;
-    justify-content: space-between;
-    pointer-events: none;
-    /* Let clicks pass through the generic container */
-    z-index: 100;
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .signal-group {
-    display: flex;
-    gap: 15px;
-    pointer-events: auto;
-    /* Re-enable clicks for the buttons */
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .signal-btn {
-    background: rgba(10, 5, 20, 0.6);
-    border: 1px solid rgba(0, 217, 255, 0.2);
-    color: rgba(170, 192, 208, 0.6);
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 2px;
-    padding: 8px 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(4px);
-    text-transform: uppercase;
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .signal-btn:hover {
-    background: rgba(20, 10, 40, 0.8);
-    border-color: rgba(0, 217, 255, 0.6);
-    color: #00d9ff;
-    box-shadow: 0 0 10px rgba(0, 217, 255, 0.2);
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .signal-btn.active {
-    background: linear-gradient(135deg, rgba(30, 15, 60, 0.9), rgba(10, 5, 30, 0.95));
-    border-color: #00d9ff;
-    color: white;
-    text-shadow: 0 0 8px rgba(0, 217, 255, 0.8);
-    box-shadow: inset 0 0 15px rgba(0, 217, 255, 0.2), 0 0 15px rgba(0, 217, 255, 0.4);
-}
-
-/* NODE DETAIL PANEL */
-.interactive-simulation-container[data-engine="CyberneticLoop"] .detail-panel {
-    width: 380px;
-    flex-shrink: 0;
-    background: rgba(2, 2, 12, 0.96);
-    border-left: 1px solid rgba(0, 217, 255, 0.14);
+/* =========================================
+   HOST LAYOUT: the viewport fills the block, no side controls
+   ========================================= */
+.interactive-simulation-container:is([data-engine="CyberneticLoop"], [data-engine="cybernetic-loop"]) {
     display: flex;
     flex-direction: column;
-    transition: opacity 0.3s;
+    align-items: stretch !important;
 }
 
-.interactive-simulation-container[data-engine="CyberneticLoop"] .detail-inner {
-    padding: 22px 18px;
+.interactive-simulation-container:is([data-engine="CyberneticLoop"], [data-engine="cybernetic-loop"]) .sim-viewport {
+    flex: 1 1 auto;
+    width: 100% !important;
+    align-self: stretch;
+    min-height: clamp(560px, 80vh, 860px);
+    background: #000;
+    border-radius: 22px;
+    position: relative;
+    overflow: hidden;
+}
+
+.interactive-simulation-container:is([data-engine="CyberneticLoop"], [data-engine="cybernetic-loop"]) .sim-controls:empty {
+    display: none !important;
+}
+
+/* =========================================
+   ROOT + TOKENS
+   ========================================= */
+.cl3d {
+    --cl-cyan: #4CDCEF;
+    --cl-violet: #B49BF8;
+    --cl-text: #F1EEFB;
+    --cl-text2: #ABA4C9;
+    --cl-text3: #9890BB;
+    --cl-line: rgba(255, 255, 255, .11);
+    --cl-line-hi: rgba(180, 155, 248, .36);
+    --cl-blur: blur(22px) saturate(155%);
+    --cl-brand: linear-gradient(100deg, #4CDCEF, #B49BF8 50%, #E562A4);
+    --cl-ease: cubic-bezier(.16, 1, .3, 1);
+
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    background: #000;
+    color: var(--cl-text);
+    font-family: Poppins, system-ui, sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: normal;
+    -webkit-font-smoothing: antialiased;
+    isolation: isolate;
+    text-align: left;
+}
+
+.cl3d *, .cl3d *::before, .cl3d *::after { box-sizing: border-box; }
+
+.cl3d .cl3d-canvas {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: grab;
+    touch-action: none;
+}
+
+.cl3d.cl3d--hovering .cl3d-canvas { cursor: pointer; }
+
+.cl3d :where(button, input, [role="button"]):focus-visible { outline: 2px solid var(--cl-cyan); outline-offset: 2px; }
+
+.cl3d .cl3d-status {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    font: 500 .86rem Poppins, sans-serif;
+    color: var(--cl-text3);
+    text-align: center;
+}
+.cl3d .cl3d-status.error { color: #FF5C72; }
+
+.cl3d .cl3d-eb { display: block; font-size: .72rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--cl-cyan); }
+.cl3d .cl3d-bar { display: block; width: 64px; height: 3px; border-radius: 2px; background: var(--cl-brand); }
+
+/* =========================================
+   TITLE BLOCK
+   ========================================= */
+.cl3d .cl3d-head {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    max-width: 380px;
+    pointer-events: none;
+    transition: opacity .4s;
+}
+.cl3d.cl3d--zoomed .cl3d-head { opacity: 0; }
+.cl3d .cl3d-head h1 { margin: 6px 0 10px; padding: 0; font: 700 1.8rem/1.2 Poppins, sans-serif; letter-spacing: -.015em; color: var(--cl-text); }
+.cl3d .cl3d-head p { margin: 12px 0 0; font-size: .86rem; line-height: 1.6; color: var(--cl-text3); }
+
+/* =========================================
+   SIGNAL TABS
+   ========================================= */
+.cl3d .cl3d-tabs {
+    position: absolute;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    border-radius: 999px;
+    border: 1px solid var(--cl-line);
+    background: rgba(15, 11, 26, .6);
+    backdrop-filter: var(--cl-blur);
+    -webkit-backdrop-filter: var(--cl-blur);
+}
+.cl3d .cl3d-tabs button {
+    min-height: 40px;
+    padding: 0 16px;
+    border: none;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--cl-text2);
+    font: 500 .82rem Poppins, sans-serif;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background .24s, color .24s;
+}
+.cl3d .cl3d-tabs button:hover { color: var(--cl-text); }
+.cl3d .cl3d-tabs button[aria-pressed="true"] { background: rgba(180, 155, 248, .16); color: var(--cl-text); }
+
+/* =========================================
+   DOCK: calm/tense slider, or the EEG band picker
+   ========================================= */
+.cl3d .cl3d-dock {
+    position: absolute;
+    left: 50%;
+    bottom: 24px;
+    transform: translateX(-50%);
+    width: min(520px, calc(100% - 32px));
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 22px;
+    border-radius: 999px;
+    border: 1px solid var(--cl-line);
+    background: rgba(15, 11, 26, .62);
+    backdrop-filter: var(--cl-blur);
+    -webkit-backdrop-filter: var(--cl-blur);
+}
+.cl3d .cl3d-lbl { font: 400 .72rem 'JetBrains Mono', monospace; color: var(--cl-text3); }
+.cl3d .cl3d-dock input { flex: 1; min-width: 0; margin: 0; -webkit-appearance: none; appearance: none; height: 28px; background: transparent; cursor: pointer; }
+.cl3d .cl3d-dock input::-webkit-slider-runnable-track { height: 4px; border-radius: 999px; background: linear-gradient(90deg, #4CDCEF, #B49BF8 55%, #FF5C72); }
+.cl3d .cl3d-dock input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 22px; height: 22px; margin-top: -9px;
+    border-radius: 50%;
+    border: 1.5px solid var(--cl-violet);
+    background: radial-gradient(circle, #F1EEFB 0 3px, #0F0B1A 4px);
+    box-shadow: 0 0 16px rgba(180, 155, 248, .7);
+}
+.cl3d .cl3d-dock input::-moz-range-track { height: 4px; border-radius: 999px; background: linear-gradient(90deg, #4CDCEF, #B49BF8 55%, #FF5C72); }
+.cl3d .cl3d-dock input::-moz-range-thumb {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    border: 1.5px solid var(--cl-violet);
+    background: radial-gradient(circle, #F1EEFB 0 3px, #0F0B1A 4px);
+    box-shadow: 0 0 16px rgba(180, 155, 248, .7);
+}
+.cl3d .cl3d-state { min-width: 96px; text-align: right; }
+.cl3d .cl3d-bands { display: none; flex: 1; gap: 6px; }
+.cl3d .cl3d-dock--bands { padding: 6px; }
+.cl3d .cl3d-dock--bands > :not(.cl3d-bands) { display: none; }
+.cl3d .cl3d-dock--bands .cl3d-bands { display: flex; }
+.cl3d .cl3d-bands button {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+    min-height: 48px;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--cl-text2);
+    cursor: pointer;
+    transition: background .24s, color .24s;
+}
+.cl3d .cl3d-bands button strong { font: 600 .86rem Poppins, sans-serif; color: inherit; }
+.cl3d .cl3d-bands button small { font: 400 .66rem 'JetBrains Mono', monospace; color: var(--cl-text3); }
+.cl3d .cl3d-bands button:hover { color: var(--cl-text); }
+.cl3d .cl3d-bands button[aria-pressed="true"] { background: rgba(180, 155, 248, .16); color: var(--cl-text); }
+
+/* =========================================
+   STEP PANEL
+   ========================================= */
+.cl3d .cl3d-panel {
+    position: absolute;
+    top: 84px;
+    right: 24px;
+    width: min(380px, calc(100% - 48px));
+    max-height: calc(100% - 200px);
     overflow-y: auto;
     scrollbar-width: thin;
-    scrollbar-color: rgba(0, 217, 255, 0.08) transparent;
+    scrollbar-color: rgba(180, 155, 248, .35) transparent;
+    padding: 24px;
+    border-radius: 22px;
+    border: 1px solid var(--cl-line);
+    background: rgba(22, 15, 36, .62);
+    backdrop-filter: var(--cl-blur);
+    -webkit-backdrop-filter: var(--cl-blur);
+    box-shadow: 0 18px 48px rgba(0, 0, 0, .55);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(24px);
+    pointer-events: none;
+    transition: opacity .4s, transform .7s var(--cl-ease), visibility 0s .4s;
 }
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .detail-step {
-    font-size: 0.68rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: #3a4a58;
-    margin-bottom: 6px;
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .detail-title {
-    font-family: 'Cinzel', serif;
-    font-size: 1.15rem;
-    font-weight: 600;
-    line-height: 1.3;
-    margin-bottom: 14px;
-    transition: color 0.4s;
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .detail-divider {
-    height: 1px;
-    background: rgba(0, 217, 255, 0.14);
-    margin-bottom: 14px;
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .detail-body {
-    font-size: 0.9rem;
-    line-height: 1.75;
-    color: #aac0d0;
-    margin-bottom: 16px;
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .detail-example {
-    background: rgba(0, 217, 255, 0.04);
-    border: 1px solid rgba(0, 217, 255, 0.14);
-    border-radius: 3px;
-    padding: 10px 12px;
-    margin-bottom: 16px;
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .detail-example-label {
-    font-size: 0.68rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: #00d9ff;
-    margin-bottom: 5px;
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .detail-example-text {
-    font-size: 0.76rem;
-    line-height: 1.6;
-    color: #aac0d0;
-}
-
-/* DATA TABLE STYLING FOR EXAMPLES */
-.interactive-simulation-container[data-engine="CyberneticLoop"] .sim-data-table {
-    width: 100%;
-    table-layout: fixed;
-    border-collapse: collapse;
-    margin-top: 8px;
-    font-size: 0.68rem;
-    line-height: 1.4;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .sim-data-table th {
-    text-align: left;
-    padding: 6px 8px;
-    background: rgba(0, 217, 255, 0.1);
-    color: #00d9ff;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border-bottom: 1px solid rgba(0, 217, 255, 0.2);
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .sim-data-table th:nth-child(1) {
-    width: 33%;
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .sim-data-table th:nth-child(2) {
-    width: 42%;
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .sim-data-table th:nth-child(3) {
-    width: 25%;
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .sim-data-table td {
-    padding: 8px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    color: rgba(170, 192, 208, 0.85);
-    vertical-align: top;
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .sim-data-table tr:last-child td {
-    border-bottom: none;
-}
-
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .detail-why {
-    font-size: 0.76rem;
-    line-height: 1.65;
-    color: rgba(170, 192, 208, 0.7);
-    border-left: 2px solid rgba(0, 217, 255, 0.14);
-    padding-left: 10px;
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .detail-nav {
-    padding: 14px 18px;
-    border-top: 1px solid rgba(0, 217, 255, 0.14);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-shrink: 0;
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .nav-btn {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(0, 217, 255, 0.14);
-    color: #3a4a58;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.75rem;
-    padding: 6px 12px;
+.cl3d .cl3d-panel.open { opacity: 1; visibility: visible; transform: none; pointer-events: auto; transition: opacity .4s, transform .7s var(--cl-ease); }
+.cl3d .cl3d-panel .cl3d-eb { color: var(--c, var(--cl-cyan)); }
+.cl3d .cl3d-panel h2 { margin: 6px 0 12px; padding: 0; font: 700 1.35rem/1.25 Poppins, sans-serif; color: var(--cl-text); }
+.cl3d .cl3d-panel p { margin: 14px 0 0; font-size: .9rem; line-height: 1.6; color: var(--cl-text2); }
+.cl3d .cl3d-panel p.cl3d-why { color: var(--cl-text3); font-size: .84rem; }
+.cl3d .cl3d-panel .cl3d-ex { margin-top: 16px; }
+.cl3d .cl3d-panel .cl3d-ex > *:first-child { margin-top: 0; }
+.cl3d .cl3d-panel table { width: 100%; border-collapse: collapse; font-size: .76rem; line-height: 1.45; }
+.cl3d .cl3d-panel th { text-align: left; font: 600 .62rem Poppins, sans-serif; letter-spacing: .14em; text-transform: uppercase; color: var(--cl-text3); padding: 0 6px 8px 0; border-bottom: 1px solid var(--cl-line); }
+.cl3d .cl3d-panel td { vertical-align: top; padding: 8px 6px 8px 0; border-bottom: 1px solid rgba(255, 255, 255, .06); color: var(--cl-text2); }
+.cl3d .cl3d-panel td:last-child { font-family: 'JetBrains Mono', monospace; font-size: .7rem; color: var(--cl-cyan); }
+.cl3d .cl3d-panel td strong, .cl3d .cl3d-panel strong { color: var(--cl-text); }
+.cl3d .cl3d-nav { display: flex; justify-content: space-between; margin-top: 18px; }
+.cl3d .cl3d-nav button, .cl3d .cl3d-close {
+    min-height: 36px;
+    padding: 0 14px;
+    border-radius: 999px;
+    border: 1px solid var(--cl-line);
+    background: transparent;
+    color: var(--cl-text);
+    font: 500 .8rem Poppins, sans-serif;
     cursor: pointer;
-    border-radius: 3px;
-    transition: all 0.2s;
 }
+.cl3d .cl3d-nav button:hover, .cl3d .cl3d-close:hover { border-color: var(--cl-line-hi); background: rgba(255, 255, 255, .075); }
+.cl3d .cl3d-close { float: right; margin: -6px -6px 0 0; border: none; }
 
-.interactive-simulation-container[data-engine="CyberneticLoop"] .nav-btn:hover {
-    border-color: rgba(0, 217, 255, 0.35);
-    color: #aac0d0;
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .nav-dots {
+/* =========================================
+   3D LABELS (projected each frame)
+   ========================================= */
+.cl3d .cl3d-labels { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.cl3d .cl3d-lab {
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform-origin: 0 0;
+    font: 600 .8rem/1.25 Poppins, sans-serif;
+    text-align: center;
+    white-space: pre-line;
+    color: var(--cl-text);
+    text-shadow: 0 0 12px #000, 0 0 4px #000;
+    pointer-events: auto;
+    cursor: pointer;
     display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 5px;
 }
+.cl3d .cl3d-lab::after { content: ""; width: 16px; height: 2px; border-radius: 2px; background: var(--c); box-shadow: 0 0 8px var(--c); }
+.cl3d .cl3d-lab.plain { pointer-events: none; cursor: default; font-weight: 500; color: var(--cl-text2); letter-spacing: .14em; text-transform: uppercase; font-size: .68rem; }
+.cl3d .cl3d-lab.plain::after { display: none; }
+.cl3d .cl3d-lab.gone { visibility: hidden; }
+.cl3d .cl3d-lab.side { align-items: flex-start; text-align: left; }
+.cl3d .cl3d-lab.side::after { display: none; }
+.cl3d .cl3d-lab.dev { gap: 2px; transition: filter .3s; }
+.cl3d .cl3d-lab.dev b { font: 600 .76rem Poppins, sans-serif; }
+.cl3d .cl3d-lab.dev i { font: 400 .66rem 'JetBrains Mono', monospace; font-style: normal; color: var(--cl-cyan); white-space: normal; max-width: 220px; }
+.cl3d .cl3d-lab.dev.dim { filter: opacity(.38); }
+.cl3d .cl3d-lab.dev.strat i { color: #E9C77A; }
+.cl3d .cl3d-lab.dev:hover { filter: none; }
 
-.interactive-simulation-container[data-engine="CyberneticLoop"] .nav-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.12);
-    cursor: pointer;
-    transition: all 0.25s;
+/* =========================================
+   SMALLER VIEWPORTS (classes set from the engine's own width, not the window)
+   ========================================= */
+.cl3d.cl3d--compact .cl3d-head { max-width: 300px; }
+.cl3d.cl3d--compact .cl3d-head h1 { font-size: 1.3rem; }
+.cl3d.cl3d--compact .cl3d-head p { display: none; }
+
+.cl3d.cl3d--narrow .cl3d-head { display: none; }
+.cl3d.cl3d--narrow .cl3d-tabs { top: 12px; max-width: calc(100% - 24px); overflow-x: auto; scrollbar-width: none; }
+.cl3d.cl3d--narrow .cl3d-tabs button { padding: 0 12px; font-size: .76rem; }
+.cl3d.cl3d--narrow .cl3d-dock { bottom: 12px; gap: 10px; padding: 10px 16px; }
+.cl3d.cl3d--narrow .cl3d-state { min-width: 0; }
+.cl3d.cl3d--narrow .cl3d-panel {
+    top: auto;
+    left: 12px;
+    right: 12px;
+    bottom: 88px;
+    width: auto;
+    max-height: 46%;
+    padding: 18px;
+    transform: translateY(24px);
 }
+.cl3d.cl3d--narrow .cl3d-panel.open { transform: none; }
+.cl3d.cl3d--narrow .cl3d-panel h2 { font-size: 1.1rem; }
+.cl3d.cl3d--narrow .cl3d-panel p { font-size: .84rem; }
 
-.interactive-simulation-container[data-engine="CyberneticLoop"] .nav-dot.active {
-    background: #00d9ff;
-    box-shadow: 0 0 5px rgba(0, 217, 255, 0.5);
-}
-
-/* EMPTY STATE */
-.interactive-simulation-container[data-engine="CyberneticLoop"] .detail-empty {
-    padding: 30px 20px;
-    text-align: center;
-    opacity: 0.4;
-    font-size: 0.8rem;
-    line-height: 1.7;
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .detail-empty .big {
-    font-family: 'Cinzel', serif;
-    font-size: 1.8rem;
-    opacity: 0.3;
-    margin-bottom: 10px;
-}
-
-/* BOTTOM BAR OVERRIDE -> VERTICAL LEFT BAR */
-.interactive-simulation-container[data-engine="CyberneticLoop"] .sim-controls {
-    display: flex !important;
-    flex-direction: column;
-    position: static;
-    flex: 0 0 40px !important;
-    min-width: 80px !important;
-    align-self: center;
-    background: transparent;
-    border: none;
-    padding: 0 !important;
-    margin-right: 5px;
-    z-index: 10;
-    order: 2;
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .sim-controls .control-group {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-    width: 100%;
-    margin: 0;
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .sim-controls .control-label {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    background: linear-gradient(135deg, rgba(20, 10, 30, 0.8), rgba(0, 10, 20, 0.9));
-    padding: 12px 8px;
-    border-radius: 8px;
-    border: 1px solid rgba(0, 217, 255, 0.3);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(0, 217, 255, 0.1);
-    text-align: center;
-    width: 100%;
-    max-width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-    word-break: normal;
-    box-sizing: border-box;
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .sim-controls .control-label span:first-child {
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 0.65rem;
-    color: #9d4edd;
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    text-shadow: 0 0 5px rgba(157, 78, 221, 0.5);
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .sim-controls .control-label span:last-child {
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: #00D9FF;
-    text-shadow: 0 0 10px rgba(0, 217, 255, 0.8), 0 0 20px rgba(0, 217, 255, 0.4);
-    letter-spacing: 1px;
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .sim-controls input[type="range"] {
-    -webkit-appearance: none;
-    appearance: none;
-    writing-mode: vertical-lr;
-    direction: rtl;
-    height: 400px;
-    width: 30px;
-    margin: 10px;
-    margin-top: 10px;
-    background: transparent;
-    cursor: grab;
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .sim-controls input[type="range"]::-webkit-slider-runnable-track {
-    width: 8px;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.8), 0 0 5px rgba(0, 217, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .sim-controls input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    height: 22px;
-    width: 22px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, #ffffff, #00D9FF 40%, #0088cc 80%);
-    border: 2px solid rgba(255, 255, 255, 0.8);
-    box-shadow: 0 0 15px rgba(0, 217, 255, 0.8), 0 0 30px rgba(0, 217, 255, 0.4);
-    cursor: pointer;
-    margin-top: -7px;
-    margin-left: -7px;
-    transition: transform 0.1s ease, box-shadow 0.1s ease;
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .sim-controls input[type="range"]:active::-webkit-slider-thumb {
-    transform: scale(1.1);
-    box-shadow: 0 0 25px rgba(0, 217, 255, 1), 0 0 40px rgba(0, 217, 255, 0.6);
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .sim-controls input[type="range"]:hover::-webkit-slider-thumb {
-    transform: scale(1.05);
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .sim-controls .playback-controls {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-top: 15px;
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .sim-controls .playback-controls button {
-    background: rgba(0, 217, 255, 0.05);
-    border: 1px solid rgba(0, 217, 255, 0.14);
-    color: #3a4a58;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.6rem;
-    padding: 8px 12px;
-    cursor: pointer;
-    border-radius: 3px;
-    transition: all 0.2s;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    width: 100%;
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .sim-controls .playback-controls button:hover {
-    border-color: rgba(0, 217, 255, 0.35);
-    color: #aac0d0;
-}
-
-.interactive-simulation-container[data-engine="CyberneticLoop"] .sim-controls .playback-controls button.primary {
-    border-color: rgba(138, 43, 226, 0.5);
-    color: rgba(170, 136, 255, 0.8);
-}
-
-@media (max-width: 768px) {
-    .interactive-simulation-container[data-engine="CyberneticLoop"] .sim-viewport {
-        flex-direction: column;
-    }
-
-    .interactive-simulation-container[data-engine="CyberneticLoop"] .detail-panel {
-        width: 100%;
-        height: 40%;
-        border-left: none;
-        border-top: 1px solid rgba(0, 217, 255, 0.14);
-    }
+@media (prefers-reduced-motion: reduce) {
+    .cl3d .cl3d-panel, .cl3d .cl3d-head, .cl3d .cl3d-tabs button, .cl3d .cl3d-bands button { transition: none; }
 }
