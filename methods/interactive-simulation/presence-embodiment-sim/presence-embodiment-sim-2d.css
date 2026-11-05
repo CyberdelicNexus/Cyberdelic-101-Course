@@ -1,0 +1,590 @@
+/* Presence & Embodiment Sim Styles - Scoped to .pes-app */
+.interactive-simulation-container[data-engine="PresenceEmbodimentSim"] {
+    width: 100%;
+    height: 100%;
+    background-color: #06080f;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.pes-app {
+    --p: #7c3aed;
+    --p-light: #c4b5fd;
+    --p-mid: #a78bfa;
+    --e: #0f766e;
+    --e-light: #5eead4;
+    --e-mid: #2dd4bf;
+    --bg: #06080f;
+    --surface: rgba(255, 255, 255, 0.028);
+    --border: rgba(255, 255, 255, 0.07);
+    --text: #dde1ec;
+    --muted: rgba(221, 225, 236, 0.38);
+
+    position: relative;
+    z-index: 1;
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 32px 20px 64px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    color: var(--text);
+}
+
+.pes-app::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(124, 58, 237, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124, 58, 237, 0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* HEADER */
+.pes-app .hdr {
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+}
+
+.pes-app .hdr-label {
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.pes-app .hdr h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(1.4rem, 3.5vw, 2rem);
+    color: #fff;
+    letter-spacing: 0.04em;
+    margin: 0;
+}
+
+.pes-app .hdr-sub {
+    margin-left: auto;
+    font-size: 0.72rem;
+    color: var(--muted);
+    text-align: right;
+    line-height: 1.6;
+    max-width: 260px;
+    margin-bottom: 0;
+}
+
+/* GRID */
+.pes-app .pes-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 20px;
+    align-items: start;
+}
+
+/* VIEWER */
+.pes-app .viewer {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 2;
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.pes-app .stages-frame {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 2;
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.pes-app .viewer-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.pes-app .viewer-bar-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.pes-app .viewer-meters {
+    display: flex;
+    gap: 20px;
+}
+
+.pes-app .v-meter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pes-app .v-meter-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.pes-app .v-meter-track {
+    width: 80px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.pes-app .v-meter-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.2s ease;
+}
+
+.pes-app .v-meter-num {
+    font-size: 0.65rem;
+    font-weight: 400;
+    width: 28px;
+    text-align: right;
+}
+
+.pes-app .v-meter.pres .v-meter-dot {
+    background: var(--p-mid);
+}
+
+.pes-app .v-meter.pres .v-meter-fill {
+    background: linear-gradient(90deg, var(--p), var(--p-mid));
+}
+
+.pes-app .v-meter.pres .v-meter-num {
+    color: var(--p-light);
+}
+
+.pes-app .v-meter.emb .v-meter-dot {
+    background: var(--e-mid);
+}
+
+.pes-app .v-meter.emb .v-meter-fill {
+    background: linear-gradient(90deg, var(--e), var(--e-mid));
+}
+
+.pes-app .v-meter.emb .v-meter-num {
+    color: var(--e-light);
+}
+
+/* Canvas wrap */
+.pes-app .canvas-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/10;
+    background: #060810;
+}
+
+.pes-app .canvas-wrap canvas {
+    position: absolute;
+    inset: 0;
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+    outline: none;
+}
+
+/* PROFILE STRIP */
+.pes-app .profile-strip {
+    display: none;
+}
+
+.pes-app .profile-strip.active {
+    background: rgba(124, 58, 237, 0.06);
+}
+
+.pes-app .profile-pip {
+    width: 3px;
+    height: 36px;
+    border-radius: 4px;
+    background: var(--border);
+    flex-shrink: 0;
+    transition: background 0.4s ease;
+}
+
+.pes-app .profile-strip.active .profile-pip {
+    background: linear-gradient(180deg, var(--p-mid), var(--e-mid));
+}
+
+.pes-app .profile-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.pes-app .profile-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--p-light);
+    margin-bottom: 4px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    white-space: normal;
+    overflow-wrap: break-word;
+}
+
+.pes-app .profile-strip.active .profile-name {
+    opacity: 1;
+}
+
+.pes-app .profile-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.92rem;
+    font-style: italic;
+    color: var(--muted);
+    line-height: 1.55;
+    transition: color 0.4s ease;
+    margin: 0;
+    white-space: normal;
+    overflow-wrap: break-word;
+}
+
+.pes-app .profile-strip.active .profile-quote {
+    color: rgba(221, 225, 236, 0.72);
+}
+
+.pes-app .profile-idle {
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    white-space: normal;
+    overflow-wrap: break-word;
+}
+
+/* PROFILES GRID */
+.pes-app .profiles-grid {
+    border-top: 1px solid var(--border);
+    padding: 16px 20px;
+}
+
+.pes-app .profiles-grid-hdr {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+}
+
+.pes-app .pg-items {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 7px;
+}
+
+.pes-app .pg-item {
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    padding: 9px 10px;
+    cursor: default;
+    transition: all 0.3s ease;
+}
+
+.pes-app .pg-item.lit {
+    border-color: rgba(167, 139, 250, 0.4);
+    background: rgba(124, 58, 237, 0.1);
+    box-shadow: 0 0 14px rgba(124, 58, 237, 0.12);
+}
+
+.pes-app .pg-dots {
+    display: flex;
+    gap: 3px;
+    margin-bottom: 5px;
+}
+
+.pes-app .pg-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+.pes-app .pg-item-name {
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    font-weight: 500;
+    color: var(--muted);
+    line-height: 1.4;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+
+.pes-app .pg-item.lit .pg-item-name {
+    color: var(--p-light);
+}
+
+/* CONTROLS */
+.pes-app .controls {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    position: relative;
+    z-index: 2;
+}
+
+.pes-app .ctrl-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 16px;
+}
+
+.pes-app .ctrl-section-hdr {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.pes-app .ctrl-section-pip {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.pes-app .ctrl-section-label {
+    font-size: 0.76rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.pes-app .ctrl-section.pres .ctrl-section-pip {
+    background: var(--p-mid);
+    box-shadow: 0 0 6px var(--p);
+}
+
+.pes-app .ctrl-section.pres .ctrl-section-label {
+    color: var(--p-light);
+}
+
+.pes-app .ctrl-section.emb .ctrl-section-pip {
+    background: var(--e-mid);
+    box-shadow: 0 0 6px var(--e);
+}
+
+.pes-app .ctrl-section.emb .ctrl-section-label {
+    color: var(--e-light);
+}
+
+.pes-app .ctrl-section.both .ctrl-section-pip {
+    background: linear-gradient(135deg, var(--p-mid), var(--e-mid));
+}
+
+.pes-app .ctrl-section.both .ctrl-section-label {
+    color: #c4b5fd;
+}
+
+.pes-app .slider-row {
+    margin-bottom: 14px;
+}
+
+.pes-app .slider-row:last-child {
+    margin-bottom: 0;
+}
+
+.pes-app .slider-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 5px;
+}
+
+.pes-app .slider-name {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--text);
+    letter-spacing: 0.03em;
+}
+
+.pes-app .slider-ends {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+}
+
+.pes-app .slider-ends span {
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+}
+
+.pes-app input[type=range] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 3px;
+    border-radius: 6px;
+    outline: none;
+    cursor: pointer;
+}
+
+.pes-app input[type=range].p-range {
+    background: linear-gradient(90deg, var(--p-mid) calc(var(--v)*1%), rgba(255, 255, 255, 0.09) calc(var(--v)*1%));
+}
+
+.pes-app input[type=range].e-range {
+    background: linear-gradient(90deg, var(--e-mid) calc(var(--v)*1%), rgba(255, 255, 255, 0.09) calc(var(--v)*1%));
+}
+
+.pes-app input[type=range].b-range {
+    background: linear-gradient(90deg, #9d7fea calc(var(--v)*1%), rgba(255, 255, 255, 0.09) calc(var(--v)*1%));
+}
+
+.pes-app input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 6px rgba(180, 140, 255, 0.5), 0 1px 4px rgba(0, 0, 0, 0.5);
+    transition: transform 0.12s ease;
+}
+
+.pes-app input[type=range]:hover::-webkit-slider-thumb {
+    transform: scale(1.3);
+}
+
+/* DESCRIPTION PANEL */
+.pes-app .slider-desc-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    min-height: 70px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+.pes-app .slider-desc-panel.has-content {
+    border-color: rgba(167, 139, 250, 0.2);
+    background: rgba(100, 60, 220, 0.05);
+}
+
+.pes-app .slider-desc-name {
+    font-size: 0.76rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--p-light);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.pes-app .slider-desc-panel.has-content .slider-desc-name {
+    opacity: 1;
+}
+
+.pes-app .slider-desc-text {
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: var(--muted);
+    transition: color 0.3s ease;
+    margin: 0;
+}
+
+.pes-app .slider-desc-panel.has-content .slider-desc-text {
+    color: rgba(221, 225, 236, 0.68);
+}
+
+.pes-app .slider-desc-idle {
+    font-size: 0.82rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    opacity: 0.6;
+}
+
+/* Loading overlay */
+.pes-app .load-overlay {
+    position: absolute;
+    inset: 0;
+    background: #060810;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: opacity 0.8s ease;
+}
+
+.pes-app .load-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.pes-app .load-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--p-mid);
+    animation: pes-pulse 1.2s ease-in-out infinite;
+}
+
+.pes-app .load-dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.pes-app .load-dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+.pes-app .load-dots {
+    display: flex;
+    gap: 8px;
+}
+
+@keyframes pes-pulse {
+
+    0%,
+    100% {
+        opacity: 0.2;
+        transform: scale(0.8)
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.2)
+    }
+}
+
+@media(max-width:700px) {
+    .pes-app .pes-grid {
+        grid-template-columns: 1fr
+    }
+
+    .pes-app .hdr-sub {
+        display: none
+    }
+}
