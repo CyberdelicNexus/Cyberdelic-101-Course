@@ -1,0 +1,1096 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Convergence Nebula</title>
+<!--
+  Concept 1 mockup: "Convergence Nebula" (see ../3D-REVAMP-PLAN.md).
+  Standalone visual test. Reads ../cyberdelic-data.js and does not touch the live engine.
+  Add ?lite to the URL to preview the low-power mode (fewer particles, no bloom).
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+@font-face {
+  font-family: "Cloudsters";
+  src: url("../fonts/Cloudsters-Regular.ttf") format("truetype");
+  font-display: swap;
+}
+:root {
+  --cn-bg-void: #000000;
+  --cn-bg-raised: #0F0B1A;
+  --cn-bg-sunken: #0A0609;
+  --cn-text-primary: #F1EEFB;
+  --cn-text-secondary: #ABA4C9;
+  --cn-text-tertiary: #9890BB;
+  --cn-cyan: #4CDCEF;
+  --cn-violet: #B49BF8;
+  --cn-violet-deep: #7C4FF0;
+  --cn-grad-brand: linear-gradient(100deg, #4CDCEF 0%, #B49BF8 50%, #E562A4 100%);
+  --cn-grad-cta: linear-gradient(100deg, #4CDCEF 0%, #7E8BF5 52%, #7C4FF0 100%);
+  --cn-glass-fill-hover: rgba(255, 255, 255, 0.075);
+  --cn-glass-border: rgba(255, 255, 255, 0.11);
+  --cn-glass-border-accent: rgba(180, 155, 248, 0.36);
+  --cn-glass-blur: blur(22px) saturate(155%);
+  --cn-shadow-glow-violet: 0 0 32px rgba(180, 155, 248, .35);
+  --cn-font-display: "Cloudsters", "Poppins", system-ui, sans-serif;
+  --cn-font-sans: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --cn-font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  --cn-ease-standard: cubic-bezier(.4, 0, .2, 1);
+  --cn-ease-entrance: cubic-bezier(.16, 1, .3, 1);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--cn-bg-void); color: var(--cn-text-primary); font-family: var(--cn-font-sans); -webkit-font-smoothing: antialiased; overflow: hidden; }
+.stage { position: relative; width: 100%; height: 100%; overflow: hidden; }
+.stage canvas { display: block; width: 100%; height: 100%; cursor: grab; touch-action: none; }
+.stage canvas:active { cursor: grabbing; }
+.stage.hovering canvas { cursor: pointer; }
+
+:where(a, button, input):focus-visible { outline: 2px solid var(--cn-cyan); outline-offset: 2px; }
+
+.eyebrow { display: block; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cn-cyan); }
+.underbar { display: block; width: 64px; height: 3px; border-radius: 2px; background: var(--cn-grad-brand); }
+
+/* ---------- Header ---------- */
+.head { position: absolute; top: 24px; left: 24px; max-width: min(420px, calc(100% - 48px)); pointer-events: none; }
+.head h1 { margin: 6px 0 10px; font-size: clamp(1.5rem, 3.2vw, 2.1rem); font-weight: 700; letter-spacing: -0.015em; line-height: 1.2; }
+.head p { margin: 12px 0 0; font-size: 0.88rem; line-height: 1.6; color: var(--cn-text-tertiary); }
+
+.reset {
+  position: absolute; top: 24px; right: 24px; min-height: 44px; padding: 0 18px;
+  border-radius: 999px; border: 1px solid var(--cn-glass-border);
+  background: rgba(15, 11, 26, 0.55); -webkit-backdrop-filter: var(--cn-glass-blur); backdrop-filter: var(--cn-glass-blur);
+  color: var(--cn-text-primary); font: 500 0.85rem var(--cn-font-sans); cursor: pointer;
+  transition: background 240ms var(--cn-ease-standard), border-color 240ms var(--cn-ease-standard), opacity 400ms var(--cn-ease-standard);
+}
+.reset:hover { background: var(--cn-glass-fill-hover); border-color: var(--cn-glass-border-accent); }
+.stage.zoomed .reset { opacity: 0; pointer-events: none; }
+
+/* ---------- Node labels (also the tutorial anchors) ---------- */
+.labels { position: absolute; inset: 0; pointer-events: none; }
+.node-label {
+  position: absolute; left: 0; top: 0; pointer-events: auto; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  font-size: 0.82rem; font-weight: 600; line-height: 1.25; text-align: center; white-space: pre-line;
+  color: var(--cn-text-primary); text-shadow: 0 0 14px rgba(0, 0, 0, 0.9), 0 0 4px rgba(0, 0, 0, 0.9);
+  transition: opacity 400ms var(--cn-ease-standard);
+  will-change: transform;
+}
+.node-label::after { content: ""; width: 18px; height: 2px; border-radius: 2px; background: var(--c); box-shadow: 0 0 10px var(--c); transition: width 240ms var(--cn-ease-standard); }
+.node-label:hover::after, .node-label.hover::after { width: 34px; }
+
+/* ---------- Content panel (glass) ---------- */
+.panel {
+  position: absolute; top: 24px; right: 24px; bottom: 120px; width: min(420px, calc(100% - 48px));
+  padding: 28px 26px 26px; overflow-y: auto; overscroll-behavior: contain;
+  border-radius: 22px; border: 1px solid var(--cn-glass-border);
+  background: rgba(22, 15, 36, 0.6); -webkit-backdrop-filter: var(--cn-glass-blur); backdrop-filter: var(--cn-glass-blur);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, .55);
+  opacity: 0; transform: translateX(24px); pointer-events: none;
+  transition: opacity 400ms var(--cn-ease-standard), transform 700ms var(--cn-ease-entrance);
+  isolation: isolate; scrollbar-width: thin; scrollbar-color: rgba(180,155,248,.3) transparent;
+}
+.panel.open { opacity: 1; transform: none; pointer-events: auto; }
+.panel::before {
+  content: ""; position: absolute; inset: 0 0 auto 0; height: 180px; z-index: -1; pointer-events: none; border-radius: inherit;
+  background:
+    radial-gradient(ellipse 55% 70% at 20% -20%, color-mix(in srgb, var(--c, #B49BF8) 55%, transparent), transparent 70%),
+    radial-gradient(ellipse 45% 60% at 85% -25%, rgba(124, 79, 240, 0.4), transparent 70%);
+}
+.panel .back {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 36px; margin: -6px 0 18px -10px; padding: 0 12px;
+  border: none; border-radius: 999px; background: transparent; color: var(--cn-text-secondary);
+  font: 500 0.82rem var(--cn-font-sans); cursor: pointer; transition: background 150ms var(--cn-ease-standard), color 150ms var(--cn-ease-standard);
+}
+.panel .back:hover { background: var(--cn-glass-fill-hover); color: var(--cn-text-primary); }
+.panel .eyebrow { color: var(--c, var(--cn-cyan)); }
+.panel h2 { margin: 6px 0 14px; font-size: 1.6rem; font-weight: 700; letter-spacing: -0.01em; line-height: 1.25; }
+.snapshots { display: flex; flex-wrap: wrap; gap: 6px; margin: 18px 0 4px; }
+.snapshots button {
+  min-height: 30px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--cn-glass-border);
+  background: transparent; color: var(--cn-text-tertiary); font: 500 0.75rem var(--cn-font-mono); cursor: pointer;
+  transition: border-color 150ms var(--cn-ease-standard), color 150ms var(--cn-ease-standard), background 150ms var(--cn-ease-standard);
+}
+.snapshots button:hover { border-color: var(--cn-glass-border-accent); color: var(--cn-text-primary); }
+.snapshots button[aria-current="true"] { border-color: var(--c); color: var(--cn-text-primary); background: color-mix(in srgb, var(--c) 14%, transparent); }
+.snapshots button:disabled { opacity: .38; cursor: not-allowed; }
+.panel section { margin-top: 22px; animation: rise 700ms var(--cn-ease-entrance) both; }
+.panel section:nth-of-type(2) { animation-delay: 60ms; }
+.panel section:nth-of-type(3) { animation-delay: 120ms; }
+.panel section:nth-of-type(4) { animation-delay: 180ms; }
+@keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.panel h3 { margin: 0 0 10px; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cn-text-tertiary); }
+.panel ul { list-style: none; margin: 0; padding: 0; }
+.list li { position: relative; padding: 5px 0 5px 20px; font-size: 0.9rem; line-height: 1.5; color: var(--cn-text-secondary); }
+.list li::before { content: "◇"; position: absolute; left: 0; top: 5px; font-size: 0.75rem; color: var(--c); }
+.people li { padding: 9px 0; border-bottom: 1px solid var(--cn-glass-border); }
+.people li:last-child { border-bottom: none; }
+.people strong { display: block; font-size: 0.92rem; font-weight: 600; color: var(--cn-text-primary); }
+.people span { display: block; font-size: 0.82rem; line-height: 1.5; color: var(--cn-text-tertiary); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chips li { padding: 4px 10px; border-radius: 4px; border: 1px solid var(--cn-glass-border); background: rgba(255,255,255,0.03); font-size: 0.8rem; color: var(--cn-text-secondary); }
+.examples { display: grid; gap: 8px; }
+.example {
+  position: relative; display: block; padding: 12px 40px 12px 14px; border-radius: 12px;
+  border: 1px solid var(--cn-glass-border); background: color-mix(in srgb, var(--c) 6%, transparent);
+  color: inherit; text-decoration: none;
+  transition: border-color 150ms var(--cn-ease-standard), background 150ms var(--cn-ease-standard);
+}
+a.example:hover { border-color: var(--cn-glass-border-accent); background: color-mix(in srgb, var(--c) 12%, transparent); }
+.example strong { display: block; font-size: 0.9rem; font-weight: 600; color: var(--cn-text-primary); }
+.example span { display: block; font-size: 0.8rem; color: var(--cn-text-tertiary); }
+.example svg { position: absolute; top: 14px; right: 14px; width: 16px; height: 16px; stroke: var(--c); }
+
+/* ---------- Timeline dock ---------- */
+.dock {
+  position: absolute; left: 50%; bottom: 24px; transform: translateX(-50%);
+  width: min(680px, calc(100% - 32px)); display: flex; align-items: center; gap: 18px;
+  padding: 10px 22px 10px 10px; border-radius: 999px; border: 1px solid var(--cn-glass-border);
+  background: rgba(15, 11, 26, 0.62); -webkit-backdrop-filter: var(--cn-glass-blur); backdrop-filter: var(--cn-glass-blur);
+  isolation: isolate; overflow: hidden;
+}
+.dock::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(ellipse 40% 120% at 10% 140%, rgba(90, 53, 240, 0.55), transparent 70%),
+    radial-gradient(ellipse 40% 120% at 90% 150%, rgba(76, 220, 239, 0.3), transparent 70%);
+}
+.play {
+  flex: 0 0 auto; width: 52px; height: 52px; border-radius: 50%; border: none; cursor: pointer;
+  display: grid; place-items: center; background: var(--cn-grad-cta); color: #fff;
+  transition: box-shadow 240ms var(--cn-ease-standard), transform 240ms var(--cn-ease-standard);
+}
+.play:hover { box-shadow: var(--cn-shadow-glow-violet); transform: translateY(-1px); }
+.play:active { background: var(--cn-violet-deep); transform: none; }
+.play svg { width: 18px; height: 18px; fill: currentColor; }
+.year { flex: 0 0 auto; display: flex; flex-direction: column; align-items: flex-start; min-width: 78px; }
+.year .eyebrow { font-size: 0.65rem; }
+.year output {
+  font-family: var(--cn-font-display); font-size: 1.7rem; line-height: 1.1;
+  background: var(--cn-grad-brand); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.track { flex: 1 1 auto; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.track input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 28px; margin: 0; background: transparent; cursor: pointer; }
+.track input[type=range]::-webkit-slider-runnable-track { height: 4px; border-radius: 999px; background: linear-gradient(90deg, rgba(76,220,239,.6), rgba(180,155,248,.6) 50%, rgba(229,98,164,.6)); box-shadow: 0 0 12px rgba(180,155,248,.25); }
+.track input[type=range]::-moz-range-track { height: 4px; border-radius: 999px; background: linear-gradient(90deg, rgba(76,220,239,.6), rgba(180,155,248,.6) 50%, rgba(229,98,164,.6)); }
+.track input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; margin-top: -9px; border-radius: 50%; border: 1.5px solid var(--cn-violet); background: radial-gradient(circle, #F1EEFB 0 3px, #0F0B1A 4px); box-shadow: 0 0 16px rgba(180,155,248,.7), 0 0 32px rgba(76,220,239,.3); transition: border-color 150ms, box-shadow 150ms; }
+.track input[type=range]:hover::-webkit-slider-thumb { border-color: var(--cn-cyan); box-shadow: 0 0 22px rgba(76,220,239,.8), 0 0 40px rgba(180,155,248,.5); }
+.track input[type=range]::-moz-range-thumb { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--cn-violet); background: radial-gradient(circle, #F1EEFB 0 3px, #0F0B1A 4px); box-shadow: 0 0 16px rgba(180,155,248,.7); }
+.ticks { display: flex; justify-content: space-between; padding: 0 4px; font: 400 0.68rem var(--cn-font-mono); color: var(--cn-text-tertiary); }
+.ticks span.on { color: var(--cn-text-primary); }
+
+.keys { position: absolute; left: 24px; bottom: 34px; font-size: 0.75rem; color: var(--cn-text-tertiary); display: flex; gap: 6px; align-items: center; }
+.keys kbd { font: 500 0.72rem var(--cn-font-mono); padding: 2px 7px; border-radius: 8px; border: 1px solid var(--cn-glass-border); background: var(--cn-bg-sunken); color: var(--cn-text-primary); }
+
+@media (max-width: 1100px) { .keys { display: none; } }
+@media (max-width: 760px) {
+  .head { top: 16px; left: 16px; }
+  .head p { display: none; }
+  .reset { top: 16px; right: 16px; }
+  .panel { top: auto; left: 12px; right: 12px; bottom: 96px; width: auto; max-height: 52vh; transform: translateY(24px); }
+  .dock { bottom: 12px; gap: 12px; padding-right: 16px; }
+  .ticks span:not(:first-child):not(:last-child):not(:nth-child(6)) { visibility: hidden; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <div class="labels" id="labels"></div>
+
+  <header class="head">
+    <span class="eyebrow">Concept 1 · 3D mockup</span>
+    <h1>Convergence nebula</h1>
+    <span class="underbar" aria-hidden="true"></span>
+    <p>Six fields drift together into one discipline. Drag to orbit, scroll to zoom, click a field to open it.</p>
+  </header>
+
+  <button class="reset" id="reset" type="button">Reset view</button>
+
+  <aside class="panel" id="panel" aria-hidden="true" aria-labelledby="p-title">
+    <button class="back" id="back" type="button">← Back to the nebula</button>
+    <span class="eyebrow" id="p-eyebrow"></span>
+    <h2 id="p-title"></h2>
+    <span class="underbar" aria-hidden="true"></span>
+    <div class="snapshots" id="p-snapshots" aria-label="Snapshot years"></div>
+    <div id="p-body"></div>
+  </aside>
+
+  <div class="dock" role="group" aria-label="Timeline">
+    <button class="play" id="play" type="button" aria-label="Play timeline">
+      <svg id="play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>
+    </button>
+    <div class="year">
+      <span class="eyebrow">Year</span>
+      <output id="year-out">2015</output>
+    </div>
+    <div class="track">
+      <input id="year" type="range" min="2015" max="2025" step="1" value="2015" aria-label="Year">
+      <div class="ticks" id="ticks"></div>
+    </div>
+  </div>
+
+  <div class="keys" aria-hidden="true"><kbd>←</kbd><kbd>→</kbd> year <kbd>Space</kbd> play <kbd>Esc</kbd> back</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+<script src="../cyberdelic-data.js"></script>
+
+<script>
+(function () {
+  'use strict';
+
+  const DATA = window.CyberdelicData;
+  const randDir = v => {
+    const u = Math.random() * 2 - 1, th = Math.random() * Math.PI * 2, r = Math.sqrt(1 - u * u);
+    return v.set(r * Math.cos(th), u, r * Math.sin(th));
+  };
+  const START = 2015, END = 2025;
+  const RING_R = 230, ORB_R = 24, CORE_MIN = 9, CORE_MAX = 40;
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const lite = new URLSearchParams(location.search).has('lite') ||
+    (window.matchMedia('(pointer: coarse)').matches && Math.min(innerWidth, innerHeight) < 600);
+
+  const stage = document.getElementById('stage');
+  const labelsEl = document.getElementById('labels');
+  const panel = document.getElementById('panel');
+  const yearInput = document.getElementById('year');
+  const yearOut = document.getElementById('year-out');
+  const playBtn = document.getElementById('play');
+  const playIcon = document.getElementById('play-icon');
+
+  // ------------------------------------------------------------------
+  // Renderer, camera, controls, bloom
+  // ------------------------------------------------------------------
+  const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, lite ? 1.5 : 2));
+  renderer.setClearColor(0x000000, 1);
+  stage.prepend(renderer.domElement);
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(42, 1, 1, 9000);
+  const HOME_POS = new THREE.Vector3(0, 270, 620);
+  const HOME_TARGET = new THREE.Vector3(0, -10, 0);
+  camera.position.copy(HOME_POS);
+
+  const controls = new THREE.OrbitControls(camera, renderer.domElement);
+  controls.target.copy(HOME_TARGET);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.06;
+  controls.enablePan = false;
+  controls.minDistance = 60;
+  controls.maxDistance = 1200;
+  controls.maxPolarAngle = Math.PI * 0.85;
+  controls.rotateSpeed = 0.5;
+  controls.zoomSpeed = 0.7;
+  let userInteracting = false;
+  controls.addEventListener('start', () => { userInteracting = true; });
+  controls.addEventListener('end', () => { userInteracting = false; });
+
+  const composer = new THREE.EffectComposer(renderer);
+  composer.addPass(new THREE.RenderPass(scene, camera));
+  const BLOOM_BASE = 0.7;
+  const bloom = new THREE.UnrealBloomPass(new THREE.Vector2(256, 256), BLOOM_BASE, 0.55, 0.32);
+  if (!lite) composer.addPass(bloom);
+
+  // ------------------------------------------------------------------
+  // Shared shader chunks and textures
+  // ------------------------------------------------------------------
+  const NOISE = `
+    float hash(vec3 p){ p = fract(p * 0.3183099 + 0.1); p *= 17.0; return fract(p.x * p.y * p.z * (p.x + p.y + p.z)); }
+    float noise(vec3 x){
+      vec3 i = floor(x); vec3 f = fract(x); f = f * f * (3.0 - 2.0 * f);
+      return mix(mix(mix(hash(i + vec3(0,0,0)), hash(i + vec3(1,0,0)), f.x),
+                     mix(hash(i + vec3(0,1,0)), hash(i + vec3(1,1,0)), f.x), f.y),
+                 mix(mix(hash(i + vec3(0,0,1)), hash(i + vec3(1,0,1)), f.x),
+                     mix(hash(i + vec3(0,1,1)), hash(i + vec3(1,1,1)), f.x), f.y), f.z);
+    }
+    float fbm(vec3 p){ float v = 0.0; float a = 0.5; for (int i = 0; i < 5; i++){ v += a * noise(p); p *= 2.03; a *= 0.5; } return v; }
+  `;
+  // Brand ramp cyan → violet → magenta → cyan, t in 0..1
+  const BRAND = `
+    vec3 brand(float t){
+      vec3 c1 = vec3(0.298, 0.863, 0.937); vec3 c2 = vec3(0.706, 0.608, 0.973); vec3 c3 = vec3(0.898, 0.384, 0.643);
+      float k = fract(t) * 3.0;
+      if (k < 1.0) return mix(c1, c2, k);
+      if (k < 2.0) return mix(c2, c3, k - 1.0);
+      return mix(c3, c1, k - 2.0);
+    }
+  `;
+  const FRESNEL_V = `
+    varying vec3 vNormal; varying vec3 vViewDir; varying vec3 vObj;
+    void main(){
+      vObj = position;
+      vNormal = normalize(normalMatrix * normal);
+      vec4 mv = modelViewMatrix * vec4(position, 1.0);
+      vViewDir = -mv.xyz;
+      gl_Position = projectionMatrix * mv;
+    }
+  `;
+
+  function radialTexture(w, h) {
+    const c = document.createElement('canvas');
+    c.width = w; c.height = h;
+    const g = c.getContext('2d');
+    g.translate(w / 2, h / 2);
+    g.scale(w / 2, h / 2);
+    const gr = g.createRadialGradient(0, 0, 0, 0, 0, 1);
+    gr.addColorStop(0, 'rgba(255,255,255,1)');
+    gr.addColorStop(0.22, 'rgba(255,255,255,0.45)');
+    gr.addColorStop(0.55, 'rgba(255,255,255,0.1)');
+    gr.addColorStop(1, 'rgba(255,255,255,0)');
+    g.fillStyle = gr;
+    g.fillRect(-1, -1, 2, 2);
+    return new THREE.CanvasTexture(c);
+  }
+  const glowTex = radialTexture(256, 256);
+
+  // ------------------------------------------------------------------
+  // Backdrop: nebula sphere + stars
+  // ------------------------------------------------------------------
+  const nebulaMat = new THREE.ShaderMaterial({
+    side: THREE.BackSide, depthWrite: false,
+    uniforms: { uTime: { value: 0 }, uWarm: { value: 0 } },
+    vertexShader: `varying vec3 vDir; void main(){ vDir = normalize(position); gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+    fragmentShader: `
+      uniform float uTime; uniform float uWarm; varying vec3 vDir;
+      ${NOISE}
+      void main(){
+        vec3 d = normalize(vDir);
+        float t = uTime * 0.012;
+        float n = fbm(d * 2.2 + vec3(t, -t * 0.6, t * 0.4));
+        float wisps = smoothstep(0.42, 0.88, fbm(d * 4.2 + n * 1.6 + vec3(-t, 0.0, t)));
+        vec3 violet = vec3(0.29, 0.17, 0.58);
+        vec3 magenta = vec3(0.36, 0.16, 0.43);
+        vec3 blue = vec3(0.106, 0.227, 0.47);
+        float b1 = pow(max(dot(d, normalize(vec3(-0.6, 0.35, -0.7))), 0.0), 2.5);
+        float b2 = pow(max(dot(d, normalize(vec3(0.75, -0.2, -0.6))), 0.0), 2.5);
+        float b3 = pow(max(dot(d, normalize(vec3(0.0, -0.85, -0.4))), 0.0), 2.0);
+        vec3 col = violet * b1 * mix(0.55, 1.1, uWarm)
+                 + magenta * b2 * mix(0.25, 1.15, uWarm)
+                 + blue * b3 * mix(1.2, 0.55, uWarm);
+        col += mix(blue * 1.1, mix(violet, magenta, 0.5) * 1.2, uWarm) * wisps * 0.32;
+        col *= 0.5 + 0.9 * n;
+        gl_FragColor = vec4(col * 0.42, 1.0);
+      }
+    `
+  });
+  scene.add(new THREE.Mesh(new THREE.SphereGeometry(4000, 48, 32), nebulaMat));
+
+  (function stars() {
+    const n = lite ? 900 : 2200;
+    const pos = new Float32Array(n * 3);
+    for (let i = 0; i < n; i++) {
+      const v = randDir(new THREE.Vector3()).multiplyScalar(1800 + Math.random() * 1600);
+      pos.set([v.x, v.y, v.z], i * 3);
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    scene.add(new THREE.Points(geo, new THREE.PointsMaterial({
+      size: 1.5, sizeAttenuation: false, color: 0xd8d0ff, transparent: true, opacity: 0.7, depthWrite: false
+    })));
+  })();
+
+  // ------------------------------------------------------------------
+  // The system (domains, core, connections) on a slowly turning group
+  // ------------------------------------------------------------------
+  const sys = new THREE.Group();
+  sys.rotation.z = 0.06;
+  scene.add(sys);
+
+  // Domains
+  const orbGeo = new THREE.SphereGeometry(1, 64, 48);
+  const domains = DATA.domains.map((d, i) => {
+    const color = new THREE.Color(d.color);
+    const mat = new THREE.ShaderMaterial({
+      uniforms: { uColor: { value: color }, uTime: { value: i * 7.3 }, uDim: { value: 1 }, uHover: { value: 0 } },
+      vertexShader: FRESNEL_V,
+      fragmentShader: `
+        uniform vec3 uColor; uniform float uTime; uniform float uDim; uniform float uHover;
+        varying vec3 vNormal; varying vec3 vViewDir; varying vec3 vObj;
+        ${NOISE}
+        void main(){
+          float f = pow(1.0 - max(dot(normalize(vNormal), normalize(vViewDir)), 0.0), 2.4);
+          float n = noise(vObj * 3.0 + vec3(0.0, uTime * 0.35, uTime * 0.2));
+          float n2 = noise(vObj * 6.5 - vec3(uTime * 0.25));
+          float plasma = smoothstep(0.4, 0.95, n * 0.65 + n2 * 0.45);
+          vec3 col = vec3(0.035, 0.025, 0.07);
+          col += uColor * plasma * 0.32 * (1.0 - f);
+          col += uColor * f * (1.45 + uHover * 0.9);
+          col += vec3(1.0) * pow(f, 6.0) * 0.25;
+          col *= mix(0.2, 1.0, uDim);
+          gl_FragColor = vec4(col, 1.0);
+        }
+      `
+    });
+    const mesh = new THREE.Mesh(orbGeo, mat);
+    mesh.scale.setScalar(ORB_R);
+    mesh.userData.domainIndex = i;
+
+    const halo = new THREE.Sprite(new THREE.SpriteMaterial({
+      map: glowTex, color, transparent: true, opacity: 0.5, blending: THREE.AdditiveBlending, depthWrite: false
+    }));
+    halo.scale.setScalar(ORB_R * 4.6);
+
+    const ringMat = new THREE.MeshBasicMaterial({
+      color, transparent: true, opacity: 0.45, blending: THREE.AdditiveBlending, depthWrite: false
+    });
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(ORB_R * 1.5, 0.3, 8, 160), ringMat);
+    ring.rotation.set(Math.PI / 2 + 0.35 * Math.sin(i * 1.7), 0.3 * Math.cos(i * 2.3), 0);
+
+    const node = new THREE.Group();
+    node.add(halo, mesh, ring);
+    sys.add(node);
+
+    const label = document.createElement('div');
+    label.className = 'node-label domain-node';
+    label.dataset.id = d.id;
+    label.style.setProperty('--c', d.color);
+    label.textContent = d.name;
+    label.addEventListener('click', () => zoomTo(i));
+    labelsEl.appendChild(label);
+
+    return {
+      ...d, index: i, color, mat, mesh, halo, ring, node, label,
+      angleRad: d.angle * Math.PI / 180,
+      dim: 1, dimTarget: 1, hover: 0, hoverTarget: 0
+    };
+  });
+
+  function placeDomain(dom, p, out) {
+    const r = RING_R * (1 - 0.14 * p);
+    return out.set(Math.cos(dom.angleRad) * r, Math.sin(dom.angleRad * 2) * 18, Math.sin(dom.angleRad) * r);
+  }
+
+  // Core: dark icosahedron with a brand-lit rim, wireframe shell, accretion ring, streak
+  const core = new THREE.Group();
+  sys.add(core);
+  const coreMat = new THREE.ShaderMaterial({
+    uniforms: { uTime: { value: 0 }, uEnergy: { value: 0 } },
+    vertexShader: FRESNEL_V,
+    fragmentShader: `
+      uniform float uTime; uniform float uEnergy;
+      varying vec3 vNormal; varying vec3 vViewDir; varying vec3 vObj;
+      ${BRAND}
+      void main(){
+        float f = pow(1.0 - max(dot(normalize(vNormal), normalize(vViewDir)), 0.0), 2.0);
+        float ang = atan(vObj.z, vObj.x) / 6.2831853 + 0.5 + uTime * 0.05 + vObj.y * 0.15;
+        float pulse = 0.5 + 0.5 * sin(uTime * 2.2);
+        vec3 inner = vec3(0.02, 0.012, 0.05) + vec3(0.486, 0.31, 0.94) * (0.06 + 0.14 * pulse) * uEnergy;
+        gl_FragColor = vec4(inner + brand(ang) * f * (0.7 + 1.5 * uEnergy), 1.0);
+      }
+    `
+  });
+  const coreMesh = new THREE.Mesh(new THREE.IcosahedronGeometry(1, 2), coreMat);
+  core.add(coreMesh);
+
+  const shell = new THREE.LineSegments(
+    new THREE.EdgesGeometry(new THREE.IcosahedronGeometry(1.5, 1)),
+    new THREE.LineBasicMaterial({ color: 0xB49BF8, transparent: true, opacity: 0.35, blending: THREE.AdditiveBlending, depthWrite: false })
+  );
+  core.add(shell);
+
+  const accretionMat = new THREE.ShaderMaterial({
+    transparent: true, blending: THREE.AdditiveBlending, depthWrite: false,
+    uniforms: { uTime: { value: 0 }, uOpacity: { value: 0.6 } },
+    vertexShader: `varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+    fragmentShader: `uniform float uTime; uniform float uOpacity; varying vec2 vUv; ${BRAND}
+      void main(){ gl_FragColor = vec4(brand(vUv.x + uTime * 0.04) * uOpacity, 1.0); }`
+  });
+  const accretion = new THREE.Mesh(new THREE.TorusGeometry(1, 0.018, 12, 240), accretionMat);
+  accretion.rotation.x = Math.PI / 2 - 0.22;
+  core.add(accretion);
+
+  const coreHalo = new THREE.Sprite(new THREE.SpriteMaterial({
+    map: glowTex, color: 0xB964F5, transparent: true, opacity: 0.6, blending: THREE.AdditiveBlending, depthWrite: false
+  }));
+  core.add(coreHalo);
+
+  // Accretion streak: the site's horizontal band of light through the hub (always faces the camera)
+  const streak = new THREE.Sprite(new THREE.SpriteMaterial({
+    map: glowTex, color: 0xC9B8FF, transparent: true, opacity: 0.4, blending: THREE.AdditiveBlending, depthWrite: false
+  }));
+  core.add(streak);
+
+  // Connection + spoke paths. Every path is a quadratic bezier p0 → p1 (control) → p2.
+  const paths = [];
+  const tubeMatFor = (a, b, glow) => new THREE.ShaderMaterial({
+    transparent: true, blending: THREE.AdditiveBlending, depthWrite: false,
+    uniforms: { uA: { value: a }, uB: { value: b }, uOpacity: { value: 0 }, uTime: { value: 0 }, uGlow: { value: glow ? 1 : 0 } },
+    vertexShader: `varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+    fragmentShader: `
+      uniform vec3 uA; uniform vec3 uB; uniform float uOpacity; uniform float uTime; uniform float uGlow; varying vec2 vUv;
+      void main(){
+        vec3 col = mix(uA, uB, vUv.x);
+        float flow = 0.65 + 0.35 * sin(vUv.x * 18.0 - uTime * 2.4);
+        float ends = smoothstep(0.0, 0.08, vUv.x) * smoothstep(1.0, 0.92, vUv.x);
+        gl_FragColor = vec4(col * uOpacity * mix(flow, 1.0, uGlow) * ends, 1.0);
+      }
+    `
+  });
+
+  DATA.connections.forEach(c => {
+    const a = domains.find(d => d.id === c.source);
+    const b = domains.find(d => d.id === c.target);
+    if (!a || !b) return;
+    let diff = Math.abs(a.angle - b.angle);
+    if (diff > 180) diff = 360 - diff;
+    const coreTube = new THREE.Mesh(new THREE.BufferGeometry(), tubeMatFor(a.color, b.color, false));
+    const glowTube = new THREE.Mesh(new THREE.BufferGeometry(), tubeMatFor(a.color, b.color, true));
+    sys.add(glowTube, coreTube);
+    paths.push({
+      kind: 'conn', conn: c, a, b, diff, coreTube, glowTube,
+      p0: new THREE.Vector3(), p1: new THREE.Vector3(), p2: new THREE.Vector3(), strength: 0
+    });
+  });
+
+  domains.forEach(d => {
+    const pts = new Float32Array(41 * 3);
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(pts, 3));
+    const line = new THREE.Line(geo, new THREE.LineBasicMaterial({
+      color: d.color, transparent: true, opacity: 0.2, blending: THREE.AdditiveBlending, depthWrite: false
+    }));
+    sys.add(line);
+    paths.push({
+      kind: 'spoke', a: d, line,
+      p0: new THREE.Vector3(), p1: new THREE.Vector3(), p2: new THREE.Vector3(), strength: 0
+    });
+  });
+
+  function bezier(path, t, out) {
+    const u = 1 - t;
+    return out.set(
+      u * u * path.p0.x + 2 * u * t * path.p1.x + t * t * path.p2.x,
+      u * u * path.p0.y + 2 * u * t * path.p1.y + t * t * path.p2.y,
+      u * u * path.p0.z + 2 * u * t * path.p1.z + t * t * path.p2.z
+    );
+  }
+
+  // ------------------------------------------------------------------
+  // Particles: one Points buffer for every stream
+  // ------------------------------------------------------------------
+  const P_COUNT = lite ? 500 : 1600;
+  const pPos = new Float32Array(P_COUNT * 3);
+  const pCol = new Float32Array(P_COUNT * 3);
+  const pAlpha = new Float32Array(P_COUNT);
+  const pSize = new Float32Array(P_COUNT);
+  const particles = [];
+  const spokePaths = paths.filter(p => p.kind === 'spoke');
+  const connPaths = paths.filter(p => p.kind === 'conn');
+  for (let i = 0; i < P_COUNT; i++) {
+    const onSpoke = Math.random() < 0.5;
+    const list = onSpoke ? spokePaths : connPaths;
+    particles.push({
+      path: list[Math.floor(Math.random() * list.length)],
+      t: Math.random(),
+      speed: 0.08 + Math.random() * 0.14,
+      gate: Math.random(),
+      jitter: randDir(new THREE.Vector3()).multiplyScalar(Math.random() * 3)
+    });
+    pSize[i] = 3 + Math.random() * 5;
+  }
+  const pGeo = new THREE.BufferGeometry();
+  pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+  pGeo.setAttribute('aColor', new THREE.BufferAttribute(pCol, 3));
+  pGeo.setAttribute('aAlpha', new THREE.BufferAttribute(pAlpha, 1));
+  pGeo.setAttribute('aSize', new THREE.BufferAttribute(pSize, 1));
+  const pMat = new THREE.ShaderMaterial({
+    transparent: true, blending: THREE.AdditiveBlending, depthWrite: false,
+    uniforms: { uScale: { value: 1 } },
+    vertexShader: `
+      attribute vec3 aColor; attribute float aAlpha; attribute float aSize; uniform float uScale;
+      varying vec3 vColor; varying float vAlpha;
+      void main(){
+        vColor = aColor; vAlpha = aAlpha;
+        vec4 mv = modelViewMatrix * vec4(position, 1.0);
+        gl_PointSize = aSize * uScale * (320.0 / -mv.z);
+        gl_Position = projectionMatrix * mv;
+      }
+    `,
+    fragmentShader: `
+      varying vec3 vColor; varying float vAlpha;
+      void main(){
+        float d = length(gl_PointCoord - 0.5);
+        float a = smoothstep(0.5, 0.0, d);
+        float hot = smoothstep(0.16, 0.0, d);
+        gl_FragColor = vec4(mix(vColor, vec3(1.0), hot * 0.75) * a * vAlpha, 1.0);
+      }
+    `
+  });
+  const points = new THREE.Points(pGeo, pMat);
+  points.frustumCulled = false;
+  sys.add(points);
+
+  // ------------------------------------------------------------------
+  // Data helpers
+  // ------------------------------------------------------------------
+  function strengthAt(conn, y) {
+    if (y < conn.yearAppears) return 0;
+    if (conn.strengthByYear[y] !== undefined) return conn.strengthByYear[y];
+    const years = Object.keys(conn.strengthByYear).map(Number).sort((a, b) => a - b);
+    const lower = years.filter(v => v <= y).pop() || years[0];
+    const upper = years.find(v => v >= y) || years[years.length - 1];
+    if (lower === upper) return conn.strengthByYear[lower];
+    const r = (y - lower) / (upper - lower);
+    return conn.strengthByYear[lower] + (conn.strengthByYear[upper] - conn.strengthByYear[lower]) * r;
+  }
+  function strength(conn, yf) {
+    const y0 = Math.floor(yf);
+    const f = yf - y0;
+    return strengthAt(conn, y0) * (1 - f) + strengthAt(conn, Math.min(END, y0 + 1)) * f;
+  }
+  function snapshotFor(domainId, year) {
+    const details = DATA.domainDetails && DATA.domainDetails[domainId];
+    if (!details) return null;
+    if (!details.contentByYear) return { year: null, data: details };
+    const years = Object.keys(details.contentByYear).map(Number).sort((a, b) => a - b);
+    const pick = years.filter(y => y <= year).pop();
+    return pick !== undefined ? { year: pick, years, data: details.contentByYear[pick] } : { year: null, years, data: null };
+  }
+
+  // ------------------------------------------------------------------
+  // State
+  // ------------------------------------------------------------------
+  const state = {
+    targetYear: START, year: START, builtYear: -1,
+    selected: null, offset: 0, flare: 0, flared: false,
+    playing: false, playTimer: 0, coreSize: CORE_MIN
+  };
+  const tmp = new THREE.Vector3(), tmp2 = new THREE.Vector3();
+
+  // Rebuild everything that depends on the (smoothed) year
+  function rebuild() {
+    const y = state.year;
+    const p = (y - START) / (END - START);
+    state.builtYear = y;
+
+    domains.forEach(d => placeDomain(d, p, d.node.position));
+
+    // connection strengths, then spoke strength = how connected that field is
+    connPaths.forEach(path => { path.strength = strength(path.conn, y); });
+    spokePaths.forEach(path => {
+      let m = 0;
+      connPaths.forEach(c => { if (c.a === path.a || c.b === path.a) m = Math.max(m, c.strength); });
+      path.strength = 0.18 + 0.82 * m;
+    });
+
+    connPaths.forEach(path => {
+      const A = path.a.node.position, B = path.b.node.position;
+      const k = path.diff / 180;
+      path.p0.copy(A);
+      path.p2.copy(B);
+      path.p1.copy(A).add(B).multiplyScalar(0.5).multiplyScalar(0.55 + 0.3 * (1 - k));
+      path.p1.y += 25 + 150 * k; // opposite fields arc high over the core
+      const s = path.strength;
+      [path.coreTube, path.glowTube].forEach((mesh, gi) => {
+        mesh.visible = s > 0.005;
+        if (!mesh.visible) return;
+        mesh.geometry.dispose();
+        const curve = new THREE.QuadraticBezierCurve3(path.p0, path.p1, path.p2);
+        mesh.geometry = new THREE.TubeGeometry(curve, 64, gi === 0 ? 0.3 + 1.1 * s : 1.8 + 3.5 * s, 10, false);
+        mesh.material.uniforms.uOpacity.value = gi === 0 ? 0.18 + 0.5 * s : 0.06 * s;
+      });
+    });
+
+    spokePaths.forEach(path => {
+      path.p0.copy(path.a.node.position);
+      path.p2.set(0, 0, 0);
+      path.p1.copy(path.p0).multiplyScalar(0.5);
+      path.p1.y -= 30;
+      const arr = path.line.geometry.attributes.position.array;
+      for (let i = 0; i <= 40; i++) {
+        bezier(path, i / 40, tmp);
+        arr[i * 3] = tmp.x; arr[i * 3 + 1] = tmp.y; arr[i * 3 + 2] = tmp.z;
+      }
+      path.line.geometry.attributes.position.needsUpdate = true;
+      path.line.geometry.computeBoundingSphere();
+      path.line.material.opacity = 0.08 + 0.22 * path.strength;
+    });
+
+    state.coreSize = CORE_MIN + (CORE_MAX - CORE_MIN) * p;
+    coreMat.uniforms.uEnergy.value = p;
+    nebulaMat.uniforms.uWarm.value = p;
+    streak.material.opacity = 0.18 + 0.45 * p;
+    shell.material.opacity = 0.2 + 0.3 * p;
+  }
+
+  // ------------------------------------------------------------------
+  // Year controls
+  // ------------------------------------------------------------------
+  const ticks = document.getElementById('ticks');
+  for (let y = START; y <= END; y++) {
+    const s = document.createElement('span');
+    s.textContent = "'" + String(y).slice(2);
+    s.dataset.y = y;
+    ticks.appendChild(s);
+  }
+  function setYear(y, fromInput) {
+    y = Math.max(START, Math.min(END, Math.round(y)));
+    state.targetYear = y;
+    yearOut.textContent = y;
+    if (!fromInput) yearInput.value = y;
+    ticks.querySelectorAll('span').forEach(s => s.classList.toggle('on', Number(s.dataset.y) === y));
+    if (state.selected !== null) renderPanel(domains[state.selected]);
+  }
+  yearInput.addEventListener('input', () => { stopPlay(); setYear(Number(yearInput.value), true); });
+
+  function startPlay() {
+    if (state.targetYear >= END) setYear(START);
+    state.playing = true; state.playTimer = 0;
+    playBtn.setAttribute('aria-label', 'Pause timeline');
+    playIcon.innerHTML = '<path d="M6 4.5h4.5v15H6zM13.5 4.5H18v15h-4.5z"/>';
+  }
+  function stopPlay() {
+    state.playing = false;
+    playBtn.setAttribute('aria-label', 'Play timeline');
+    playIcon.innerHTML = '<path d="M7 4.5v15l13-7.5z"/>';
+  }
+  playBtn.addEventListener('click', () => (state.playing ? stopPlay() : startPlay()));
+
+  // ------------------------------------------------------------------
+  // Panel
+  // ------------------------------------------------------------------
+  const el = (tag, cls, text) => {
+    const n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text !== undefined) n.textContent = text;
+    return n;
+  };
+  function section(title, child) {
+    const s = el('section');
+    s.appendChild(el('h3', null, title));
+    s.appendChild(child);
+    return s;
+  }
+  function renderPanel(d) {
+    const snap = snapshotFor(d.id, state.targetYear);
+    panel.style.setProperty('--c', d.color.getStyle());
+    document.getElementById('p-eyebrow').textContent =
+      snap && snap.year ? `Field · snapshot ${snap.year}` : 'Field';
+    document.getElementById('p-title').textContent = d.name.replace('\n', ' ');
+
+    const snaps = document.getElementById('p-snapshots');
+    snaps.replaceChildren();
+    (snap && snap.years || []).forEach(y => {
+      const b = el('button', null, String(y));
+      b.type = 'button';
+      b.setAttribute('aria-current', String(snap.year === y));
+      b.addEventListener('click', () => { stopPlay(); setYear(y); });
+      snaps.appendChild(b);
+    });
+
+    const body = document.getElementById('p-body');
+    body.replaceChildren();
+    const data = snap && snap.data;
+    if (!data) {
+      body.appendChild(el('p', 'list', 'No snapshot before this year.'));
+      return;
+    }
+    if (data.contributions) {
+      const ul = el('ul', 'list');
+      data.contributions.forEach(c => ul.appendChild(el('li', null, c)));
+      body.appendChild(section('Contributions', ul));
+    }
+    if (data.keyPeople) {
+      const ul = el('ul', 'people');
+      data.keyPeople.forEach(p => {
+        const li = el('li');
+        li.appendChild(el('strong', null, typeof p === 'string' ? p : p.name));
+        if (p.role) li.appendChild(el('span', null, p.role));
+        ul.appendChild(li);
+      });
+      body.appendChild(section('Key people', ul));
+    }
+    if (data.technologies) {
+      const ul = el('ul', 'chips');
+      data.technologies.forEach(t => ul.appendChild(el('li', null, t)));
+      body.appendChild(section('Technologies', ul));
+    }
+    if (data.examples) {
+      const box = el('div', 'examples');
+      data.examples.forEach(ex => {
+        const card = el(ex.url ? 'a' : 'div', 'example');
+        if (ex.url) { card.href = ex.url; card.target = '_blank'; card.rel = 'noopener noreferrer'; }
+        card.appendChild(el('strong', null, ex.name));
+        if (ex.type || ex.description) card.appendChild(el('span', null, ex.type || ex.description));
+        if (ex.url) {
+          const NS = 'http://www.w3.org/2000/svg';
+          const svg = document.createElementNS(NS, 'svg');
+          svg.setAttribute('viewBox', '0 0 24 24'); svg.setAttribute('fill', 'none');
+          svg.setAttribute('stroke-width', '1.75'); svg.setAttribute('stroke-linecap', 'round'); svg.setAttribute('stroke-linejoin', 'round');
+          const path = document.createElementNS(NS, 'path');
+          path.setAttribute('d', 'M7 17L17 7M8 7h9v9');
+          svg.appendChild(path);
+          card.appendChild(svg);
+        }
+        box.appendChild(card);
+      });
+      body.appendChild(section('Examples', box));
+    }
+  }
+
+  // ------------------------------------------------------------------
+  // Camera flights
+  // ------------------------------------------------------------------
+  let fly = null;
+  const ease = t => 1 - Math.pow(1 - t, 4); // close to cubic-bezier(.16,1,.3,1)
+  function flyTo(pos, target, dur) {
+    fly = {
+      fromP: camera.position.clone(), toP: pos.clone(),
+      fromT: controls.target.clone(), toT: target.clone(),
+      t: 0, dur: reduceMotion ? 0.001 : dur
+    };
+    controls.enabled = false;
+  }
+  const lastOrb = new THREE.Vector3();
+  function zoomTo(i) {
+    if (state.selected === i) { back(); return; }
+    state.selected = i;
+    const d = domains[i];
+    d.node.getWorldPosition(tmp);
+    lastOrb.copy(tmp);
+    const out = tmp2.set(tmp.x, 0, tmp.z).normalize();
+    const pos = tmp.clone().addScaledVector(out, 120).add(new THREE.Vector3(0, 48, 0));
+    flyTo(pos, tmp, 1.3);
+    domains.forEach((o, j) => { o.dimTarget = j === i ? 1 : 0.16; });
+    renderPanel(d);
+    panel.classList.add('open');
+    panel.setAttribute('aria-hidden', 'false');
+    stage.classList.add('zoomed');
+  }
+  function back() {
+    if (state.selected === null && !fly) { flyTo(HOME_POS, HOME_TARGET, 1.1); return; }
+    state.selected = null;
+    flyTo(HOME_POS, HOME_TARGET, 1.1);
+    domains.forEach(o => { o.dimTarget = 1; });
+    panel.classList.remove('open');
+    panel.setAttribute('aria-hidden', 'true');
+    stage.classList.remove('zoomed');
+  }
+  document.getElementById('back').addEventListener('click', back);
+  document.getElementById('reset').addEventListener('click', back);
+
+  // ------------------------------------------------------------------
+  // Picking
+  // ------------------------------------------------------------------
+  const raycaster = new THREE.Raycaster();
+  const ndc = new THREE.Vector2();
+  const orbMeshes = domains.map(d => d.mesh);
+  function pick(ev) {
+    const r = renderer.domElement.getBoundingClientRect();
+    ndc.set(((ev.clientX - r.left) / r.width) * 2 - 1, -((ev.clientY - r.top) / r.height) * 2 + 1);
+    raycaster.setFromCamera(ndc, camera);
+    const hit = raycaster.intersectObjects(orbMeshes, false)[0];
+    return hit ? hit.object.userData.domainIndex : null;
+  }
+  let downAt = null;
+  renderer.domElement.addEventListener('pointerdown', ev => { downAt = { x: ev.clientX, y: ev.clientY }; });
+  renderer.domElement.addEventListener('pointerup', ev => {
+    if (!downAt) return;
+    const moved = Math.hypot(ev.clientX - downAt.x, ev.clientY - downAt.y);
+    downAt = null;
+    if (moved > 5) return;
+    const i = pick(ev);
+    if (i !== null) zoomTo(i);
+    else if (state.selected !== null) back();
+  });
+  let hoverEv = null;
+  renderer.domElement.addEventListener('pointermove', ev => { hoverEv = ev; });
+  renderer.domElement.addEventListener('pointerleave', () => { hoverEv = null; domains.forEach(d => { d.hoverTarget = 0; }); stage.classList.remove('hovering'); });
+
+  window.addEventListener('keydown', ev => {
+    if (ev.target === yearInput && (ev.key === 'ArrowLeft' || ev.key === 'ArrowRight')) return;
+    if (ev.key === 'ArrowLeft') { stopPlay(); setYear(state.targetYear - 1); }
+    else if (ev.key === 'ArrowRight') { stopPlay(); setYear(state.targetYear + 1); }
+    else if (ev.key === 'Escape') back();
+    else if (ev.key === ' ' && ev.target.tagName !== 'BUTTON') { ev.preventDefault(); state.playing ? stopPlay() : startPlay(); }
+  });
+
+  // ------------------------------------------------------------------
+  // Resize + view offset (shifts the scene left/up while the panel is open)
+  // ------------------------------------------------------------------
+  let W = 1, H = 1;
+  function applyViewOffset() {
+    const o = state.offset;
+    if (o < 0.001) camera.clearViewOffset();
+    else if (W > 760) camera.setViewOffset(W, H, W * 0.16 * o, 0, W, H);
+    else camera.setViewOffset(W, H, 0, H * 0.22 * o, W, H);
+    camera.updateProjectionMatrix();
+  }
+  function resize() {
+    W = stage.clientWidth; H = stage.clientHeight;
+    renderer.setSize(W, H);
+    composer.setSize(W, H);
+    camera.aspect = W / H;
+    applyViewOffset();
+    pMat.uniforms.uScale.value = Math.min(window.devicePixelRatio || 1, 2) * (H / 900);
+  }
+  new ResizeObserver(resize).observe(stage);
+  resize();
+
+  // ------------------------------------------------------------------
+  // Loop
+  // ------------------------------------------------------------------
+  const clock = new THREE.Clock();
+  let time = 0;
+  const projected = new THREE.Vector3();
+  const colA = new THREE.Color();
+
+  // Optional deep links: ?year=2022&open=vr-tech
+  const qs = new URLSearchParams(location.search);
+  setYear(Number(qs.get('year')) || START);
+  state.year = state.targetYear;
+  const openIdx = domains.findIndex(d => d.id === qs.get('open'));
+  if (openIdx >= 0) setTimeout(() => zoomTo(openIdx), 300);
+
+  function frame() {
+    const dt = Math.min(clock.getDelta(), 0.05);
+    time += dt;
+
+    // autoplay through the years
+    if (state.playing) {
+      state.playTimer += dt;
+      if (state.playTimer > 1.15) {
+        state.playTimer = 0;
+        if (state.targetYear >= END) stopPlay(); else setYear(state.targetYear + 1);
+      }
+    }
+
+    // smooth year
+    state.year += (state.targetYear - state.year) * Math.min(1, dt * (reduceMotion ? 20 : 3.2));
+    if (Math.abs(state.targetYear - state.year) < 0.001) state.year = state.targetYear;
+    if (Math.abs(state.year - state.builtYear) > 0.002) rebuild();
+
+    // the 2025 flare
+    if (state.year > END - 0.08 && !state.flared) { state.flared = true; state.flare = 1; }
+    if (state.year < END - 0.6) state.flared = false;
+    state.flare *= Math.exp(-dt * 1.1);
+    bloom.strength = BLOOM_BASE + state.flare * 1.6;
+
+    // slow orbit of the whole system (paused while a field is open)
+    if (state.selected === null && !reduceMotion && !userInteracting && !fly) sys.rotation.y += dt * 0.03;
+
+    // shaders
+    coreMat.uniforms.uTime.value = time;
+    accretionMat.uniforms.uTime.value = time;
+    nebulaMat.uniforms.uTime.value = time;
+    connPaths.forEach(p => { p.coreTube.material.uniforms.uTime.value = time; });
+
+    // core
+    const breathe = 1 + 0.04 * Math.sin(time * 1.6) + 0.3 * state.flare;
+    coreMesh.scale.setScalar(state.coreSize * breathe);
+    coreMesh.rotation.y += dt * 0.12;
+    shell.scale.setScalar(state.coreSize * (1 + 0.06 * Math.sin(time * 0.9)));
+    shell.rotation.y -= dt * 0.08; shell.rotation.x += dt * 0.05;
+    accretion.scale.setScalar(state.coreSize * 2.1);
+    accretion.rotation.z += dt * 0.15;
+    coreHalo.scale.setScalar(state.coreSize * (5 + 3 * state.flare));
+    coreHalo.material.opacity = 0.35 + 0.35 * coreMat.uniforms.uEnergy.value + 0.4 * state.flare;
+    streak.scale.set(state.coreSize * 14 + 120, state.coreSize * 1.6 + 14, 1);
+
+    // hover
+    if (hoverEv && !fly) {
+      const h = pick(hoverEv);
+      domains.forEach((d, i) => { d.hoverTarget = i === h ? 1 : 0; d.label.classList.toggle('hover', i === h); });
+      stage.classList.toggle('hovering', h !== null);
+    }
+
+    // domains: dim, hover, ring spin
+    domains.forEach((d, i) => {
+      d.dim += (d.dimTarget - d.dim) * Math.min(1, dt * 4);
+      d.hover += (d.hoverTarget - d.hover) * Math.min(1, dt * 8);
+      d.mat.uniforms.uDim.value = d.dim;
+      d.mat.uniforms.uHover.value = d.hover;
+      d.mat.uniforms.uTime.value = time + i * 7.3;
+      d.halo.material.opacity = (0.32 + 0.3 * d.hover) * (0.15 + 0.85 * d.dim);
+      d.ring.material.opacity = 0.4 * (0.1 + 0.9 * d.dim);
+      d.ring.rotation.z += dt * (0.2 + i * 0.03);
+    });
+
+    // particles
+    for (let i = 0; i < P_COUNT; i++) {
+      const pt = particles[i];
+      const path = pt.path;
+      pt.t += dt * pt.speed * (reduceMotion ? 0.4 : 1);
+      if (pt.t > 1) pt.t -= 1;
+      bezier(path, pt.t, tmp).add(pt.jitter);
+      pPos[i * 3] = tmp.x; pPos[i * 3 + 1] = tmp.y; pPos[i * 3 + 2] = tmp.z;
+      const on = Math.min(1, Math.max(0, (path.strength - pt.gate) * 6));
+      let dimF = 1;
+      if (state.selected !== null) {
+        const sel = domains[state.selected];
+        dimF = (path.a === sel || path.b === sel) ? 1 : 0.15;
+      }
+      pAlpha[i] = on * Math.sin(Math.PI * pt.t) * dimF * (path.kind === 'spoke' ? 0.8 : 1);
+      if (path.kind === 'conn') colA.copy(path.a.color).lerp(path.b.color, pt.t);
+      else colA.copy(path.a.color).lerp(new THREE.Color(0xB49BF8), pt.t * 0.6);
+      pCol[i * 3] = colA.r; pCol[i * 3 + 1] = colA.g; pCol[i * 3 + 2] = colA.b;
+    }
+    pGeo.attributes.position.needsUpdate = true;
+    pGeo.attributes.aAlpha.needsUpdate = true;
+    pGeo.attributes.aColor.needsUpdate = true;
+
+    // camera flight / follow the open orb as it drifts with the year
+    if (fly) {
+      fly.t += dt / fly.dur;
+      const k = ease(Math.min(1, fly.t));
+      camera.position.lerpVectors(fly.fromP, fly.toP, k);
+      controls.target.lerpVectors(fly.fromT, fly.toT, k);
+      if (fly.t >= 1) { fly = null; controls.enabled = true; }
+    } else if (state.selected !== null) {
+      domains[state.selected].node.getWorldPosition(tmp);
+      tmp2.subVectors(tmp, lastOrb);
+      camera.position.add(tmp2);
+      controls.target.add(tmp2);
+      lastOrb.copy(tmp);
+    }
+    controls.update();
+
+    // panel view offset
+    const offTarget = state.selected !== null ? 1 : 0;
+    const prevOffset = state.offset;
+    state.offset += (offTarget - state.offset) * Math.min(1, dt * 3.5);
+    if (Math.abs(state.offset - prevOffset) > 0.0005 || (offTarget === 0 && state.offset !== 0 && state.offset < 0.001)) {
+      if (state.offset < 0.001) state.offset = 0;
+      applyViewOffset();
+    }
+
+    // labels (HTML, sharp at any zoom; they also carry data-id for the tutorial)
+    camera.updateMatrixWorld();
+    const fovK = 1 / Math.tan((camera.fov * Math.PI / 180) / 2);
+    domains.forEach(d => {
+      d.node.getWorldPosition(tmp);
+      const dist = tmp.distanceTo(camera.position);
+      projected.copy(tmp).project(camera);
+      if (projected.z > 1) { d.label.style.opacity = 0; return; }
+      const x = (projected.x * 0.5 + 0.5) * W;
+      const y = (-projected.y * 0.5 + 0.5) * H;
+      const rPx = (ORB_R / dist) * fovK * (H / 2);
+      d.label.style.transform = `translate(${x}px, ${y + rPx * 1.25 + 10}px) translateX(-50%)`;
+      d.label.style.opacity = (0.2 + 0.8 * d.dim).toFixed(3);
+    });
+
+    if (lite) renderer.render(scene, camera); else composer.render();
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  // Debug hook for screenshots / quick tests in the console
+  window.__nebula = { setYear, zoomTo, back, startPlay };
+})();
+</script>
+</body>
+</html>
