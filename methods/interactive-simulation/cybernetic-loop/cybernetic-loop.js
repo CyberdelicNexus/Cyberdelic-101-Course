@@ -91,6 +91,8 @@
         const THREE = window.THREE;
         const DATA = window.CyberneticLoopData;
         const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        // Phones: the 3D text labels are hidden (CSS, .cl3d--phone) and their content moves into the step panel
+        const PHONE_W = 640;
         const cleanups = [];
         const on = (target, type, fn, o) => { target.addEventListener(type, fn, o); cleanups.push(() => target.removeEventListener(type, fn, o)); };
 
@@ -253,8 +255,10 @@
             prev.addEventListener('click', () => openStep((i + 4) % 5));
             next.addEventListener('click', () => openStep((i + 1) % 5));
             nav.append(prev, next);
-            panel.append(close, el('span', 'cl3d-eb', `Step ${n.step} of 5`), el('h2', null, n.title), el('span', 'cl3d-bar'),
-                el('p', null, n.body), el('p', 'cl3d-why', n.why));
+            panel.append(close, el('span', 'cl3d-eb', `Step ${n.step} of 5`), el('h2', null, n.title), el('span', 'cl3d-bar'), el('p', null, n.body));
+            const extra = W < PHONE_W && api.panelExtras[n.id];
+            if (extra) panel.appendChild(extra());
+            panel.appendChild(el('p', 'cl3d-why', n.why));
             if (n.example) { const ex = el('div', 'cl3d-ex'); ex.innerHTML = n.example; panel.appendChild(ex); }   // trusted local course data
             panel.appendChild(nav);
             panel.scrollTop = 0;
@@ -297,7 +301,8 @@
             const r = renderer.domElement.getBoundingClientRect();
             ndc.set((e.clientX - r.left) / r.width * 2 - 1, -(e.clientY - r.top) / r.height * 2 + 1);
             ray.setFromCamera(ndc, camera);
-            const hit = ray.intersectObjects(pickables.filter(p => p.mesh.visible).map(p => p.mesh), false)[0];
+            const phone = W < PHONE_W;
+            const hit = ray.intersectObjects(pickables.filter(p => p.mesh.visible && (!p.phoneOnly || phone)).map(p => p.mesh), false)[0];
             return hit ? pickables.find(p => p.mesh === hit.object).index : null;
         }
         let down = null;
@@ -331,6 +336,9 @@
             camera.aspect = W / H; camera.updateProjectionMatrix();
             root.classList.toggle('cl3d--compact', W < 1180);
             root.classList.toggle('cl3d--narrow', W < 860);
+            const wasPhone = root.classList.contains('cl3d--phone');
+            root.classList.toggle('cl3d--phone', W < PHONE_W);
+            if (started && wasPhone !== (W < PHONE_W) && state.open !== null) openStep(state.open, false);
             if (started && changed) {   // keep whatever is in view framed
                 if (state.open !== null) { if (api.onOpen) api.onOpen(state.open, true); }
                 else if (api.onHome) api.onHome(true);
@@ -406,7 +414,9 @@
             setStress: v => { range.value = v; setStress(v); },
             onFrame: fn => frameFns.push(fn),
             onSignal: fn => signalFns.push(fn),
-            pickable: (mesh, index) => pickables.push({ mesh, index }),
+            pickable: (mesh, index, phoneOnly = false) => pickables.push({ mesh, index, phoneOnly }),
+            // phone only: extra panel content per step id (the 3D labels are hidden there), see openStep
+            panelExtras: {},
             size: () => ({ W, H }),
             freeRect, frame, resize, destroy,
             start() {
@@ -632,6 +642,9 @@
             g.add(orb, halo, plinth);
             scene.add(g);
             M.pickable(orb, idx);
+            const hit = new THREE.Mesh(new THREE.SphereGeometry(48, 12, 8), new THREE.MeshBasicMaterial({ visible: false }));
+            g.add(hit);
+            M.pickable(hit, idx, true);   // phones: a larger tap area, since there is no label to tap
             return { g, orb, halo, heat: 0 };
         }
         const stSensor = station('sensor', [-230, 235, 0], 1);
@@ -704,7 +717,7 @@
         const devG = new THREE.Group(); scene.add(devG);
         const thread = new THREE.Line(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ color: BRAND.sensor, opacity: .35, ...M.additive }));
         devG.add(thread);
-        let devices = [], devIdx = 0, devTimer = 0, devLocked = false;
+        let devices = [], devIdx = 0, devTimer = 0, devLocked = false, devBtns = [];
         const devNodes = [0, 1, 2].map(k => {
             const g = new THREE.Group();
             g.position.set(stSensor.g.position.x, stSensor.g.position.y - 92 - k * 48, 20);
@@ -725,6 +738,7 @@
             Object.values(PLACES).flat().forEach(m => { m.visible = false; });
             (devices[k] ? devices[k].places : []).forEach(pk => PLACES[pk].forEach(m => { m.visible = true; }));
             devNodes.forEach((d, i) => d.lab.el.classList.toggle('dim', i !== k));
+            devBtns.forEach((b, i) => b.setAttribute('aria-pressed', String(i === k)));
         }
         function loadDevices() {
             devices = devicesFor();
@@ -929,11 +943,12 @@
         });
         adjLine([A.clone().add(new THREE.Vector3(-17, 0, 0)), new THREE.Vector3(MENU_X, A.y, A.z + 10), stratNodes[2].g.position.clone()], .35);
 
-        let strat = null, lastS = 0, lastBand = '', eegAim = .5, gVal = .35;
+        let strat = null, lastS = 0, lastBand = '', eegAim = .5, gVal = .35, stratBtns = [];
         const targetBand = () => strat !== null && state.signal === 'eeg' ? STRATS.eeg[strat][2] : 'alpha';
         function setStrat(k) {
             strat = k; lastS = state.stress; lastBand = state.band;
             stratNodes.forEach((d, i) => d.lab.el.classList.toggle('dim', k !== null && i !== k));
+            stratBtns.forEach((b, i) => b.setAttribute('aria-pressed', String(i === k)));
         }
         function pickStrategy(k) { setStrat(strat === k ? null : k); }
         function loadStrategies() {
@@ -1213,6 +1228,7 @@
             envAge += dt;
             if (state.signal !== 'gsr') flash.material.opacity = 0;
             worldLab.el.textContent = ENV[state.signal](t);
+            worldNow.lastChild.textContent = worldLab.el.textContent;
             if (envFirst) { envFirst = false; cur.set(tgt); col.set(tcol); }   // first world appears fully formed
             const k = Math.min(1, .05 + envAge * envAge * .25);   // morph between worlds, then track exactly
             for (let i = 0; i < N * 3; i++) { cur[i] += (tgt[i] - cur[i]) * k; col[i] += (tcol[i] - col[i]) * Math.min(1, k * 1.5); }
@@ -1232,6 +1248,39 @@
             M.addLabel(platform, '', BRAND.vr, () => M.openStep(3), 18),
             M.addLabel(stAdj.g, '', BRAND.adjustment, () => M.openStep(4), 30)
         ];
+        const bodyHit = new THREE.Mesh(new THREE.BoxGeometry(130, 360, 90), new THREE.MeshBasicMaterial({ visible: false }));
+        bodyHit.position.y = 12; bodyG.add(bodyHit);
+        M.pickable(bodyHit, 0, true);   // phones: tap the body itself (its label is hidden there)
+
+        // Phones: what the hidden 3D labels said, as panel content
+        function pickList(title, items, sel, onPick) {
+            const wrap = document.createElement('div'), h = document.createElement('span');
+            wrap.className = 'cl3d-picks'; h.className = 'cl3d-eb'; h.textContent = title;
+            wrap.appendChild(h);
+            const btns = items.map(([name, sub], i) => {
+                const b = document.createElement('button'), s = document.createElement('strong'), sm = document.createElement('small');
+                b.type = 'button'; s.textContent = name; sm.textContent = sub;
+                b.append(s, sm);
+                b.setAttribute('aria-pressed', String(i === sel));
+                b.addEventListener('click', () => onPick(i));
+                wrap.appendChild(b);
+                return b;
+            });
+            return { wrap, btns };
+        }
+        const worldNow = document.createElement('p');
+        worldNow.className = 'cl3d-now';
+        worldNow.append(Object.assign(document.createElement('span'), { className: 'cl3d-eb', textContent: 'In the world now' }), document.createElement('strong'));
+        M.panelExtras.sensor = () => {
+            const l = pickList('Sensors · tap to see where it is worn', devices.map(d => [d.type, d.ex]), devIdx, k => { devLocked = true; setDevice(k); });
+            devBtns = l.btns; return l.wrap;
+        };
+        M.panelExtras.adjustment = () => {
+            const l = pickList('Try a strategy', STRATS[state.signal].map(s => [s[0], s[1]]), strat, pickStrategy);
+            stratBtns = l.btns; return l.wrap;
+        };
+        M.panelExtras.vr = () => worldNow;
+
         const youA = new THREE.Object3D(); youA.position.set(0, -165, 0); bodyG.add(youA);
         M.addLabel(youA, 'You', null, null, 0, true);
         // the VR label sits on the front of the platform ring
@@ -1267,6 +1316,8 @@
             if (!W || !H) return;
             const rw = Math.max(120, r.x1 - r.x0), rh = Math.max(120, r.y1 - r.y0);
             const dist = Math.max((h / 2) / (tanV * rh / H), (w / 2) / (tanV * cam.aspect * rw / W));
+            // a tall phone screen needs the camera further back than the default zoom-out limit
+            M.controls.maxDistance = Math.max(2600, dist * 1.15);
             const upp = 2 * dist * tanV / H;   // world units per screen pixel at the box's depth
             const x = cx - ((r.x0 + r.x1) / 2 - W / 2) * upp, y = cy + ((r.y0 + r.y1) / 2 - H / 2) * upp;
             M.flyTo(new THREE.Vector3(x, y + dist * .06, cz + dist), new THREE.Vector3(x, y, cz), instant);
