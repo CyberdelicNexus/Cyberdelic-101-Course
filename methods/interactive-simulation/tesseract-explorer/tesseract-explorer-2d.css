@@ -1,0 +1,618 @@
+/**
+ * CSS styles for the Tesseract Explorer interactive simulation
+ * Scoped under [data-engine="TesseractExplorer"]
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;700&display=swap');
+
+[data-engine="TesseractExplorer"] {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 600px;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: 'DM Sans', sans-serif;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+}
+
+/* Hide host framework's control panel since we use a custom UI */
+[data-engine="TesseractExplorer"] .sim-controls,
+.sim-container[data-engine="TesseractExplorer"] .sim-controls,
+.interactive-simulation-container[data-engine="TesseractExplorer"] .sim-controls {
+    display: none !important;
+}
+
+[data-engine="TesseractExplorer"] .sim-viewport,
+.sim-container[data-engine="TesseractExplorer"] .sim-viewport,
+.interactive-simulation-container[data-engine="TesseractExplorer"] .sim-viewport {
+    flex: 1 !important;
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+}
+
+/* =========================================
+   LAYOUT: THREE PANELS
+   ========================================= */
+
+/* Left: Navigation Panel */
+[data-engine="TesseractExplorer"] .te-nav-panel {
+    width: 220px;
+    height: 100%;
+    background-color: rgba(10, 10, 15, 0.95);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+    transition: width 0.3s ease;
+}
+
+[data-engine="TesseractExplorer"] .te-nav-header {
+    padding: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+[data-engine="TesseractExplorer"] .te-nav-header h3 {
+    margin: 0;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    color: white;
+    letter-spacing: 1px;
+}
+
+[data-engine="TesseractExplorer"] .te-nav-tabs {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+/* Center: Visualizer */
+[data-engine="TesseractExplorer"] .te-center-panel {
+    flex: 1;
+    height: 100%;
+    position: relative;
+    background: radial-gradient(circle at center, rgba(10, 10, 20, 1) 0%, rgba(5, 5, 8, 1) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-right: 340px;
+    /* Pre-allocate space for absolute panels */
+}
+
+/* Right: Workspace Panel */
+[data-engine="TesseractExplorer"] .te-workspace-panel {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 340px;
+    height: 100%;
+    background-color: rgba(15, 15, 20, 0.95);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transform: translateX(0);
+    box-sizing: border-box;
+}
+
+[data-engine="TesseractExplorer"] .te-workspace-panel.hidden {
+    transform: translateX(100%);
+}
+
+/* =========================================
+   NAVIGATION TABS
+   ========================================= */
+
+[data-engine="TesseractExplorer"] .te-tab {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+[data-engine="TesseractExplorer"] .te-tab:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+[data-engine="TesseractExplorer"] .te-tab.active {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+[data-engine="TesseractExplorer"] .te-tab-icon {
+    font-size: 18px;
+    width: 24px;
+    text-align: center;
+    margin-right: 12px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+[data-engine="TesseractExplorer"] .te-tab-label {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+[data-engine="TesseractExplorer"] .te-tab-status {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s;
+}
+
+/* Tab States */
+[data-engine="TesseractExplorer"] .te-tab.active .te-tab-icon,
+[data-engine="TesseractExplorer"] .te-tab.active .te-tab-label {
+    opacity: 1;
+}
+
+[data-engine="TesseractExplorer"] .te-tab.completed .te-tab-status {
+    background-color: currentColor;
+    /* Uses color set via inline style */
+    border-color: transparent;
+    box-shadow: 0 0 8px currentColor;
+}
+
+/* =========================================
+   WORKSPACE CONTENT
+   ========================================= */
+
+[data-engine="TesseractExplorer"] .te-workspace-header {
+    padding: 25px 20px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+[data-engine="TesseractExplorer"] .te-workspace-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    color: white;
+    margin: 0 0 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+[data-engine="TesseractExplorer"] .te-workspace-desc {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.5;
+    margin: 0;
+}
+
+[data-engine="TesseractExplorer"] .te-workspace-question {
+    font-size: 14px;
+    font-weight: 500;
+    color: white;
+    margin: 15px 0 0 0;
+    padding-top: 15px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+[data-engine="TesseractExplorer"] .te-workspace-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+[data-engine="TesseractExplorer"] .te-workspace-footer {
+    padding: 15px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: flex-end;
+}
+
+[data-engine="TesseractExplorer"] .te-btn {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+[data-engine="TesseractExplorer"] .te-btn:hover:not(:disabled) {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+[data-engine="TesseractExplorer"] .te-btn.primary {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+[data-engine="TesseractExplorer"] .te-btn.primary:hover:not(:disabled) {
+    background-color: #7a2bff;
+    /* Lighter primary */
+}
+
+[data-engine="TesseractExplorer"] .te-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* =========================================
+   OPTIONS / SELECTION
+   ========================================= */
+
+[data-engine="TesseractExplorer"] .te-option {
+    background-color: rgba(25, 25, 30, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+[data-engine="TesseractExplorer"] .te-option:hover {
+    background-color: rgba(35, 35, 40, 0.8);
+    border-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+[data-engine="TesseractExplorer"] .te-option.selected {
+    background-color: rgba(40, 40, 50, 0.9);
+    border-color: currentColor;
+    /* Set via inline style to dimension color */
+}
+
+[data-engine="TesseractExplorer"] .te-option-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: white;
+    margin: 0 0 5px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+[data-engine="TesseractExplorer"] .te-option-desc {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* Selection Indicator (Check/Radio) */
+[data-engine="TesseractExplorer"] .te-indicator {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+[data-engine="TesseractExplorer"] .te-option.multi .te-indicator {
+    border-radius: 3px;
+    /* Square for multi-select */
+}
+
+[data-engine="TesseractExplorer"] .te-option.selected .te-indicator {
+    border-color: currentColor;
+    background-color: currentColor;
+}
+
+[data-engine="TesseractExplorer"] .te-option.selected .te-indicator::after {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+}
+
+[data-engine="TesseractExplorer"] .te-option.multi.selected .te-indicator::after {
+    border-radius: 1px;
+}
+
+/* =========================================
+   MEANING SPECIAL UI
+   ========================================= */
+
+[data-engine="TesseractExplorer"] .te-meaning-step {
+    display: none;
+    animation: fadeIn 0.4s ease;
+}
+
+[data-engine="TesseractExplorer"] .te-meaning-step.active {
+    display: block;
+}
+
+[data-engine="TesseractExplorer"] .te-story-selects {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+[data-engine="TesseractExplorer"] .te-select-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+[data-engine="TesseractExplorer"] .te-select-group label {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+[data-engine="TesseractExplorer"] select.te-select {
+    background-color: rgba(25, 25, 30, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 12px;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 15px;
+    outline: none;
+    cursor: pointer;
+}
+
+[data-engine="TesseractExplorer"] select.te-select:focus {
+    border-color: var(--color-primary);
+}
+
+[data-engine="TesseractExplorer"] .te-step-indicator {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+    margin-right: auto;
+}
+
+/* =========================================
+   2D VISUALIZATION (PHASE 1)
+   ========================================= */
+
+[data-engine="TesseractExplorer"] .te-2d-viz {
+    width: 100%;
+    height: 100%;
+}
+
+[data-engine="TesseractExplorer"] .te-node {
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+[data-engine="TesseractExplorer"] .te-node:hover circle {
+    stroke-width: 3px;
+    filter: drop-shadow(0 0 10px currentColor);
+}
+
+[data-engine="TesseractExplorer"] .te-node text {
+    fill: white;
+    font-size: 12px;
+    text-anchor: middle;
+    pointer-events: none;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+
+[data-engine="TesseractExplorer"] .te-node.active text {
+    opacity: 1;
+    font-weight: bold;
+}
+
+[data-engine="TesseractExplorer"] .te-edge {
+    stroke: rgba(255, 255, 255, 0.1);
+    stroke-width: 1px;
+    transition: all 0.5s ease;
+}
+
+[data-engine="TesseractExplorer"] .te-edge.active {
+    stroke: rgba(255, 255, 255, 0.4);
+    stroke-width: 2px;
+}
+
+/* =========================================
+   SUMMARY PANEL (SLIDING RIGHT)
+   ========================================= */
+
+[data-engine="TesseractExplorer"] .te-summary-sidebar {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 340px;
+    height: 100%;
+    /* Richer stylized glassmorphism background */
+    background: linear-gradient(135deg, rgba(20, 20, 25, 0.95) 0%, rgba(10, 10, 15, 0.98) 100%);
+    backdrop-filter: blur(12px);
+    border-left: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.6);
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    padding: 35px 25px;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+[data-engine="TesseractExplorer"] .te-summary-sidebar.visible {
+    transform: translateX(0);
+}
+
+[data-engine="TesseractExplorer"] .te-summary-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #9d7cff;
+    /* Explicit color, not black */
+    margin-bottom: 15px;
+}
+
+[data-engine="TesseractExplorer"] .te-summary-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    color: #ffffff;
+    /* Explicit white, not black */
+    margin: 0 0 20px 0;
+    line-height: 1.2;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+[data-engine="TesseractExplorer"] .te-summary-text {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+[data-engine="TesseractExplorer"] .te-summary-text p {
+    margin-bottom: 15px;
+}
+
+[data-engine="TesseractExplorer"] .te-summary-coherence {
+    background-color: rgba(var(--color-primary-rgb, 89, 0, 255), 0.1);
+    border-left: 3px solid var(--color-primary);
+    padding: 15px;
+    font-style: italic;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 30px;
+}
+
+[data-engine="TesseractExplorer"] .te-summary-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: auto;
+}
+
+/* =========================================
+   ANIMATIONS & RESPONSIVE
+   ========================================= */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 900px) {
+
+    /* Tablet: Shrink Nav */
+    [data-engine="TesseractExplorer"] .te-nav-panel {
+        width: 80px;
+    }
+
+    [data-engine="TesseractExplorer"] .te-nav-header h3 {
+        display: none;
+    }
+
+    [data-engine="TesseractExplorer"] .te-tab-label {
+        display: none;
+    }
+
+    [data-engine="TesseractExplorer"] .te-tab {
+        justify-content: center;
+        padding: 15px 0;
+    }
+
+    [data-engine="TesseractExplorer"] .te-tab-icon {
+        margin: 0;
+        font-size: 24px;
+    }
+
+    [data-engine="TesseractExplorer"] .te-tab-status {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+    }
+}
+
+@media (max-width: 600px) {
+
+    /* Mobile: Stack layout */
+    [data-engine="TesseractExplorer"] {
+        flex-direction: column;
+    }
+
+    [data-engine="TesseractExplorer"] .te-nav-panel {
+        width: 100%;
+        height: 60px;
+        flex-direction: row;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    [data-engine="TesseractExplorer"] .te-nav-header {
+        display: none;
+    }
+
+    [data-engine="TesseractExplorer"] .te-nav-tabs {
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 0;
+    }
+
+    [data-engine="TesseractExplorer"] .te-tab {
+        border-left: none;
+        border-bottom: 3px solid transparent;
+        padding: 0 20px;
+    }
+
+    [data-engine="TesseractExplorer"] .te-tab-status {
+        top: 8px;
+        right: 8px;
+        width: 6px;
+        height: 6px;
+    }
+
+    [data-engine="TesseractExplorer"] .te-workspace-panel {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 60%;
+        border-left: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        transform: translateY(100%);
+    }
+
+    [data-engine="TesseractExplorer"] .te-workspace-panel.hidden {
+        transform: translateY(100%);
+        width: 100%;
+    }
+
+    [data-engine="TesseractExplorer"] .te-center-panel {
+        height: 40%;
+        margin-right: 0;
+    }
+}
