@@ -24,8 +24,16 @@
     // ------------------------------------------------------------------
     // Dependency loader (shared by every instance on the page)
     // ------------------------------------------------------------------
-    const THREE_CDN = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
-    const EXAMPLES = 'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/';
+    // three.js r128 and its add-ons are served from core/vendor/three-r128 (same origin).
+    // The platform's Content-Security-Policy blocks scripts from any CDN. The folder is
+    // found from this script's own URL, so it works from any page that loads the engine.
+    const VENDOR = (() => {
+        const me = document.currentScript ||
+            [...document.scripts].reverse().find(s => /methods\/interactive-simulation\//.test(s.src));
+        return new URL('../../../core/vendor/three-r128/', me ? me.src : location.href).href;
+    })();
+    const THREE_SRC = VENDOR + 'three.min.js';
+    const EXAMPLES = VENDOR;
     const DEPS = [
         ['OrbitControls', 'controls/OrbitControls.js'],
         ['CopyShader', 'shaders/CopyShader.js'],
@@ -50,7 +58,7 @@
     function loadDeps() {
         if (window.__cnConvergenceDeps) return window.__cnConvergenceDeps;
         window.__cnConvergenceDeps = (async () => {
-            if (!window.THREE) await loadScript(THREE_CDN);
+            if (!window.THREE) await loadScript(THREE_SRC);
             for (const [name, path] of DEPS) {
                 if (!window.THREE[name]) await loadScript(EXAMPLES + path);
             }
