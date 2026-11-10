@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Living Circuit Mockup</title>
+</head>
+<body>
+<div id="stage"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+<script src="../cybernetic-loop-data.js"></script>
+<script src="mock-common.js"></script>
+<script>
+/* Concept 1: The Living Circuit
+   Five glass stations on a tilted ring of light. A signal packet with a comet trail
+   travels the loop and lights each station. The centre holds a "signal mirror"
+   (placeholder particle form per signal) that is chaotic when stressed, coherent when calm. */
+(function () {
+    const M = CLMock.create({
+        eyebrow: 'Concept 1 · Living Circuit',
+        title: 'The Biofeedback Loop',
+        sub: 'Drag to orbit. Click a station to fly in. The centre mirrors the signal: drag the slider toward Calm.',
+        home: { pos: [0, 300, 640], target: [0, -10, 0] }
+    });
+    const { THREE, scene, BRAND } = M;
+    const R = 230;
+    const IDS = ['body', 'sensor', 'algorithm', 'vr', 'adjustment'];
+
+    const loop = new THREE.Group();
+    loop.rotation.z = 0.12;               // slight tilt so it reads as an object, not a diagram
+    scene.add(loop);
+
+    // ---- ring of light ----
+    const ringCurve = new THREE.EllipseCurve(0, 0, R, R, 0, Math.PI * 2);
+    const pts = ringCurve.getPoints(160).map(p => new THREE.Vector3(p.x, 0, p.y));
+    const ring3 = new THREE.CatmullRomCurve3(pts, true);
+    loop.add(M.tube(ring3, 0xB49BF8, 1.6, 0.35, 240, true));
+    loop.add(M.tube(ring3, 0x4CDCEF, 5, 0.05, 240, true));   // soft halo
+
+    // floor disc hint under the loop
+    const disc = new THREE.Mesh(new THREE.RingGeometry(R - 40, R + 40, 96),
+        new THREE.MeshBasicMaterial({ color: 0x7C4FF0, opacity: 0.05, side: THREE.DoubleSide, ...M.additive }));
+    disc.rotation.x = -Math.PI / 2;
+    disc.position.y = -2;
+    loop.add(disc);
+
+    // ---- stations ----
+    const angleOf = i => -Math.PI / 2 + i * (Math.PI * 2 / 5);   // step 1 nearest camera
+    const stations = IDS.map((id, i) => {
+        const a = angleOf(i);
+        const g = new THREE.Group();
+        g.position.set(Math.cos(a) * R, 0, -Math.sin(a) * R);
+        const orb = new THREE.Mesh(new THREE.SphereGeometry(20, 32, 24), M.orbMaterial(BRAND[id]));
+        const halo = M.glow(BRAND[id], 110, 0.35);
+        const plinth = new THREE.Mesh(new THREE.TorusGeometry(30, 0.8, 8, 64),
+            new THREE.MeshBasicMaterial({ color: BRAND[id], opacity: 0.5, ...M.additive }));
+        plinth.rotation.x = Math.PI / 2;
+        plinth.position.y = -22;
+        g.add(orb, halo, plinth);
+        loop.add(g);
+        M.pickable(orb, i);
+        const lab = M.addLabel(g, '', BRAND[id], () => M.openStep(i), 34);
+        return { g, orb, halo, lab, a, heat: 0 };
+    });
+    M.onSignal(() => stations.forEach((s, i) => { s.lab.el.textContent = M.nodes()[i].label; }));
+
+    // ---- signal packet + comet trail ----
+    const packet = M.glow(0xffffff, 46, 0.95);
+    loop.add(packet);
+    const TRAIL = 26;
+    const trail = Array.from({ length: TRAIL }, (_, k) => {
+        const s = M.glow(0x4CDCEF, 30 * (1 - k / TRAIL) + 6, 0.5 * (1 - k / TRAIL));
+        loop.add(s);
+        return s;
+    });
+    let u = 0;   // 0..1 around the loop, starting at station 1
+
+    // ---- centre signal mirror (placeholder forms) ----
+    const N = 900;
+    const target = new Float32Array(N * 3), seed = new Float32Array(N * 3);
+    for (let i = 0; i < N * 3; i++) seed[i] = Math.random() * 2 - 1;
+    const mirrorGeo = new THREE.BufferGeometry();
+    mirrorGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(N * 3), 3));
+    const mirrorMat = new THREE.PointsMaterial({ size: 3.2, color: 0x4CDCEF, opacity: 0.9, ...M.additive, map: null });
+    const mirror = new THREE.Points(mirrorGeo, mirrorMat);
+    mirror.position.y = 60;
+    scene.add(mirror);
+    const core = M.glow(0xB49BF8, 260, 0.18);
+    core.position.y = 60;
+    scene.add(core);
+    const mirrorAnchor = new THREE.Object3D();
+    mirrorAnchor.position.y = 60 + 95;
+    scene.add(mirrorAnchor);
+    const mirrorLab = M.addLabel(mirrorAnchor, '', '#B49BF8', null, 0, true);
+
+    const FORMS = {
+        // brain: two lobes of a sphere shell
+        eeg: (i, t) => { const th = (i / N) * Math.PI * 2 * 21, ph = Math.acos(1 - 2 * ((i * 0.618) % 1)); const side = i % 2 ? 1 : -1;
+            return [side * 12 + Math.sin(ph) * Math.cos(th) * 52, Math.cos(ph) * 44, Math.sin(ph) * Math.sin(th) * 62]; },
+        // heart coherence: lotus / rose curve petals
+        hrv: (i) => { const th = (i / N) * Math.PI * 2, k = 6, r = 75 * Math.abs(Math.cos(k * th / 2)) * (0.4 + 0.6 * ((i * 0.37) % 1));
+            return [Math.cos(th) * r, Math.sin(k * th) * 8, Math.sin(th) * r]; },
+        // skin calm: tree of light (trunk + canopy)
+        gsr: (i) => { if (i < N * 0.3) { const y = (i / (N * 0.3)) * 80 - 60; return [seed[i * 3] * 4, y, seed[i * 3 + 2] * 4]; }
+            const th = i * 2.4, ph = Math.acos(seed[i * 3 + 1]); return [Math.sin(ph) * Math.cos(th) * 55, 40 + Math.cos(ph) * 35, Math.sin(ph) * Math.sin(th) * 55]; },
+        // breath: sphere that inhales / exhales
+        respiration: (i, t) => { const th = i * 2.399, y = 1 - 2 * (i / N), r = Math.sqrt(1 - y * y), s = 55 + Math.sin(t * 0.9) * 18;
+            return [Math.cos(th) * r * s, y * s, Math.sin(th) * r * s]; }
+    };
+    const MIRROR_NAME = { eeg: 'Brainwave mirror', hrv: 'Heart lotus', gsr: 'Tree of calm', respiration: 'Breath cloud' };
+    M.onSignal(id => { mirrorLab.el.textContent = MIRROR_NAME[id]; });
+
+    const calmC = new THREE.Color(0x5FDFA6), midC = new THREE.Color(0x4CDCEF), hotC = new THREE.Color(0xFF5C72);
+    const tmpC = new THREE.Color();
+
+    M.onFrame((dt, t) => {
+        // packet travel (one loop ~ 8s), stations heat up as it passes
+        u = (u + dt / 8) % 1;
+        // ring parameter runs counter to step order; station 1 sits at ring u = 0.25
+        const ru = k => (((0.25 - u + k) % 1) + 1) % 1;
+        packet.position.copy(ring3.getPointAt(ru(0)));
+        trail.forEach((s, k) => s.position.copy(ring3.getPointAt(ru((k + 1) * 0.004))));
+        stations.forEach((s, i) => {
+            const d = Math.min(Math.abs(u - i / 5), 1 - Math.abs(u - i / 5));
+            s.heat = Math.max(s.heat - dt * 1.4, d < 0.02 ? 1 : 0);
+            s.orb.material.uniforms.uBoost.value = s.heat + (M.state.open === i ? 0.6 : 0);
+            s.halo.material.opacity = 0.25 + s.heat * 0.5;
+            s.g.position.y = Math.sin(t * 1.2 + i) * 4;
+        });
+
+        // centre mirror: lerp toward the form, jitter grows with stress
+        const stress = M.state.stress, form = FORMS[M.state.signal], arr = mirrorGeo.attributes.position.array;
+        const jit = stress * stress * 70;
+        for (let i = 0; i < N; i++) {
+            const f = form(i, t), j = i * 3;
+            const n = Math.sin(t * (3 + stress * 9) + i * 1.7);
+            arr[j] += (f[0] + seed[j] * jit * n - arr[j]) * 0.08;
+            arr[j + 1] += (f[1] + seed[j + 1] * jit * Math.cos(t * 7 + i) - arr[j + 1]) * 0.08;
+            arr[j + 2] += (f[2] + seed[j + 2] * jit * n - arr[j + 2]) * 0.08;
+        }
+        mirrorGeo.attributes.position.needsUpdate = true;
+        mirror.rotation.y += dt * (0.15 + stress * 0.6);
+        if (stress < 0.5) tmpC.copy(calmC).lerp(midC, stress * 2); else tmpC.copy(midC).lerp(hotC, (stress - 0.5) * 2);
+        mirrorMat.color.copy(tmpC);
+        core.material.color.copy(tmpC);
+        core.material.opacity = 0.12 + (1 - stress) * 0.14 + Math.sin(t * 2) * 0.02;
+    });
+
+    // fly to a station: sit outside the ring, look across at the station and centre
+    const wp = new THREE.Vector3();
+    M.onOpen = i => {
+        stations[i].g.getWorldPosition(wp);
+        const out = wp.clone().setY(0).normalize();
+        M.flyTo(wp.clone().add(out.multiplyScalar(210)).add(new THREE.Vector3(0, 90, 0)), wp.clone().lerp(new THREE.Vector3(0, 40, 0), 0.35));
+    };
+    M.start();
+})();
+</script>
+</body>
+</html>
