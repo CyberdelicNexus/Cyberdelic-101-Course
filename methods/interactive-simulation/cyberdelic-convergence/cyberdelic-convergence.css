@@ -1,372 +1,835 @@
-/* Cyberdelic Convergence - Engine Styles */
+/* Cyberdelic Convergence - 3D "Convergence Nebula" engine styles
+   Visual language from the Cyberdelic Nexus core site design system
+   (github.com/CyberdelicNexus/cyberdelic-nexus-core): dark-only, glass plates with
+   hairline borders, glow as inner radiance, Poppins for UI, Cloudsters for numerals.
+   Everything is scoped under .cn3d so it cannot leak into other engines.
+   The SVG version's styles live in cyberdelic-convergence-2d.css. */
 
-/* Scoped to the SVG */
-svg.convergence-viz {
-    cursor: grab;
-}
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
 
-svg.convergence-viz:active {
-    cursor: grabbing;
-}
-
-/* Domain Nodes */
-.convergence-viz .domain-node {
-    cursor: pointer;
-    transition: opacity 0.5s ease;
-}
-
-.convergence-viz .domain-node:hover .node-circle {
-    filter: brightness(1.3);
-    stroke-width: 4px;
-    fill-opacity: 0.5;
-}
-
-.convergence-viz .node-circle {
-    transition: all 0.3s ease;
-    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
-}
-
-@keyframes em-node-ripple-glow {
-    0% {
-        stroke-width: 3;
-        fill-opacity: 0.3;
-    }
-    50% {
-        stroke-width: 5;
-        fill-opacity: 0.6;
-    }
-    100% {
-        stroke-width: 3;
-        fill-opacity: 0.4;
-    }
-}
-
-.convergence-viz .domain-node.ripple-source .node-circle {
-    stroke-width: 4;
-    fill-opacity: 0.5;
-    animation: em-node-ripple-glow 0.8s ease-out;
-}
-
-.convergence-viz .node-label {
-    font-family: 'Space Mono', monospace;
-    font-size: 14px;
-    font-weight: bold;
-    text-shadow: 0 0 5px black;
-    pointer-events: none;
-}
-
-/* Connections */
-.convergence-viz .connection-line {
-    stroke-linecap: round;
-    transition: all 0.2s ease;
-}
-
-.convergence-viz .connection-glow {
-    stroke-linecap: round;
-    transition: all 0.2s ease;
-}
-
-/* Particles */
-#particle-group circle {
-    mix-blend-mode: screen;
-}
-
-/* Animations */
-@keyframes rotate-slow {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-#center-node circle {
-    /* Optional rotation for center */
-    transform-origin: 50% 50%;
-    /* Center is 500,400 but relative to SVG */
+@font-face {
+    font-family: "Cloudsters";
+    src: url("fonts/Cloudsters-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
 }
 
 /* =========================================
-   TUTORIAL OVERLAY
+   HOST LAYOUT: the viewport fills the block, no side controls
    ========================================= */
-
-
-
-
-
-/* =========================================
-   HELP MODAL
-   ========================================= */
-.help-modal {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 400px;
-    background: rgba(10, 10, 20, 0.95);
-    border: 1px solid #00D9FF;
-    border-radius: 8px;
-    padding: 25px;
-    color: white;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), 0 0 10px rgba(0, 217, 255, 0.3);
-    z-index: 2000;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-    font-family: 'Inter', sans-serif;
-}
-
-.help-modal.active {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.help-modal h2 {
-    margin-top: 0;
-    color: #00D9FF;
-    border-bottom: 1px solid rgba(0, 217, 255, 0.3);
-    padding-bottom: 10px;
-    font-family: 'Space Mono', monospace;
-}
-
-.help-keyable {
+.interactive-simulation-container:is([data-engine="CyberdelicConvergence"], [data-engine="cyberdelic-convergence"]) {
     display: flex;
-    justify-content: space-between;
-    margin: 10px 0;
-    font-size: 0.9rem;
+    flex-direction: column;
+    align-items: stretch !important;
 }
 
-.key-badge {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid #555;
-    border-radius: 4px;
-    padding: 2px 8px;
-    font-family: monospace;
-    color: #00D9FF;
-}
-
-.help-close,
-.help-restart-tutorial {
-    margin-top: 10px;
-    width: 100%;
-    padding: 8px;
-    background: #00D9FF;
-    border: none;
-    color: black;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 4px;
-    font-family: 'Space Mono', monospace;
-    transition: all 0.2s ease;
-}
-
-.help-restart-tutorial {
-    margin-top: 20px;
-    background: transparent;
-    border: 1px solid #00D9FF;
-    color: #00D9FF;
-}
-
-.help-close:hover {
-    background: #50E3FF;
-}
-
-.help-restart-tutorial:hover {
-    background: rgba(0, 217, 255, 0.1);
-}
-
-/* Help Hint Button */
-.help-hint-btn {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: rgba(10, 10, 20, 0.8);
-    border: 1px solid #00D9FF;
-    color: #00D9FF;
-    padding: 8px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.8rem;
-    z-index: 1000;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.help-hint-btn:hover {
-    background: rgba(0, 217, 255, 0.2);
-    box-shadow: 0 0 10px rgba(0, 217, 255, 0.2);
-}
-
-.help-hint-btn .key-badge {
-    color: white;
-    /* Contrast inside button */
-    border-color: #777;
-}
-
-/* =========================================
-   TIMELINE CONTROLS STYLING (VERTICAL)
-   ========================================= */
-.interactive-simulation-container[data-engine="CyberdelicConvergence"] {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    /* allow header/footer to stack */
-}
-
-/* Header and footer take full width */
-.interactive-simulation-container[data-engine="CyberdelicConvergence"] .sim-header,
-.interactive-simulation-container[data-engine="CyberdelicConvergence"] .sim-footer {
-    width: 100%;
-    flex: 0 0 100%;
-}
-
-.interactive-simulation-container[data-engine="CyberdelicConvergence"] .sim-footer {
+.interactive-simulation-container:is([data-engine="CyberdelicConvergence"], [data-engine="cyberdelic-convergence"]) .sim-viewport {
+    flex: 1 1 auto;
+    width: 100% !important;
+    align-self: stretch;
+    min-height: clamp(520px, 78vh, 820px);
+    background: #000;
+    border-radius: 22px;
     position: relative;
-    z-index: 1000;
-    pointer-events: auto;
-}
-
-.interactive-simulation-container[data-engine="CyberdelicConvergence"] .sim-controls {
-    display: flex !important;
-    flex-direction: column;
-    position: static;
-    flex: 0 0 40px !important;
-    /* Force width within flexbox */
-    min-width: 80px !important;
-    /* Override the 250px inherited from other stylesheets */
-    align-self: center;
-    /* Center it vertically alongside the viz */
-    background: transparent;
-    border: none;
-    padding: 0 !important;
-    /* remove inline padding from lesson-runner */
-    margin-right: 5px;
-    /* Pull it slightly closer */
-}
-
-/* Ensure viewport fills horizontal space */
-.interactive-simulation-container[data-engine="CyberdelicConvergence"] .sim-viewport {
-    flex: 1 1 0% !important;
-    min-width: 0 !important;
-    width: auto !important;
-}
-
-.interactive-simulation-container[data-engine="CyberdelicConvergence"] .control-group {
-    display: flex;
-    flex-direction: column;
-    /* Label on top, slider below */
-    align-items: center;
-    gap: 15px;
-    width: 100%;
-}
-
-.interactive-simulation-container[data-engine="CyberdelicConvergence"] .control-label {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    /* Slightly increased gap to let the text breathe */
-    background: linear-gradient(135deg, rgba(20, 10, 30, 0.8), rgba(0, 10, 20, 0.9));
-    /* Deep cyberdelic gradient */
-    padding: 12px 8px;
-    /* Increased padding for a more solid 'box' feel */
-    border-radius: 8px;
-    border: 1px solid rgba(0, 217, 255, 0.3);
-    /* Subtle neon blue border */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(0, 217, 255, 0.1);
-    /* Inner glow and drop shadow */
-    text-align: center;
-    width: 100%;
-    max-width: 100%;
     overflow: hidden;
-    word-break: break-all;
-    /* Force long words to break if they exceed width container */
+}
+
+.interactive-simulation-container:is([data-engine="CyberdelicConvergence"], [data-engine="cyberdelic-convergence"]) .sim-controls:empty {
+    display: none !important;
+}
+
+/* =========================================
+   TOKENS
+   ========================================= */
+.cn3d {
+    --cn-bg-void: #000000;
+    --cn-bg-raised: #0F0B1A;
+    --cn-bg-sunken: #0A0609;
+    --cn-text-primary: #F1EEFB;
+    --cn-text-secondary: #ABA4C9;
+    --cn-text-tertiary: #9890BB;
+    --cn-cyan: #4CDCEF;
+    --cn-violet: #B49BF8;
+    --cn-violet-deep: #7C4FF0;
+    --cn-grad-brand: linear-gradient(100deg, #4CDCEF 0%, #B49BF8 50%, #E562A4 100%);
+    --cn-grad-cta: linear-gradient(100deg, #4CDCEF 0%, #7E8BF5 52%, #7C4FF0 100%);
+    --cn-orbit-cta-rim: conic-gradient(#4CDCEF, #7E8BF5, #7C4FF0, #B49BF8, #4CDCEF);
+    --cn-glass-fill-hover: rgba(255, 255, 255, 0.075);
+    --cn-glass-border: rgba(255, 255, 255, 0.11);
+    --cn-glass-border-accent: rgba(180, 155, 248, 0.36);
+    --cn-glass-blur: blur(22px) saturate(155%);
+    --cn-shadow-lg: 0 18px 48px rgba(0, 0, 0, .55);
+    --cn-shadow-glow-violet: 0 0 32px rgba(180, 155, 248, .35);
+    --cn-font-display: "Cloudsters", "Poppins", system-ui, sans-serif;
+    --cn-font-sans: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --cn-font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+    --cn-ease-standard: cubic-bezier(.4, 0, .2, 1);
+    --cn-ease-entrance: cubic-bezier(.16, 1, .3, 1);
+
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    background: var(--cn-bg-void);
+    color: var(--cn-text-primary);
+    font-family: var(--cn-font-sans);
+    -webkit-font-smoothing: antialiased;
+    outline: none;
+    isolation: isolate;
+}
+
+.cn3d *,
+.cn3d *::before,
+.cn3d *::after {
     box-sizing: border-box;
 }
 
-/* "YEAR" Text */
-.interactive-simulation-container[data-engine="CyberdelicConvergence"] .control-label span:first-child {
-    font-family: 'Rajdhani', sans-serif;
-    /* Futuristic font */
-    font-size: 0.8rem;
-    color: #9d4edd;
-    /* Neon purple to fit the convergence theme */
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    text-shadow: 0 0 5px rgba(157, 78, 221, 0.5);
-    /* Soft purple glow */
+.cn3d :where(a, button, input):focus-visible {
+    outline: 2px solid var(--cn-cyan);
+    outline-offset: 2px;
 }
 
-/* "2015" Value Text */
-.interactive-simulation-container[data-engine="CyberdelicConvergence"] .control-value {
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 1.8rem;
-    /* Slightly larger */
-    font-weight: 700;
-    color: #00D9FF;
-    text-shadow: 0 0 10px rgba(0, 217, 255, 0.8), 0 0 20px rgba(0, 217, 255, 0.4);
-    /* Intense neon cyan glow */
-    letter-spacing: 1px;
-}
-
-/* Vertical slider specifically */
-.interactive-simulation-container[data-engine="CyberdelicConvergence"] input[type=range] {
-    -webkit-appearance: slider-vertical;
-    appearance: slider-vertical;
-    height: 400px;
-    width: 30px;
-    /* Slightly wider click area */
-    margin: 10px;
-    margin-top: 10px;
-    /* Space from the label box */
-    background: transparent;
+.cn3d-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
     cursor: grab;
-    transform: rotate(180deg);
+    touch-action: none;
 }
 
-/* Base track styling */
-.interactive-simulation-container[data-engine="CyberdelicConvergence"] input[type=range]::-webkit-slider-runnable-track {
-    width: 8px;
-    /* Slightly thicker track */
-    height: 100%;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.8), 0 0 5px rgba(0, 217, 255, 0.2);
-    /* Track depth */
-    border: 1px solid rgba(255, 255, 255, 0.05);
+.cn3d-canvas:active { cursor: grabbing; }
+.cn3d--hovering .cn3d-canvas { cursor: pointer; }
+
+.cn3d-eyebrow {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--cn-cyan);
 }
 
-/* Glowing thumb styling */
-.interactive-simulation-container[data-engine="CyberdelicConvergence"] input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    /* Required for custom styling */
-    height: 22px;
-    width: 22px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, #ffffff, #00D9FF 40%, #0088cc 80%);
-    border: 2px solid rgba(255, 255, 255, 0.8);
-    box-shadow: 0 0 15px rgba(0, 217, 255, 0.8), 0 0 30px rgba(0, 217, 255, 0.4);
+.cn3d-underbar {
+    display: block;
+    width: 64px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--cn-grad-brand);
+}
+
+.cn3d-key {
+    display: inline-block;
+    min-width: 1.6em;
+    margin-left: 4px;
+    padding: 2px 8px;
+    text-align: center;
+    border-radius: 8px;
+    border: 1px solid var(--cn-glass-border);
+    background: var(--cn-bg-sunken);
+    font: 500 0.75rem var(--cn-font-mono);
+    color: var(--cn-text-primary);
+}
+
+/* =========================================
+   HEADER + TOP BUTTONS
+   ========================================= */
+.cn3d-head {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    max-width: min(420px, calc(100% - 48px));
+    pointer-events: none;
+    transition: opacity 400ms var(--cn-ease-standard);
+}
+
+.cn3d-title {
+    margin: 6px 0 10px;
+    padding: 0;
+    border: none;
+    font-family: var(--cn-font-sans);
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+    color: var(--cn-text-primary);
+    background: none;
+    -webkit-text-fill-color: currentColor;
+}
+
+.cn3d-sub {
+    margin: 12px 0 0;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: var(--cn-text-tertiary);
+}
+
+.cn3d-top {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    display: flex;
+    gap: 8px;
+    z-index: 3;
+}
+
+.cn3d-pill {
+    position: relative;
+    min-height: 44px;
+    padding: 0 18px;
+    border-radius: 999px;
+    border: 1px solid var(--cn-glass-border);
+    background: rgba(15, 11, 26, 0.55);
+    -webkit-backdrop-filter: var(--cn-glass-blur);
+    backdrop-filter: var(--cn-glass-blur);
+    color: var(--cn-text-primary);
+    font: 500 0.85rem var(--cn-font-sans);
     cursor: pointer;
-    /* Alignment adjustments */
-    margin-top: 0;
-    margin-left: -8px;
-    /* Offset by half the difference between thumb (22) and track (8) */
-    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: background 240ms var(--cn-ease-standard), border-color 240ms var(--cn-ease-standard),
+                box-shadow 240ms var(--cn-ease-standard), transform 240ms var(--cn-ease-standard),
+                opacity 400ms var(--cn-ease-standard);
 }
 
-/* Thumb Interaction */
-.interactive-simulation-container[data-engine="CyberdelicConvergence"] input[type=range]:active::-webkit-slider-thumb {
-    transform: scale(1.1);
-    box-shadow: 0 0 25px rgba(0, 217, 255, 1), 0 0 40px rgba(0, 217, 255, 0.6);
+.cn3d-pill:hover {
+    background: var(--cn-glass-fill-hover);
+    border-color: var(--cn-glass-border-accent);
 }
 
-.interactive-simulation-container[data-engine="CyberdelicConvergence"] input[type=range]:hover::-webkit-slider-thumb {
-    transform: scale(1.05);
+/* The Controls pill: a bright arc of the brand gradient travelling round the border.
+   The gradient is painted only in the 1.5px ring (masked), and its start angle is what
+   animates, so nothing sweeps across the inside of the button. */
+@property --cn3d-rim-angle {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+}
+
+.cn3d-help-btn {
+    border: none;
+    padding: 0 8px 0 18px;
+    background: #0F0B1A;
+    isolation: isolate;
+}
+
+.cn3d-help-btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.5px;
+    pointer-events: none;
+    background: conic-gradient(from var(--cn3d-rim-angle),
+        #4CDCEF 0deg, #7E8BF5 40deg, #7C4FF0 75deg,
+        rgba(180, 155, 248, 0.22) 150deg, rgba(180, 155, 248, 0.22) 320deg, #4CDCEF 360deg);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    animation: cn3d-rim-run 4s linear infinite;
+}
+
+@keyframes cn3d-rim-run { to { --cn3d-rim-angle: 360deg; } }
+
+.cn3d-help-btn:hover {
+    background: #0F0B1A;
+    box-shadow: var(--cn-shadow-glow-violet);
+    transform: translateY(-1px);
+}
+
+.cn3d-help-btn .cn3d-key { border-radius: 999px; }
+
+@keyframes cn3d-turn { to { transform: rotate(1turn); } }
+
+.cn3d--zoomed .cn3d-reset,
+.cn3d--zoomed .cn3d-head { opacity: 0; pointer-events: none; }
+
+/* =========================================
+   LABELS + TUTORIAL ANCHORS
+   ========================================= */
+.cn3d-labels,
+.cn3d-anchors {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.cn3d-label {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    padding: 2px 4px;
+    border: none;
+    background: none;
+    pointer-events: auto;
+    cursor: pointer;
+    font: 600 0.82rem/1.25 var(--cn-font-sans);
+    text-align: center;
+    white-space: pre-line;
+    color: var(--cn-text-primary);
+    text-shadow: 0 0 14px rgba(0, 0, 0, 0.9), 0 0 4px rgba(0, 0, 0, 0.9);
+    transition: opacity 400ms var(--cn-ease-standard);
+    will-change: transform;
+}
+
+.cn3d-label::after {
+    content: "";
+    width: 18px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--c);
+    box-shadow: 0 0 10px var(--c);
+    transition: width 240ms var(--cn-ease-standard);
+}
+
+.cn3d-label:hover::after,
+.cn3d-label.hover::after { width: 34px; }
+
+/* Occlusion masks (set per frame by the engine): every hole must cut, so the layers intersect */
+.cn3d-label,
+.cn3d-core-label {
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+}
+
+/* "Cyberdelics" wordmark under the core: the display face, brand gradient, soft violet bloom */
+.cn3d-core-label {
+    position: absolute;
+    left: 0;
+    top: 0;
+    pointer-events: none;
+    white-space: nowrap;
+    font-family: var(--cn-font-display);
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--cn-grad-brand);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 0 10px rgba(180, 155, 248, 0.55)) drop-shadow(0 0 2px rgba(0, 0, 0, 0.9));
+    transition: opacity 400ms var(--cn-ease-standard);
+    will-change: transform;
+}
+
+.cn3d-anchors .domain-node {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.cn3d-anchors .node-circle {
+    border-radius: 50%;
+}
+
+/* =========================================
+   CONTENT PANEL (glass)
+   ========================================= */
+.cn3d-panel {
+    position: absolute;
+    top: 80px;
+    right: 24px;
+    bottom: 120px;
+    width: min(420px, calc(100% - 48px));
+    z-index: 4;
+    padding: 28px 26px 26px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    border-radius: 22px;
+    border: 1px solid var(--cn-glass-border);
+    background: rgba(22, 15, 36, 0.6);
+    -webkit-backdrop-filter: var(--cn-glass-blur);
+    backdrop-filter: var(--cn-glass-blur);
+    box-shadow: var(--cn-shadow-lg);
+    opacity: 0;
+    transform: translateX(24px);
+    pointer-events: none;
+    transition: opacity 400ms var(--cn-ease-standard), transform 700ms var(--cn-ease-entrance);
+    isolation: isolate;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(180, 155, 248, .3) transparent;
+}
+
+.cn3d-panel.open {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+}
+
+.cn3d-panel::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 180px;
+    z-index: -1;
+    pointer-events: none;
+    border-radius: inherit;
+    background:
+        radial-gradient(ellipse 55% 70% at 20% -20%, color-mix(in srgb, var(--c, #B49BF8) 55%, transparent), transparent 70%),
+        radial-gradient(ellipse 45% 60% at 85% -25%, rgba(124, 79, 240, 0.4), transparent 70%);
+}
+
+.cn3d-back {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    margin: -6px 0 18px -10px;
+    padding: 0 12px;
+    border: none;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--cn-text-secondary);
+    font: 500 0.82rem var(--cn-font-sans);
+    cursor: pointer;
+    transition: background 150ms var(--cn-ease-standard), color 150ms var(--cn-ease-standard);
+}
+
+.cn3d-back:hover {
+    background: var(--cn-glass-fill-hover);
+    color: var(--cn-text-primary);
+}
+
+.cn3d-panel .cn3d-eyebrow { color: var(--c, var(--cn-cyan)); }
+
+.cn3d-panel-title {
+    margin: 6px 0 14px;
+    padding: 0;
+    border: none;
+    font-family: var(--cn-font-sans);
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+    color: var(--cn-text-primary);
+}
+
+.cn3d-snapshots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 18px 0 4px;
+}
+
+.cn3d-snapshots button {
+    min-height: 30px;
+    padding: 0 12px;
+    border-radius: 999px;
+    border: 1px solid var(--cn-glass-border);
+    background: transparent;
+    color: var(--cn-text-tertiary);
+    font: 500 0.75rem var(--cn-font-mono);
+    cursor: pointer;
+    transition: border-color 150ms var(--cn-ease-standard), color 150ms var(--cn-ease-standard), background 150ms var(--cn-ease-standard);
+}
+
+.cn3d-snapshots button:hover {
+    border-color: var(--cn-glass-border-accent);
+    color: var(--cn-text-primary);
+}
+
+.cn3d-snapshots button[aria-current="true"] {
+    border-color: var(--c);
+    color: var(--cn-text-primary);
+    background: color-mix(in srgb, var(--c) 14%, transparent);
+}
+
+.cn3d-panel section {
+    margin-top: 22px;
+    animation: cn3d-rise 700ms var(--cn-ease-entrance) both;
+}
+
+.cn3d-panel section:nth-of-type(2) { animation-delay: 60ms; }
+.cn3d-panel section:nth-of-type(3) { animation-delay: 120ms; }
+.cn3d-panel section:nth-of-type(4) { animation-delay: 180ms; }
+
+@keyframes cn3d-rise {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: none; }
+}
+
+.cn3d-panel h4 {
+    margin: 0 0 10px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--cn-text-tertiary);
+}
+
+.cn3d-panel ul { list-style: none; margin: 0; padding: 0; }
+
+.cn3d-list li {
+    position: relative;
+    padding: 5px 0 5px 20px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--cn-text-secondary);
+}
+
+.cn3d-list li::before {
+    content: "◇";
+    position: absolute;
+    left: 0;
+    top: 5px;
+    font-size: 0.75rem;
+    color: var(--c);
+}
+
+.cn3d-people li { padding: 9px 0; border-bottom: 1px solid var(--cn-glass-border); }
+.cn3d-people li:last-child { border-bottom: none; }
+.cn3d-people strong { display: block; font-size: 0.92rem; font-weight: 600; color: var(--cn-text-primary); }
+.cn3d-people span { display: block; font-size: 0.82rem; line-height: 1.5; color: var(--cn-text-tertiary); }
+
+.cn3d-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.cn3d-chips li {
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--cn-glass-border);
+    background: rgba(255, 255, 255, 0.03);
+    font-size: 0.8rem;
+    color: var(--cn-text-secondary);
+}
+
+.cn3d-examples { display: grid; gap: 8px; }
+
+.cn3d-example {
+    position: relative;
+    display: block;
+    padding: 12px 40px 12px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--cn-glass-border);
+    background: color-mix(in srgb, var(--c) 6%, transparent);
+    color: inherit;
+    text-decoration: none;
+    transition: border-color 150ms var(--cn-ease-standard), background 150ms var(--cn-ease-standard);
+}
+
+a.cn3d-example:hover {
+    border-color: var(--cn-glass-border-accent);
+    background: color-mix(in srgb, var(--c) 12%, transparent);
+}
+
+.cn3d-example strong { display: block; font-size: 0.9rem; font-weight: 600; color: var(--cn-text-primary); }
+.cn3d-example span { display: block; font-size: 0.8rem; color: var(--cn-text-tertiary); }
+
+.cn3d .cn3d-example svg {
+    position: absolute;
+    left: auto;
+    top: 14px;
+    right: 14px;
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: var(--c);
+    stroke-width: 1.75;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.cn3d-empty { font-size: 0.9rem; color: var(--cn-text-tertiary); }
+
+/* =========================================
+   TIMELINE DOCK
+   ========================================= */
+.cn3d-dock {
+    position: absolute;
+    left: 50%;
+    bottom: 24px;
+    transform: translateX(-50%);
+    width: min(680px, calc(100% - 32px));
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 10px 22px 10px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--cn-glass-border);
+    background: rgba(15, 11, 26, 0.62);
+    -webkit-backdrop-filter: var(--cn-glass-blur);
+    backdrop-filter: var(--cn-glass-blur);
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.cn3d-dock::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        radial-gradient(ellipse 40% 120% at 10% 140%, rgba(90, 53, 240, 0.55), transparent 70%),
+        radial-gradient(ellipse 40% 120% at 90% 150%, rgba(76, 220, 239, 0.3), transparent 70%);
+}
+
+.cn3d-play {
+    flex: 0 0 auto;
+    width: 52px;
+    height: 52px;
+    padding: 0;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    background: var(--cn-grad-cta);
+    color: #fff;
+    transition: box-shadow 240ms var(--cn-ease-standard), transform 240ms var(--cn-ease-standard);
+}
+
+.cn3d-play:hover { box-shadow: var(--cn-shadow-glow-violet); transform: translateY(-1px); }
+.cn3d-play:active { background: var(--cn-violet-deep); transform: none; }
+/* .sim-viewport svg (shared host CSS) stretches every svg over the viewport; undo that here */
+.sim-viewport .cn3d .cn3d-play svg { position: static; display: block; width: 18px; height: 18px; fill: currentColor; }
+
+.cn3d-year {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 78px;
+}
+
+.cn3d-year .cn3d-eyebrow { font-size: 0.65rem; }
+
+.cn3d-year output {
+    font-family: var(--cn-font-display);
+    font-size: 1.7rem;
+    line-height: 1.1;
+    background: var(--cn-grad-brand);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.cn3d-track {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.cn3d-track input[type=range] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 28px;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
+    transform: none;
+}
+
+.cn3d-track input[type=range]::-webkit-slider-runnable-track {
+    height: 4px;
+    border-radius: 999px;
+    border: none;
+    background: linear-gradient(90deg, rgba(76, 220, 239, .6), rgba(180, 155, 248, .6) 50%, rgba(229, 98, 164, .6));
+    box-shadow: 0 0 12px rgba(180, 155, 248, .25);
+}
+
+.cn3d-track input[type=range]::-moz-range-track {
+    height: 4px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, rgba(76, 220, 239, .6), rgba(180, 155, 248, .6) 50%, rgba(229, 98, 164, .6));
+}
+
+.cn3d-track input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 22px;
+    height: 22px;
+    margin-top: -9px;
+    border-radius: 50%;
+    border: 1.5px solid var(--cn-violet);
+    background: radial-gradient(circle, #F1EEFB 0 3px, #0F0B1A 4px);
+    box-shadow: 0 0 16px rgba(180, 155, 248, .7), 0 0 32px rgba(76, 220, 239, .3);
+    transition: border-color 150ms, box-shadow 150ms;
+}
+
+.cn3d-track input[type=range]:hover::-webkit-slider-thumb {
+    border-color: var(--cn-cyan);
+    box-shadow: 0 0 22px rgba(76, 220, 239, .8), 0 0 40px rgba(180, 155, 248, .5);
+}
+
+.cn3d-track input[type=range]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1.5px solid var(--cn-violet);
+    background: radial-gradient(circle, #F1EEFB 0 3px, #0F0B1A 4px);
+    box-shadow: 0 0 16px rgba(180, 155, 248, .7);
+}
+
+.cn3d-ticks {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 4px;
+    font: 400 0.68rem var(--cn-font-mono);
+    color: var(--cn-text-tertiary);
+}
+
+.cn3d-ticks span.on { color: var(--cn-text-primary); }
+
+/* =========================================
+   HELP DIALOG
+   ========================================= */
+.cn3d-help {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 6;
+    width: min(400px, calc(100% - 32px));
+    max-height: calc(100% - 32px);
+    overflow-y: auto;
+    padding: 28px;
+    border-radius: 28px;
+    border: 1px solid var(--cn-glass-border);
+    background: rgba(22, 15, 36, 0.78);
+    -webkit-backdrop-filter: var(--cn-glass-blur);
+    backdrop-filter: var(--cn-glass-blur);
+    box-shadow: var(--cn-shadow-lg);
+    color: var(--cn-text-secondary);
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, calc(-50% + 8px));
+    transition: opacity 400ms var(--cn-ease-entrance), transform 400ms var(--cn-ease-entrance);
+    isolation: isolate;
+}
+
+.cn3d-help::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    border-radius: inherit;
+    background:
+        radial-gradient(ellipse 55% 62% at 18% -12%, rgba(90, 53, 240, 0.55), transparent 70%),
+        radial-gradient(ellipse 50% 58% at 55% -16%, rgba(194, 59, 220, 0.45), transparent 70%),
+        radial-gradient(ellipse 42% 52% at 88% -8%, rgba(76, 220, 239, 0.35), transparent 70%);
+}
+
+.cn3d-help.open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, -50%);
+}
+
+.cn3d-help .cn3d-underbar { margin-bottom: 14px; }
+
+.cn3d-help-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 9px 0;
+    font-size: 0.9rem;
+    border-bottom: 1px solid var(--cn-glass-border);
+}
+
+.cn3d-help-row:last-of-type { border-bottom: none; }
+
+.cn3d-help-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.cn3d-btn-primary,
+.cn3d-btn-ghost {
+    flex: 1;
+    min-height: 44px;
+    padding: 0 18px;
+    border-radius: 999px;
+    font: 600 0.9rem var(--cn-font-sans);
+    cursor: pointer;
+    transition: box-shadow 240ms var(--cn-ease-standard), transform 240ms var(--cn-ease-standard),
+                background 240ms var(--cn-ease-standard), border-color 240ms var(--cn-ease-standard);
+}
+
+.cn3d-btn-primary {
+    border: none;
+    background: var(--cn-grad-cta);
+    color: #fff;
+}
+
+.cn3d-btn-primary:hover { box-shadow: var(--cn-shadow-glow-violet); transform: translateY(-1px); }
+.cn3d-btn-primary:active { background: var(--cn-violet-deep); transform: none; }
+
+.cn3d-btn-ghost {
+    background: transparent;
+    border: 1px solid var(--cn-glass-border);
+    color: var(--cn-text-primary);
+}
+
+.cn3d-btn-ghost:hover {
+    background: var(--cn-glass-fill-hover);
+    border-color: var(--cn-glass-border-accent);
+}
+
+/* =========================================
+   LOADING / ERROR
+   ========================================= */
+.cn3d-status {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--cn-text-tertiary);
+    background:
+        radial-gradient(50% 60% at 20% 25%, rgba(74, 44, 149, 0.45), transparent 70%),
+        radial-gradient(50% 60% at 82% 75%, rgba(93, 42, 110, 0.4), transparent 70%),
+        var(--cn-bg-void);
+}
+
+.cn3d-status.error { color: #FF5C72; }
+
+/* =========================================
+   COMPACT (container ≤ 760px wide, set by the engine)
+   ========================================= */
+.cn3d--compact .cn3d-head { top: 16px; left: 16px; }
+.cn3d--compact .cn3d-sub { display: none; }
+.cn3d--compact .cn3d-top { top: 16px; right: 16px; }
+.cn3d--compact .cn3d-reset { display: none; }
+.cn3d--compact .cn3d-panel {
+    top: auto;
+    left: 12px;
+    right: 12px;
+    bottom: 96px;
+    width: auto;
+    max-height: 55%;
+    transform: translateY(24px);
+}
+.cn3d--compact .cn3d-panel.open { transform: none; }
+.cn3d--compact .cn3d-dock { bottom: 12px; gap: 12px; padding-right: 16px; }
+.cn3d--compact .cn3d-ticks span:not(:first-child):not(:last-child):not(:nth-child(6)) { visibility: hidden; }
+
+/* =========================================
+   REDUCED MOTION
+   ========================================= */
+@media (prefers-reduced-motion: reduce) {
+    .cn3d *,
+    .cn3d *::before,
+    .cn3d *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
 }
