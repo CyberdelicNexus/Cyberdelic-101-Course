@@ -108,18 +108,26 @@
 
                 const container = this._getState().container;
 
+                const Icons = window.LessonIcons;
+                const kind = this._sceneKind(scene);
+
                 // Build HTML
                 let html = `<div class="scenario-scene active" data-scene-id="${scene.id}">`;
 
                 if (this.moduleTitle) {
-                    html += `<h1 class="module-title">${this.moduleTitle}</h1>`;
+                    // The header (with its animated emblem) is kept across scenes; see below.
+                    html += `<div class="sb-header-slot"></div>`;
                 }
 
-                html += `<div class="scene-content">
+                html += `<div class="scene-content sb-kind-${kind}">
                     <div class="sb-corner-node top-left"></div>
                     <div class="sb-corner-node top-right"></div>
                     <div class="sb-corner-node bottom-left"></div>
                     <div class="sb-corner-node bottom-right"></div>`;
+
+                if (Icons) {
+                    html += `<div class="sb-badge" aria-hidden="true">${Icons.svg(this._sceneIcon(scene, kind))}</div>`;
+                }
 
                 // Media
                 if (scene.media) {
@@ -132,11 +140,15 @@
                 // Choices
                 if (scene.choices && scene.choices.length > 0) {
                     html += `<div class="scenario-choices">`;
-                    scene.choices.forEach(choice => {
+                    const isNav = scene.choices.length === 1;
+                    scene.choices.forEach((choice, i) => {
                         const nextSceneAttr = choice.outcome ? `data-next-scene="${choice.outcome}"` : '';
+                        const icon = !Icons ? '' : isNav
+                            ? `<span class="sb-choice-icon sb-choice-arrow">${Icons.svg('arrow')}</span>`
+                            : `<span class="sb-choice-icon">${Icons.sigil(i)}</span>`;
                         html += `
-                            <div class="choice-option" data-choice-id="${choice.id}" ${nextSceneAttr}>
-                                <div class="choice-text"><strong>${choice.label}</strong></div>
+                            <div class="choice-option${isNav ? ' sb-choice-nav' : ''}" data-choice-id="${choice.id}" ${nextSceneAttr}>
+                                ${isNav ? '' : icon}<div class="choice-text"><strong>${choice.label}</strong></div>${isNav ? icon : ''}
                             </div>
                         `;
                     });
@@ -146,7 +158,27 @@
                 html += `</div>`; // scene-content
                 html += `</div>`; // scenario-scene
 
-                container.innerHTML = html;
+                // After the first scene only the card is swapped, so the header and its
+                // ambient emblem animation stay in place instead of restarting.
+                const existingScene = container.querySelector('.scenario-scene.active');
+                const existingCard = existingScene && existingScene.querySelector('.scene-content');
+                if (existingCard) {
+                    const tpl = document.createElement('template');
+                    tpl.innerHTML = html;
+                    existingCard.replaceWith(tpl.content.querySelector('.scene-content'));
+                    existingScene.dataset.sceneId = scene.id;
+                } else {
+                    container.innerHTML = html;
+                    const slot = container.querySelector('.sb-header-slot');
+                    if (slot) {
+                        const header = document.createElement('div');
+                        header.className = 'lx-header sb-header';
+                        const firstText = (this.sceneData[0] && this.sceneData[0].narrative) || '';
+                        header.innerHTML = (Icons ? Icons.emblem(Icons.topic(this.moduleTitle + ' ' + firstText, 'branch')) : '') +
+                            `<h1 class="module-title">${this.moduleTitle}</h1>`;
+                        slot.replaceWith(header);
+                    }
+                }
                 this.currentSceneId = sceneId;
 
                 // Terminal Scene Continue Button
@@ -162,6 +194,43 @@
                         this.markComplete();
                     });
                     contentEl.appendChild(continueBtn);
+                }
+            },
+
+            // Classify a scene so it gets a matching badge icon and tone.
+            _sceneKind: function (scene) {
+                const id = String(scene.id || '').toLowerCase();
+                const choices = scene.choices || [];
+                const text = String(scene.narrative || '')
+                    .replace(/<h3[^>]*>[\s\S]*?<\/h3>/i, ' ')
+                    .replace(/<[^>]*>/g, ' ')
+                    .trim();
+                const endKeywords = ['complete', 'flow_next_module', 'modules_end'];
+
+                if (this.sceneData.indexOf(scene) === 0) return 'intro';
+                if (choices.length === 0 ||
+                    /reflect|summary|complete|final|conclusion|debrief|wrap/.test(id) ||
+                    choices.every(c => endKeywords.indexOf(c.outcome) !== -1)) return 'reflect';
+                if (choices.length >= 2) return 'decision';
+                if ((/(^|_)(correct|right|best|ideal)/.test(id) && !/incorrect/.test(id)) ||
+                    /^(correct|exactly)\b/i.test(text)) return 'correct';
+                if (/incorrect|wrong|unsafe|danger|(^|_)miss/.test(id) ||
+                    /^(not quite|incorrect|not exactly|this isn['\u2019]t)\b/i.test(text)) return 'miss';
+                return 'insight';
+            },
+
+            _sceneIcon: function (scene, kind) {
+                const Icons = window.LessonIcons;
+                switch (kind) {
+                    case 'intro': return 'orbit';
+                    case 'reflect': return 'spiral';
+                    case 'correct': return 'check';
+                    case 'miss': return 'retry';
+                    case 'insight': return 'prism';
+                    default: {
+                        const h3 = (String(scene.narrative || '').match(/<h3[^>]*>([\s\S]*?)<\/h3>/i) || [])[1];
+                        return Icons.topic(h3 || scene.narrative, 'branch');
+                    }
                 }
             },
 
@@ -202,6 +271,16 @@
                     const allChoices = choiceEl.closest('.scenario-scene').querySelectorAll('.choice-option');
                     allChoices.forEach(c => c.classList.add('disabled'));
                     choiceEl.classList.add('selected');
+
+                    // Ripple from the pointer position (centre for keyboard clicks)
+                    const rect = choiceEl.getBoundingClientRect();
+                    const ripple = document.createElement('span');
+                    ripple.className = 'sb-ripple';
+                    const x = event.clientX ? event.clientX - rect.left : rect.width / 2;
+                    const y = event.clientY ? event.clientY - rect.top : rect.height / 2;
+                    ripple.style.left = x + 'px';
+                    ripple.style.top = y + 'px';
+                    choiceEl.appendChild(ripple);
 
                     if (nextSceneId) {
                         // Support transition keywords
