@@ -501,3 +501,293 @@
     .os-option-text { padding: 0.8rem 1rem; }
     .os-option-text .os-option-label { font-size: 0.9rem; }
 }
+
+/* ===========================================
+   Motion + icons layer
+   Topic emblem, progress dots, option sigils that turn into a check or a
+   cross, verdict icons and staggered entrances. Icons come from LessonIcons
+   (method-base.js); shared tokens and keyframes (lx-*) live in core/styles.css.
+   =========================================== */
+
+/* Each question card rises in (the border keeps rotating) */
+.os-container {
+    animation:
+        lx-rise 0.45s var(--lx-ease-in) both,
+        border-rotate 14s linear infinite;
+}
+
+/* ---------- Header: emblem + progress ---------- */
+.os-head {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+    animation: lx-rise 0.5s 0.05s var(--lx-ease-in) both;
+}
+
+.os-progress-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    flex: 1;
+    min-width: 0;
+}
+
+.os-step {
+    font-family: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    color: rgba(200, 190, 240, 0.7);
+}
+
+.os-step b { font-weight: 400; color: var(--lx-academy-soft); }
+
+.os-dots {
+    display: flex;
+    gap: 5px;
+}
+
+.os-dots i {
+    flex: 1;
+    max-width: 34px;
+    height: 3px;
+    border-radius: 3px;
+    background: rgba(145, 100, 255, 0.16);
+    position: relative;
+    overflow: hidden;
+}
+
+.os-dots i::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--lx-academy-from), var(--lx-academy-to));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.6s var(--lx-ease-in);
+}
+
+.os-dots i.done::after { transform: scaleX(1); }
+
+.os-dots i.current:not(.done) {
+    background: rgba(145, 100, 255, 0.32);
+    animation: os-dot-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes os-dot-pulse {
+    0%, 100% { box-shadow: 0 0 0 rgba(145, 100, 255, 0); }
+    50% { box-shadow: 0 0 8px rgba(145, 100, 255, 0.55); }
+}
+
+.os-question {
+    animation: lx-rise 0.5s 0.1s var(--lx-ease-in) both;
+}
+
+/* ---------- Options: staggered, with a sigil mark ---------- */
+.os-options-text .os-option-text:nth-child(1) { animation-delay: 0.18s; }
+.os-options-text .os-option-text:nth-child(2) { animation-delay: 0.25s; }
+.os-options-text .os-option-text:nth-child(3) { animation-delay: 0.32s; }
+.os-options-text .os-option-text:nth-child(4) { animation-delay: 0.39s; }
+.os-options-text .os-option-text:nth-child(n+5) { animation-delay: 0.46s; }
+
+/* The mark replaces the plain radio circle */
+.os-option-text.os-has-mark::before { display: none; }
+
+.os-mark {
+    position: relative;
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    color: rgba(170, 140, 255, 0.55);
+    transition: color 0.25s ease, transform 0.35s var(--lx-ease-in), filter 0.25s ease;
+}
+
+.os-mark .li-icon {
+    position: absolute;
+    inset: 0;
+    width: 22px;
+    height: 22px;
+    transition: opacity 0.25s ease, transform 0.35s var(--lx-ease-in);
+}
+
+.os-mark .os-mark-ok,
+.os-mark .os-mark-no {
+    opacity: 0;
+    transform: scale(0.6) rotate(-30deg);
+}
+
+.os-option-text:hover .os-mark {
+    color: var(--lx-academy-to);
+    transform: rotate(-12deg) scale(1.06);
+}
+
+.os-option-text.selected .os-mark {
+    color: var(--lx-academy-to);
+    filter: drop-shadow(0 0 7px rgba(202, 222, 119, 0.45));
+    transform: none;
+}
+
+.os-option-text.selected .os-mark .li-node {
+    animation: lx-pop 0.35s var(--lx-ease-in) both;
+}
+
+/* Right answer: sigil turns into a drawn check */
+.os-option-text.os-answer-correct .os-mark { color: var(--lx-ok); filter: drop-shadow(0 0 8px var(--lx-ok-soft)); }
+.os-option-text.os-answer-correct .os-mark > .li-icon:first-child { opacity: 0; transform: scale(1.4); }
+.os-option-text.os-answer-correct .os-mark .os-mark-ok { opacity: 1; transform: none; }
+.os-option-text.os-answer-correct .os-mark .os-mark-ok .li-draw {
+    stroke-dasharray: 30;
+    animation: lx-draw 0.5s 0.1s var(--lx-ease-in) both;
+}
+
+/* Wrong answer: sigil turns into a cross until the next try */
+.os-option-text.os-answer-missed .os-mark { color: var(--lx-miss); filter: none; }
+.os-option-text.os-answer-missed .os-mark > .li-icon:first-child { opacity: 0; transform: scale(0.6); }
+.os-option-text.os-answer-missed .os-mark .os-mark-no { opacity: 1; transform: none; }
+.os-option-text.os-answer-missed .os-mark .os-mark-no .li-draw {
+    stroke-dasharray: 30;
+    animation: lx-draw 0.45s var(--lx-ease-in) both;
+}
+
+.os-option-text.os-answer-missed.selected {
+    border-color: var(--lx-miss-soft);
+}
+
+/* Spark burst on a right answer */
+.os-burst {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.os-burst i {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 4px;
+    height: 4px;
+    margin: -2px 0 0 -2px;
+    border-radius: 50%;
+    background: var(--lx-academy-to);
+    box-shadow: 0 0 6px var(--lx-academy-to);
+    opacity: 0;
+    animation: os-spark 0.75s 0.1s ease-out both;
+}
+
+.os-burst i:nth-child(1) { --dx: 0px;   --dy: -20px; }
+.os-burst i:nth-child(2) { --dx: 17px;  --dy: -10px; }
+.os-burst i:nth-child(3) { --dx: 17px;  --dy: 10px;  background: var(--lx-ok); box-shadow: 0 0 6px var(--lx-ok); }
+.os-burst i:nth-child(4) { --dx: 0px;   --dy: 20px; }
+.os-burst i:nth-child(5) { --dx: -17px; --dy: 10px;  background: var(--lx-ok); box-shadow: 0 0 6px var(--lx-ok); }
+.os-burst i:nth-child(6) { --dx: -17px; --dy: -10px; }
+
+@keyframes os-spark {
+    0% { transform: translate(0, 0) scale(0.4); opacity: 0; }
+    25% { opacity: 1; }
+    100% { transform: translate(var(--dx), var(--dy)) scale(1); opacity: 0; }
+}
+
+/* Card-style sigil (only when an option has no icon of its own) */
+.os-option-sigil { color: rgba(170, 140, 255, 0.65); }
+.os-option-sigil .li-icon { width: 28px; height: 28px; }
+.os-option:hover .os-option-sigil,
+.os-option.selected .os-option-sigil { color: var(--lx-academy-to); }
+
+/* ---------- Verdict icon in the response header ---------- */
+.os-synthesis-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    flex-wrap: wrap;
+}
+
+.os-verdict {
+    position: relative;
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+    animation: lx-pop 0.45s var(--lx-ease-in) both;
+}
+
+.os-verdict .li-icon { width: 26px; height: 26px; }
+
+.os-verdict .li-draw {
+    stroke-dasharray: 30;
+    animation: lx-draw 0.55s 0.2s var(--lx-ease-in) both;
+}
+
+.os-verdict::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1px solid currentColor;
+    animation: lx-ring-burst 0.9s 0.2s ease-out both;
+    pointer-events: none;
+}
+
+.os-verdict-ok { color: var(--lx-ok); }
+.os-verdict-no { color: var(--lx-miss); }
+
+.os-response-area.os-response-incorrect {
+    background: rgba(255, 120, 70, 0.06);
+    border-color: rgba(255, 120, 70, 0.22);
+}
+
+/* ---------- Phone ---------- */
+@media (max-width: 640px) {
+    .os-head { gap: 0.75rem; margin-bottom: 1rem; }
+    .os-head .li-emblem { width: 40px; height: 40px; }
+    .os-mark, .os-mark .li-icon { width: 20px; height: 20px; }
+}
+
+/* ---------- Reduced motion: no movement, icons stay static ---------- */
+@media (prefers-reduced-motion: reduce) {
+    .module-option-selector,
+    .os-page,
+    .os-container,
+    .os-head,
+    .os-question,
+    .os-option-text,
+    .os-option,
+    .os-option-text.os-answer-correct,
+    .os-option-text.os-answer-incorrect,
+    .os-option-text.selected .os-mark .li-node,
+    .os-mark .li-draw,
+    .os-dots i.current:not(.done),
+    .os-burst i,
+    .os-verdict,
+    .os-verdict .li-draw,
+    .os-verdict::after,
+    .os-response-area.active {
+        animation: none !important;
+    }
+    .os-burst, .os-verdict::after { display: none; }
+    .os-option-text,
+    .os-option,
+    .os-mark,
+    .os-mark .li-icon,
+    .os-dots i::after,
+    .os-response-area,
+    .os-option-text::after {
+        transition: none !important;
+    }
+    .os-option-text:hover,
+    .os-option-text.selected,
+    .os-option:hover,
+    .os-option.selected,
+    .os-option-text:hover .os-mark,
+    .os-mark .li-icon {
+        transform: none !important;
+    }
+    /* Without the glow keyframe, show the right answer as a steady state */
+    .os-option-text.os-answer-correct {
+        background: rgba(0, 214, 140, 0.12);
+        box-shadow: 0 0 0 1px rgba(0, 214, 140, 0.4);
+    }
+    .os-option-text.os-answer-missed.selected {
+        background: rgba(255, 120, 70, 0.08);
+    }
+}

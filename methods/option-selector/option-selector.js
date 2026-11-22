@@ -132,6 +132,35 @@
                     <div class="os-corner-node bottom-right"></div>
                 `;
 
+                // Header: topic emblem + progress (icons from LessonIcons, method-base.js)
+                const Icons = window.LessonIcons;
+                if (Icons) {
+                    const total = this._questions.length;
+                    const head = document.createElement('div');
+                    head.className = 'os-head';
+                    let progress = '';
+                    if (total > 1) {
+                        const pad = n => String(n).padStart(2, '0');
+                        let dots = '';
+                        for (let i = 0; i < total; i++) {
+                            const cls = i < this._currentQuestionIndex ? 'done' : (i === this._currentQuestionIndex ? 'current' : '');
+                            dots += `<i class="${cls}"></i>`;
+                        }
+                        progress = `<div class="os-progress-row">
+                                <span class="os-step">${pad(this._currentQuestionIndex + 1)} <b>/</b> ${pad(total)}</span>
+                                <span class="os-dots" aria-hidden="true">${dots}</span>
+                            </div>`;
+                    }
+                    head.innerHTML = Icons.emblem(Icons.topic(currentQ.question, 'eye')) + progress;
+                    wrapper.appendChild(head);
+
+                    // Keep the emblem's ambient rotation continuous between questions
+                    const offset = -(performance.now() / 1000) + 's';
+                    head.querySelectorAll('.li-ring-outer, .li-ring-inner, .li-core-glow').forEach(el => {
+                        el.style.animationDelay = offset;
+                    });
+                }
+
                 // Question
                 const questionEl = document.createElement('div');
                 questionEl.className = 'os-question';
@@ -174,6 +203,22 @@
                         iconEl.className = 'os-option-icon';
                         iconEl.textContent = opt.icon;
                         optionEl.appendChild(iconEl);
+                    } else if (this._config.style !== 'text' && Icons) {
+                        const iconEl = document.createElement('div');
+                        iconEl.className = 'os-option-icon os-option-sigil';
+                        iconEl.innerHTML = Icons.sigil(currentQ.options.indexOf(opt));
+                        optionEl.appendChild(iconEl);
+                    }
+
+                    // Answer mark (text style): ring that turns into a check or a cross
+                    if (this._config.style === 'text' && Icons) {
+                        optionEl.classList.add('os-has-mark');
+                        const mark = document.createElement('span');
+                        mark.className = 'os-mark';
+                        mark.setAttribute('aria-hidden', 'true');
+                        mark.innerHTML = Icons.sigil(currentQ.options.indexOf(opt)) +
+                            Icons.svg('check', 'os-mark-ok') + Icons.svg('cross', 'os-mark-no');
+                        optionEl.appendChild(mark);
                     }
 
                     // Label
@@ -324,6 +369,7 @@
                         _responseArea.classList.remove('os-response-incorrect');
                         _responseArea.classList.add('os-response-correct');
                     }
+                    this._decorateVerdict(container, _selectedEl, true);
 
                     // Change State to Awaiting Next
                     this._awaitingNext = true;
@@ -353,6 +399,7 @@
                         _responseArea.classList.remove('os-response-correct');
                         _responseArea.classList.add('os-response-incorrect');
                     }
+                    this._decorateVerdict(container, _selectedEl, false);
 
                     // Change State to Awaiting Retry
                     this._awaitingRetry = true;
@@ -360,6 +407,34 @@
                         confirmBtn.textContent = 'Try Again ↺';
                         confirmBtn.classList.add('btn-warning');
                     }
+                }
+            },
+
+            // Feedback micro-animation: verdict icon in the response header, a spark
+            // burst on a right answer and the progress dot lighting up.
+            _decorateVerdict: function (container, selectedEl, isCorrect) {
+                const Icons = window.LessonIcons;
+                if (!Icons || !container) return;
+                const header = container.querySelector('.os-response-area .os-synthesis-header');
+                if (header && !header.querySelector('.os-verdict')) {
+                    const v = document.createElement('span');
+                    v.className = 'os-verdict ' + (isCorrect ? 'os-verdict-ok' : 'os-verdict-no');
+                    v.setAttribute('aria-hidden', 'true');
+                    v.innerHTML = Icons.svg(isCorrect ? 'check' : 'retry');
+                    header.prepend(v);
+                }
+                if (isCorrect) {
+                    const mark = selectedEl && selectedEl.querySelector('.os-mark');
+                    if (mark) {
+                        const burst = document.createElement('span');
+                        burst.className = 'os-burst';
+                        burst.innerHTML = '<i></i><i></i><i></i><i></i><i></i><i></i>';
+                        mark.appendChild(burst);
+                    }
+                    const dot = container.querySelector('.os-dots i.current');
+                    if (dot) dot.classList.add('done');
+                } else if (selectedEl) {
+                    selectedEl.classList.add('os-answer-missed');
                 }
             },
 
@@ -372,6 +447,7 @@
 
                 // Reset UI
                 container.querySelectorAll('.os-option-text.selected, .os-option.selected').forEach(el => el.classList.remove('selected'));
+                container.querySelectorAll('.os-answer-missed').forEach(el => el.classList.remove('os-answer-missed'));
 
                 // Hide Response Area
                 const responseArea = container.querySelector('.os-response-area');

@@ -56,7 +56,6 @@
     overflow: hidden;
     padding: 2rem 2rem;
     box-sizing: border-box;
-    animation: scene-fade-in 0.48s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 /* ---------- Glass Card ---------- */
@@ -90,7 +89,10 @@
     scrollbar-color: rgba(130, 90, 255, 0.35) transparent;
     box-sizing: border-box;
     position: relative;
-    animation: border-rotate 14s linear infinite;
+    /* Each new scene card enters on its own; the header above it stays put. */
+    animation:
+        scene-fade-in 0.48s cubic-bezier(0.16, 1, 0.3, 1) both,
+        border-rotate 14s linear infinite;
 }
 
 /* ---------- Scene Headings ---------- */
@@ -355,6 +357,237 @@
 
     .scenario-narrative { font-size: 0.92rem; }
     .choice-option { padding: 0.85rem 1rem; }
+}
+
+/* ===========================================
+   Motion + icons layer
+   Header emblem, scene badges, choice sigils, staggered entrances and
+   feedback micro-animations. Icons come from LessonIcons (method-base.js);
+   shared tokens and keyframes (lx-*) live in core/styles.css.
+   =========================================== */
+
+/* ---------- Header (emblem + title + scanline) ---------- */
+.sb-header {
+    animation: lx-rise 0.6s var(--lx-ease-in) both;
+}
+
+.sb-header .module-title {
+    text-shadow: none;
+}
+
+/* ---------- Scene badge (top-right of the card) ---------- */
+.sb-badge {
+    position: absolute;
+    top: 1.15rem;
+    right: 1.25rem;
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    color: var(--lx-violet-soft);
+    background: radial-gradient(circle at 50% 40%, rgba(130, 90, 255, 0.16), rgba(130, 90, 255, 0.03) 70%);
+    border: 1px solid rgba(145, 100, 255, 0.28);
+    animation: lx-pop 0.55s 0.15s var(--lx-ease-in) both;
+    z-index: 1;
+}
+
+.sb-badge .li-icon { width: 20px; height: 20px; }
+
+.sb-badge::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 50%;
+    border: 1px solid currentColor;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Room for the badge so the first line never runs under it */
+.scene-content .scenario-narrative > :first-child { padding-right: 3rem; }
+
+/* Kind tones */
+.sb-kind-intro .sb-badge,
+.sb-kind-reflect .sb-badge {
+    color: var(--lx-academy-to);
+    border-color: var(--lx-academy-soft);
+    background: radial-gradient(circle at 50% 40%, rgba(219, 171, 64, 0.16), rgba(219, 171, 64, 0.02) 70%);
+}
+
+.sb-kind-intro .sb-badge .li-icon,
+.sb-kind-reflect .sb-badge .li-icon {
+    animation: lx-spin 30s linear infinite;
+}
+
+.sb-kind-correct .sb-badge {
+    color: var(--lx-ok);
+    border-color: var(--lx-ok-soft);
+    background: radial-gradient(circle at 50% 40%, rgba(0, 214, 140, 0.18), rgba(0, 214, 140, 0.02) 70%);
+}
+
+.sb-kind-miss .sb-badge {
+    color: var(--lx-miss);
+    border-color: var(--lx-miss-soft);
+    background: radial-gradient(circle at 50% 40%, rgba(255, 120, 70, 0.16), rgba(255, 120, 70, 0.02) 70%);
+}
+
+.sb-kind-correct .sb-badge::after,
+.sb-kind-miss .sb-badge::after {
+    animation: lx-ring-burst 1.1s 0.35s ease-out both;
+}
+
+/* Check / retry strokes draw themselves in */
+.sb-badge .li-draw {
+    stroke-dasharray: 30;
+    animation: lx-draw 0.6s 0.4s var(--lx-ease-in) both;
+}
+
+/* Card glow on a feedback scene */
+@keyframes sb-glow-ok {
+    0%, 100% { box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 80px rgba(89, 0, 200, 0.08); }
+    35% { box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 70px rgba(0, 214, 140, 0.16); }
+}
+
+@keyframes sb-glow-miss {
+    0%, 100% { box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 80px rgba(89, 0, 200, 0.08); }
+    35% { box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 70px rgba(255, 120, 70, 0.13); }
+}
+
+.scene-content.sb-kind-correct {
+    animation:
+        scene-fade-in 0.48s cubic-bezier(0.16, 1, 0.3, 1) both,
+        border-rotate 14s linear infinite,
+        sb-glow-ok 2.2s 0.3s ease-out both;
+}
+
+.scene-content.sb-kind-miss {
+    animation:
+        scene-fade-in 0.48s cubic-bezier(0.16, 1, 0.3, 1) both,
+        border-rotate 14s linear infinite,
+        sb-glow-miss 2.2s 0.3s ease-out both;
+}
+
+/* ---------- Staggered narrative entrance ---------- */
+.scenario-scene.active .scenario-narrative { animation: none; }
+
+.scenario-narrative > * {
+    animation: lx-rise 0.5s var(--lx-ease-in) both;
+}
+
+.scenario-narrative > :nth-child(1) { animation-delay: 0.16s; }
+.scenario-narrative > :nth-child(2) { animation-delay: 0.24s; }
+.scenario-narrative > :nth-child(3) { animation-delay: 0.32s; }
+.scenario-narrative > :nth-child(4) { animation-delay: 0.40s; }
+.scenario-narrative > :nth-child(n+5) { animation-delay: 0.48s; }
+
+.scenario-scene.active .scenario-choices { animation: none; }
+
+.scenario-choices .choice-option:nth-child(1) { animation-delay: 0.36s; }
+.scenario-choices .choice-option:nth-child(2) { animation-delay: 0.44s; }
+.scenario-choices .choice-option:nth-child(3) { animation-delay: 0.52s; }
+.scenario-choices .choice-option:nth-child(4) { animation-delay: 0.60s; }
+.scenario-choices .choice-option:nth-child(n+5) { animation-delay: 0.68s; }
+
+/* ---------- Choice sigils ---------- */
+.sb-choice-icon {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    color: rgba(170, 140, 255, 0.6);
+    transition: color 0.25s ease, transform 0.35s var(--lx-ease-in), filter 0.25s ease;
+}
+
+.sb-choice-icon .li-icon { width: 22px; height: 22px; }
+
+.choice-option:hover .sb-choice-icon {
+    color: var(--lx-academy-to);
+    transform: rotate(-12deg) scale(1.08);
+    filter: drop-shadow(0 0 6px rgba(202, 222, 119, 0.35));
+}
+
+.choice-option.selected .sb-choice-icon {
+    color: var(--lx-academy-to);
+    filter: drop-shadow(0 0 8px rgba(202, 222, 119, 0.5));
+    animation: lx-pop 0.4s var(--lx-ease-in) both;
+}
+
+/* Single "continue"-style choice: arrow on the right, nudges on hover */
+.choice-option.sb-choice-nav::after { display: none; }
+
+.sb-choice-nav .sb-choice-arrow { color: rgba(170, 140, 255, 0.55); }
+
+.choice-option.sb-choice-nav:hover .sb-choice-arrow {
+    transform: translateX(4px);
+}
+
+.sb-choice-nav:not(:hover):not(.selected) .sb-choice-arrow {
+    animation: sb-nudge 2.6s 1.2s ease-in-out infinite;
+}
+
+@keyframes sb-nudge {
+    0%, 70%, 100% { transform: translateX(0); }
+    80% { transform: translateX(4px); }
+    90% { transform: translateX(0); }
+}
+
+/* ---------- Click ripple ---------- */
+.sb-ripple {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    margin: -6px 0 0 -6px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(202, 222, 119, 0.45), rgba(145, 100, 255, 0.25) 60%, transparent 70%);
+    pointer-events: none;
+    animation: sb-ripple 0.6s ease-out forwards;
+}
+
+@keyframes sb-ripple {
+    from { transform: scale(1); opacity: 1; }
+    to { transform: scale(60); opacity: 0; }
+}
+
+/* ---------- Phone ---------- */
+@media (max-width: 640px) {
+    .sb-header { gap: 0.8rem; margin-bottom: 1rem; padding-left: 0.5rem; padding-right: 0.5rem; }
+    .sb-header .li-emblem { width: 40px; height: 40px; }
+    .sb-badge { top: 1rem; right: 1rem; width: 34px; height: 34px; }
+    .sb-badge .li-icon { width: 18px; height: 18px; }
+    .scene-content .scenario-narrative > :first-child { padding-right: 2.6rem; }
+}
+
+/* ---------- Reduced motion: no movement, icons stay static ---------- */
+@media (prefers-reduced-motion: reduce) {
+    .scene-content,
+    .scene-content.sb-kind-correct,
+    .scene-content.sb-kind-miss,
+    .sb-header,
+    .sb-badge,
+    .sb-badge::after,
+    .sb-badge .li-icon,
+    .sb-badge .li-draw,
+    .scenario-narrative > *,
+    .choice-option,
+    .choice-option.selected,
+    .choice-option.selected .sb-choice-icon,
+    .sb-choice-nav .sb-choice-arrow,
+    .scene-continue {
+        animation: none !important;
+    }
+    .choice-option,
+    .sb-choice-icon,
+    .choice-option::before,
+    .choice-option::after {
+        transition: none !important;
+    }
+    .choice-option:hover,
+    .choice-option.selected,
+    .choice-option:hover .sb-choice-icon,
+    .choice-option.sb-choice-nav:hover .sb-choice-arrow {
+        transform: none !important;
+    }
+    .sb-ripple { display: none; }
 }
 
 /* ---------- Legacy / unused classes (kept for compat) ---------- */

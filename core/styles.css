@@ -1957,3 +1957,124 @@ button.btn-continue:hover,
     margin-top: 1.5rem;
     letter-spacing: 0.3px;
 }
+/* ==========================================================================
+   Lesson motion + icons (shared by scenario-based and option-selector)
+   Colour values copied from the Cyberdelic design system (Academy division
+   accent: --cn-academy-from/to) so the lesson files stay standalone.
+   ========================================================================== */
+:root {
+    --lx-academy-from: #DBAB40;
+    --lx-academy-to: #CADE77;
+    --lx-academy-soft: rgba(219, 171, 64, 0.55);
+    --lx-violet: rgba(145, 100, 255, 0.9);
+    --lx-violet-soft: rgba(190, 165, 255, 0.75);
+    --lx-core-glow: rgba(110, 60, 255, 0.22);
+    --lx-ok: rgb(0, 214, 140);
+    --lx-ok-soft: rgba(0, 214, 140, 0.35);
+    --lx-miss: rgb(255, 120, 70);
+    --lx-miss-soft: rgba(255, 120, 70, 0.32);
+    --lx-ease-in: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.li-icon { display: block; flex-shrink: 0; }
+.li-icon .li-node { fill: currentColor; stroke: none; }
+
+/* ---------- Header emblem ---------- */
+.li-emblem {
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+}
+.li-emblem-rings { position: absolute; inset: 0; overflow: visible; }
+.li-emblem .li-stop-a { stop-color: var(--lx-academy-from); }
+.li-emblem .li-stop-b { stop-color: var(--lx-academy-to); }
+.li-emblem .li-orbit-node { fill: var(--lx-academy-to); }
+.li-emblem .li-ring-dash { stroke: var(--lx-violet-soft); }
+.li-emblem .li-core-glow { fill: var(--lx-core-glow); }
+.li-ring-outer, .li-ring-inner, .li-core-glow { transform-box: view-box; transform-origin: 50% 50%; }
+.li-ring-outer { animation: lx-spin 24s linear infinite; }
+.li-ring-inner { animation: lx-spin 36s linear infinite reverse; }
+.li-core-glow { animation: lx-breathe 4.8s ease-in-out infinite; }
+.li-emblem-icon { position: relative; color: rgba(236, 228, 255, 0.95); width: 20px; height: 20px; }
+.li-emblem-icon .li-icon { width: 20px; height: 20px; }
+.li-emblem-icon .li-node { fill: var(--lx-academy-to); }
+
+@keyframes lx-spin { to { transform: rotate(360deg); } }
+@keyframes lx-breathe {
+    0%, 100% { transform: scale(0.82); opacity: 0.55; }
+    50% { transform: scale(1.08); opacity: 1; }
+}
+@keyframes lx-rise {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes lx-draw { from { stroke-dashoffset: 30; } to { stroke-dashoffset: 0; } }
+@keyframes lx-pop {
+    0% { transform: scale(0.6); opacity: 0; }
+    60% { transform: scale(1.08); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+@keyframes lx-ring-burst {
+    from { transform: scale(0.6); opacity: 0.9; }
+    to { transform: scale(2.2); opacity: 0; }
+}
+/* A short Academy-gradient glint travelling along the header rule */
+@keyframes lx-scan {
+    0% { background-position: -60% 0; opacity: 0; }
+    10% { opacity: 1; }
+    70% { background-position: 160% 0; opacity: 1; }
+    71%, 100% { background-position: 160% 0; opacity: 0; }
+}
+
+/* ---------- Header row with scanline ---------- */
+.lx-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.85rem;
+    margin: 0 auto 1.25rem;
+    padding-bottom: 0.7rem;
+    max-width: 680px;
+    width: 100%;
+}
+.lx-header::before,
+.lx-header::after {
+    content: '';
+    position: absolute;
+    left: 15%;
+    right: 15%;
+    bottom: 0;
+    height: 1px;
+}
+.lx-header::before { background: linear-gradient(90deg, transparent, rgba(190, 165, 255, 0.18), transparent); }
+.lx-header::after {
+    background-image: linear-gradient(90deg, transparent, var(--lx-academy-from), var(--lx-academy-to), transparent);
+    background-size: 35% 100%;
+    background-repeat: no-repeat;
+    background-position: -60% 0;
+    animation: lx-scan 6s ease-in-out infinite;
+}
+.lx-header > .module-title,
+.lx-header > .lx-header-text {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+}
+
+/* ---------- Reduced motion: static icons, no ambient loops ---------- */
+@media (prefers-reduced-motion: reduce) {
+    html body::before,
+    html body::after,
+    .li-ring-outer,
+    .li-ring-inner,
+    .li-core-glow,
+    .lx-header::after {
+        animation: none !important;
+    }
+    .lx-header::after { background-position: 50% 0; opacity: 0.6; }
+    .li-core-glow { opacity: 0.8; }
+}
