@@ -75,8 +75,8 @@
             const screen = document.createElement('div');
             screen.className = 'opening-screen';
 
-            const mainTitle = manifest.title || 'Cyberdelics 101';
-            const eyebrow = manifest.eyebrow || manifest.module || 'Cyberdelics 101';
+            const mainTitle = manifest.title || 'Cyberdelic Foundations';
+            const eyebrow = manifest.eyebrow || manifest.module || 'Cyberdelic Foundations';
 
             screen.innerHTML = `
                 <div class="cover-orb cover-orb-1"></div>
