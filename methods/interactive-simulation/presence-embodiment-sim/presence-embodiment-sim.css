@@ -1,590 +1,154 @@
-/* Presence & Embodiment Sim Styles - Scoped to .pes-app */
-.interactive-simulation-container[data-engine="PresenceEmbodimentSim"] {
-    width: 100%;
-    height: 100%;
-    background-color: #06080f;
-    overflow-y: scroll;
-    overflow-x: hidden;
-}
+/* Presence & Embodiment - 3D "Threshold Room" engine styles
+   Visual language from the Cyberdelic Nexus core design system: dark-only, glass plates with
+   hairline borders, glow as inner radiance, Poppins for UI, JetBrains Mono for data.
+   Everything is scoped under .pe3d so it cannot leak into other engines.
+   The previous version's styles live in presence-embodiment-sim-2d.css. */
 
-.pes-app {
-    --p: #7c3aed;
-    --p-light: #c4b5fd;
-    --p-mid: #a78bfa;
-    --e: #0f766e;
-    --e-light: #5eead4;
-    --e-mid: #2dd4bf;
-    --bg: #06080f;
-    --surface: rgba(255, 255, 255, 0.028);
-    --border: rgba(255, 255, 255, 0.07);
-    --text: #dde1ec;
-    --muted: rgba(221, 225, 236, 0.38);
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
 
-    position: relative;
-    z-index: 1;
-    max-width: 1160px;
-    margin: 0 auto;
-    padding: 32px 20px 64px;
+/* ===== HOST LAYOUT: the viewport fills the block, no side controls ===== */
+.interactive-simulation-container:is([data-engine="PresenceEmbodimentSim"], [data-engine="presence-embodiment-sim"]) {
     display: flex;
     flex-direction: column;
-    gap: 28px;
-    font-family: 'Jost', sans-serif;
-    font-weight: 300;
-    color: var(--text);
-}
-
-.pes-app::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-        linear-gradient(rgba(124, 58, 237, 0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(124, 58, 237, 0.04) 1px, transparent 1px);
-    background-size: 48px 48px;
-    pointer-events: none;
-    z-index: 0;
-}
-
-/* HEADER */
-.pes-app .hdr {
-    display: flex;
-    align-items: baseline;
-    gap: 18px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--border);
-}
-
-.pes-app .hdr-label {
-    font-size: 0.62rem;
-    font-weight: 500;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--muted);
-}
-
-.pes-app .hdr h1 {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 300;
-    font-size: clamp(1.4rem, 3.5vw, 2rem);
-    color: #fff;
-    letter-spacing: 0.04em;
-    margin: 0;
-}
-
-.pes-app .hdr-sub {
-    margin-left: auto;
-    font-size: 0.72rem;
-    color: var(--muted);
-    text-align: right;
-    line-height: 1.6;
-    max-width: 260px;
-    margin-bottom: 0;
-}
-
-/* GRID */
-.pes-app .pes-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 300px;
-    gap: 20px;
-    align-items: start;
-}
-
-/* VIEWER */
-.pes-app .viewer {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    z-index: 2;
-    min-width: 0;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.pes-app .stages-frame {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    z-index: 2;
-    min-width: 0;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.pes-app .viewer-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 18px;
-    border-bottom: 1px solid var(--border);
-    background: rgba(0, 0, 0, 0.2);
-}
-
-.pes-app .viewer-bar-label {
-    font-size: 0.62rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--muted);
-}
-
-.pes-app .viewer-meters {
-    display: flex;
-    gap: 20px;
-}
-
-.pes-app .v-meter {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.pes-app .v-meter-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-
-.pes-app .v-meter-track {
-    width: 80px;
-    height: 3px;
-    background: rgba(255, 255, 255, 0.07);
-    border-radius: 4px;
+    align-items: stretch !important;
     overflow: hidden;
 }
-
-.pes-app .v-meter-fill {
-    height: 100%;
-    border-radius: 4px;
-    transition: width 0.2s ease;
-}
-
-.pes-app .v-meter-num {
-    font-size: 0.65rem;
-    font-weight: 400;
-    width: 28px;
-    text-align: right;
-}
-
-.pes-app .v-meter.pres .v-meter-dot {
-    background: var(--p-mid);
-}
-
-.pes-app .v-meter.pres .v-meter-fill {
-    background: linear-gradient(90deg, var(--p), var(--p-mid));
-}
-
-.pes-app .v-meter.pres .v-meter-num {
-    color: var(--p-light);
-}
-
-.pes-app .v-meter.emb .v-meter-dot {
-    background: var(--e-mid);
-}
-
-.pes-app .v-meter.emb .v-meter-fill {
-    background: linear-gradient(90deg, var(--e), var(--e-mid));
-}
-
-.pes-app .v-meter.emb .v-meter-num {
-    color: var(--e-light);
-}
-
-/* Canvas wrap */
-.pes-app .canvas-wrap {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16/10;
-    background: #060810;
-}
-
-.pes-app .canvas-wrap canvas {
-    position: absolute;
-    inset: 0;
+.interactive-simulation-container:is([data-engine="PresenceEmbodimentSim"], [data-engine="presence-embodiment-sim"]) .sim-viewport {
+    flex: 1 1 auto;
     width: 100% !important;
-    height: 100% !important;
-    display: block;
-    outline: none;
-}
-
-/* PROFILE STRIP */
-.pes-app .profile-strip {
-    display: none;
-}
-
-.pes-app .profile-strip.active {
-    background: rgba(124, 58, 237, 0.06);
-}
-
-.pes-app .profile-pip {
-    width: 3px;
-    height: 36px;
-    border-radius: 4px;
-    background: var(--border);
-    flex-shrink: 0;
-    transition: background 0.4s ease;
-}
-
-.pes-app .profile-strip.active .profile-pip {
-    background: linear-gradient(180deg, var(--p-mid), var(--e-mid));
-}
-
-.pes-app .profile-text {
-    flex: 1;
-    min-width: 0;
-}
-
-.pes-app .profile-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--p-light);
-    margin-bottom: 4px;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    white-space: normal;
-    overflow-wrap: break-word;
-}
-
-.pes-app .profile-strip.active .profile-name {
-    opacity: 1;
-}
-
-.pes-app .profile-quote {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.92rem;
-    font-style: italic;
-    color: var(--muted);
-    line-height: 1.55;
-    transition: color 0.4s ease;
-    margin: 0;
-    white-space: normal;
-    overflow-wrap: break-word;
-}
-
-.pes-app .profile-strip.active .profile-quote {
-    color: rgba(221, 225, 236, 0.72);
-}
-
-.pes-app .profile-idle {
-    font-size: 0.72rem;
-    color: var(--muted);
-    letter-spacing: 0.06em;
-    white-space: normal;
-    overflow-wrap: break-word;
-}
-
-/* PROFILES GRID */
-.pes-app .profiles-grid {
-    border-top: 1px solid var(--border);
-    padding: 16px 20px;
-}
-
-.pes-app .profiles-grid-hdr {
-    font-size: 0.72rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 12px;
-}
-
-.pes-app .pg-items {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 7px;
-}
-
-.pes-app .pg-item {
-    border: 1px solid var(--border);
-    border-radius: 9px;
-    padding: 9px 10px;
-    cursor: default;
-    transition: all 0.3s ease;
-}
-
-.pes-app .pg-item.lit {
-    border-color: rgba(167, 139, 250, 0.4);
-    background: rgba(124, 58, 237, 0.1);
-    box-shadow: 0 0 14px rgba(124, 58, 237, 0.12);
-}
-
-.pes-app .pg-dots {
-    display: flex;
-    gap: 3px;
-    margin-bottom: 5px;
-}
-
-.pes-app .pg-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-}
-
-.pes-app .pg-item-name {
-    font-size: 0.72rem;
-    letter-spacing: 0.06em;
-    font-weight: 500;
-    color: var(--muted);
-    line-height: 1.4;
-    text-transform: uppercase;
-    transition: color 0.3s ease;
-}
-
-.pes-app .pg-item.lit .pg-item-name {
-    color: var(--p-light);
-}
-
-/* CONTROLS */
-.pes-app .controls {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    align-self: stretch;
+    min-height: clamp(620px, 86vh, 920px);
+    background: #000;
+    border-radius: 22px;
     position: relative;
-    z-index: 2;
+    overflow: hidden;
+}
+.interactive-simulation-container:is([data-engine="PresenceEmbodimentSim"], [data-engine="presence-embodiment-sim"]) .sim-controls:empty {
+    display: none !important;
 }
 
-.pes-app .ctrl-section {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 18px 16px;
-}
-
-.pes-app .ctrl-section-hdr {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 16px;
-}
-
-.pes-app .ctrl-section-pip {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-
-.pes-app .ctrl-section-label {
-    font-size: 0.76rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    font-weight: 500;
-}
-
-.pes-app .ctrl-section.pres .ctrl-section-pip {
-    background: var(--p-mid);
-    box-shadow: 0 0 6px var(--p);
-}
-
-.pes-app .ctrl-section.pres .ctrl-section-label {
-    color: var(--p-light);
-}
-
-.pes-app .ctrl-section.emb .ctrl-section-pip {
-    background: var(--e-mid);
-    box-shadow: 0 0 6px var(--e);
-}
-
-.pes-app .ctrl-section.emb .ctrl-section-label {
-    color: var(--e-light);
-}
-
-.pes-app .ctrl-section.both .ctrl-section-pip {
-    background: linear-gradient(135deg, var(--p-mid), var(--e-mid));
-}
-
-.pes-app .ctrl-section.both .ctrl-section-label {
-    color: #c4b5fd;
-}
-
-.pes-app .slider-row {
-    margin-bottom: 14px;
-}
-
-.pes-app .slider-row:last-child {
-    margin-bottom: 0;
-}
-
-.pes-app .slider-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 5px;
-}
-
-.pes-app .slider-name {
-    font-size: 0.85rem;
-    font-weight: 400;
-    color: var(--text);
-    letter-spacing: 0.03em;
-}
-
-.pes-app .slider-ends {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 4px;
-}
-
-.pes-app .slider-ends span {
-    font-size: 0.72rem;
-    color: var(--muted);
-    letter-spacing: 0.04em;
-}
-
-.pes-app input[type=range] {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 100%;
-    height: 3px;
-    border-radius: 6px;
-    outline: none;
-    cursor: pointer;
-}
-
-.pes-app input[type=range].p-range {
-    background: linear-gradient(90deg, var(--p-mid) calc(var(--v)*1%), rgba(255, 255, 255, 0.09) calc(var(--v)*1%));
-}
-
-.pes-app input[type=range].e-range {
-    background: linear-gradient(90deg, var(--e-mid) calc(var(--v)*1%), rgba(255, 255, 255, 0.09) calc(var(--v)*1%));
-}
-
-.pes-app input[type=range].b-range {
-    background: linear-gradient(90deg, #9d7fea calc(var(--v)*1%), rgba(255, 255, 255, 0.09) calc(var(--v)*1%));
-}
-
-.pes-app input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: #fff;
-    box-shadow: 0 0 6px rgba(180, 140, 255, 0.5), 0 1px 4px rgba(0, 0, 0, 0.5);
-    transition: transform 0.12s ease;
-}
-
-.pes-app input[type=range]:hover::-webkit-slider-thumb {
-    transform: scale(1.3);
-}
-
-/* DESCRIPTION PANEL */
-.pes-app .slider-desc-panel {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 14px 16px;
-    min-height: 70px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    transition: border-color 0.3s ease, background 0.3s ease;
-}
-
-.pes-app .slider-desc-panel.has-content {
-    border-color: rgba(167, 139, 250, 0.2);
-    background: rgba(100, 60, 220, 0.05);
-}
-
-.pes-app .slider-desc-name {
-    font-size: 0.76rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    font-weight: 500;
-    color: var(--p-light);
-    opacity: 0;
-    transition: opacity 0.25s ease;
-}
-
-.pes-app .slider-desc-panel.has-content .slider-desc-name {
-    opacity: 1;
-}
-
-.pes-app .slider-desc-text {
-    font-size: 0.88rem;
-    line-height: 1.65;
-    color: var(--muted);
-    transition: color 0.3s ease;
-    margin: 0;
-}
-
-.pes-app .slider-desc-panel.has-content .slider-desc-text {
-    color: rgba(221, 225, 236, 0.68);
-}
-
-.pes-app .slider-desc-idle {
-    font-size: 0.82rem;
-    color: var(--muted);
-    letter-spacing: 0.05em;
-    opacity: 0.6;
-}
-
-/* Loading overlay */
-.pes-app .load-overlay {
+/* ===== ROOT ===== */
+.pe3d {
     position: absolute;
     inset: 0;
-    background: #060810;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10;
-    transition: opacity 0.8s ease;
+    overflow: hidden;
+    background: #000;
+    color: #F1EEFB;
+    font-family: Poppins, system-ui, sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: normal;
+    text-align: left;
+    -webkit-font-smoothing: antialiased;
+    isolation: isolate;
+    --p:#4CDCEF;--e:#E562A4;--b:#B49BF8;--text:#F1EEFB;--text2:#ABA4C9;--text3:#9890BB;--line:rgba(255,255,255,.11);--line-hi:rgba(180,155,248,.36);
+    --blur:blur(22px) saturate(155%);--brand:linear-gradient(100deg,#4CDCEF,#B49BF8 50%,#E562A4);--ease:cubic-bezier(.16,1,.3,1);
 }
-
-.pes-app .load-overlay.hidden {
-    opacity: 0;
-    pointer-events: none;
+.pe3d *, .pe3d *::before, .pe3d *::after { box-sizing: border-box; }
+/* the lesson page styles headings, paragraphs and labels globally; start from zero in here */
+.pe3d :is(h1, h2, h3, h4, p, ul, ol, li, label) { margin: 0; padding: 0; }
+.pe3d canvas.pe3d-canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; cursor: grab; touch-action: none; }
+.pe3d .pe3d-status {
+    position: absolute; inset: 0; display: grid; place-items: center; padding: 24px;
+    font: 500 .86rem Poppins, sans-serif; color: #9890BB; text-align: center;
 }
+.pe3d .pe3d-status.error { color: #FF5C72; }
 
-.pes-app .load-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--p-mid);
-    animation: pes-pulse 1.2s ease-in-out infinite;
-}
+/* ===== SCENE UI ===== */
+.pe3d :where(button,input,[tabindex]):focus-visible {outline:2px solid var(--p);outline-offset:2px}
+.pe3d .glass {border:1px solid var(--line);background:rgba(15,11,26,.62);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur)}
+.pe3d .eb {display:block;font-size:.72rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--p)}
+.pe3d .bar {display:block;width:64px;height:3px;border-radius:2px;background:var(--brand)}
+.pe3d .head {position:absolute;top:24px;left:24px;width:340px;pointer-events:none}
+.pe3d .head h1 {margin:6px 0 10px;font-size:1.7rem;font-weight:700;letter-spacing:-.015em;line-height:1.2;color:var(--text)}
 
-.pes-app .load-dot:nth-child(2) {
-    animation-delay: 0.2s;
-}
+/* ---- session parameters (left) ---- */
+.pe3d .params {position:absolute;left:24px;top:124px;bottom:24px;width:340px;padding:16px 14px;border-radius:22px;overflow-y:auto;display:grid;align-content:start;gap:14px;
+  scrollbar-width:thin;scrollbar-color:rgba(180,155,248,.35) transparent}
+.pe3d .params .lbl {font:600 .62rem Poppins,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--text3);padding:0 4px}
+.pe3d .grp {display:grid;gap:4px}
+.pe3d .grp .gh {display:flex;align-items:center;gap:8px;padding:0 4px 2px;font:600 .62rem Poppins,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--c)}
+.pe3d .grp .gh i {width:8px;height:8px;border-radius:50%;background:var(--c);box-shadow:0 0 8px var(--c)}
+.pe3d .sl {padding:10px 12px 10px;border-radius:14px;border:1px solid transparent;transition:border-color .25s,background .25s}
+.pe3d .sl:hover {background:rgba(255,255,255,.03)}
+.pe3d .sl.on {border-color:var(--line-hi);background:rgba(180,155,248,.07)}
+.pe3d .sl .top {display:flex;justify-content:space-between;align-items:baseline;gap:8px;font:500 .8rem Poppins,sans-serif;color:var(--text)}
+.pe3d .sl .top label {font:inherit;color:inherit;cursor:pointer}
+.pe3d .sl .top b {font:500 .7rem 'JetBrains Mono',monospace;color:var(--c);white-space:nowrap}
+.pe3d .sl .ends {display:flex;justify-content:space-between;font-size:.66rem;color:var(--text3)}
+.pe3d .sl .more {display:none;margin-top:8px}
+.pe3d .sl.on .more {display:block;animation:pe3d-in .4s var(--ease)}
+.pe3d .sl .more p {margin:0;font-size:.74rem;line-height:1.55;color:var(--text2)}
+.pe3d .sl .more .look {margin-top:8px;padding:8px 10px;border-radius:10px;border-left:2px solid var(--c);background:rgba(255,255,255,.03);font-size:.72rem;line-height:1.5;color:var(--text)}
+.pe3d .sl .more .look b {display:block;font:600 .58rem Poppins,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--c);margin-bottom:2px}
+.pe3d .sl .feeds {margin-top:6px;font:500 .62rem 'JetBrains Mono',monospace;color:var(--text3)}
+@keyframes pe3d-in {from{opacity:0;transform:translateY(4px)}}
+.pe3d input[type=range] {-webkit-appearance:none;appearance:none;display:block;width:100%;height:22px;margin:4px 0 0;padding:0;border:none;background:transparent;cursor:pointer}
+.pe3d input[type=range]::-webkit-slider-runnable-track {height:4px;border-radius:2px;background:linear-gradient(90deg,var(--c) 0 var(--v),rgba(255,255,255,.1) var(--v) 100%)}
+.pe3d input[type=range]::-moz-range-track {height:4px;border-radius:2px;background:linear-gradient(90deg,var(--c) 0 var(--v),rgba(255,255,255,.1) var(--v) 100%)}
+.pe3d input[type=range]::-webkit-slider-thumb {-webkit-appearance:none;width:16px;height:16px;margin-top:-6px;border-radius:50%;border:none;background:#fff;box-shadow:0 0 0 3px var(--c),0 0 14px var(--c)}
+.pe3d input[type=range]::-moz-range-thumb {width:16px;height:16px;border-radius:50%;border:none;background:#fff;box-shadow:0 0 0 3px var(--c),0 0 14px var(--c)}
 
-.pes-app .load-dot:nth-child(3) {
-    animation-delay: 0.4s;
-}
+/* ---- client state (right) ---- */
+.pe3d .state {position:absolute;right:24px;top:24px;width:312px;max-height:calc(100% - 48px);overflow-y:auto;padding:18px;border-radius:22px;display:grid;gap:14px;
+  scrollbar-width:thin;scrollbar-color:rgba(180,155,248,.35) transparent}
+.pe3d .state .lbl {display:block;font:600 .62rem Poppins,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--text3)}
+.pe3d .meters {display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pe3d .meter {padding:10px 12px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.02)}
+.pe3d .meter span {display:block;font:600 .58rem Poppins,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--c)}
+.pe3d .meter small {display:block;font-size:.64rem;color:var(--text3)}
+.pe3d .meter b {display:block;margin:2px 0 6px;font:700 1.7rem/1 Poppins,sans-serif;font-variant-numeric:tabular-nums;color:var(--text)}
+.pe3d .meter b em {font-style:normal;font-size:.9rem;color:var(--text3);margin-left:2px}
+.pe3d .meter .tr {height:4px;border-radius:2px;background:rgba(255,255,255,.08);overflow:hidden}
+.pe3d .meter .tr i {display:block;height:100%;width:0;border-radius:2px;background:var(--c);box-shadow:0 0 8px var(--c)}
+/* the host styles every `.sim-viewport svg` as a full-size absolute layer; keep the map in the flow */
+.pe3d .map svg {position:static;display:block;width:100%;max-width:300px;margin:0 auto;height:auto;overflow:visible}
+.pe3d .map .rg {cursor:pointer;outline:none}
+.pe3d .map .rg rect {transition:fill-opacity .3s,stroke-opacity .3s}
+.pe3d .map .rg:hover rect, .pe3d .map .rg:focus-visible rect {fill-opacity:.2}
+.pe3d .map .rg text {font:600 9.5px Poppins,sans-serif;letter-spacing:.02em;pointer-events:none}
+.pe3d .map .ax {font:500 9px 'JetBrains Mono',monospace;fill:var(--text3)}
+.pe3d .card {padding:14px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.02);min-height:118px}
+.pe3d .card .eb {color:var(--c,var(--text3))}
+.pe3d .card h3 {margin:4px 0 6px;font-size:1.15rem;font-weight:700;color:var(--c,var(--text2));transition:color .4s}
+.pe3d .card p {margin:0;font-size:.8rem;line-height:1.55;color:var(--text2);font-style:italic}
+.pe3d .card.idle p {font-style:normal;color:var(--text3)}
+.pe3d .found {display:flex;align-items:center;gap:10px;font:500 .7rem 'JetBrains Mono',monospace;color:var(--text2)}
+.pe3d .found .dots {display:flex;gap:5px}
+.pe3d .found .dots i {width:9px;height:9px;border-radius:50%;border:1.5px solid var(--c);opacity:.45;transition:background .4s,opacity .4s,box-shadow .4s}
+.pe3d .found .dots i.on {background:var(--c);opacity:1;box-shadow:0 0 8px var(--c)}
+.pe3d .hint {font-size:.68rem;color:var(--text3);line-height:1.5}
 
-.pes-app .load-dots {
-    display: flex;
-    gap: 8px;
-}
+/* ---- 3D labels ---- */
+.pe3d .labels {position:absolute;inset:0;pointer-events:none}
+.pe3d .lab {position:absolute;left:0;top:0;font:500 .64rem/1 Poppins,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--c);
+  text-shadow:0 0 10px #000,0 0 3px #000;white-space:nowrap;transition:opacity .4s;opacity:0}
 
-@keyframes pes-pulse {
+/* ---- tablet: scene on top, both panels side by side underneath ---- */
+.pe3d.pe-compact .head {top:18px;left:16px;width:auto;right:16px}
+.pe3d.pe-compact .head h1 {font-size:1.35rem;margin:4px 0 8px}
+.pe3d.pe-compact .params {top:auto;bottom:16px;left:16px;width:calc(50% - 22px);max-height:44%}
+.pe3d.pe-compact .state {top:auto;bottom:16px;right:16px;width:calc(50% - 22px);max-height:44%}
 
-    0%,
-    100% {
-        opacity: 0.2;
-        transform: scale(0.8)
-    }
+/* ---- phone: a live readout under the title, one bottom sheet with tabs ---- */
+.pe3d .mini, .pe3d .tabs {display:none}
+.pe3d.pe-phone .head {top:14px}
+.pe3d.pe-phone .head .eb {font-size:.6rem}
+.pe3d.pe-phone .head h1 {font-size:1.12rem;margin:3px 0 6px}
+.pe3d.pe-phone .mini {display:flex;align-items:center;gap:8px;position:absolute;top:72px;left:12px;right:12px;padding:7px 12px;border-radius:999px;font:500 .7rem 'JetBrains Mono',monospace;color:var(--text2)}
+.pe3d.pe-phone .mini b {font-weight:600}
+.pe3d.pe-phone .mini .mp {color:var(--p)}
+.pe3d.pe-phone .mini .me {color:var(--e)}
+.pe3d.pe-phone .mini .ms {margin-left:auto;font:600 .72rem Poppins,sans-serif;color:var(--c,var(--text2));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pe3d.pe-phone .tabs {display:flex;position:absolute;left:12px;right:12px;bottom:calc(50% - 22px);padding:3px;border-radius:999px}
+.pe3d.pe-phone .tabs button {flex:1;min-height:34px;border:none;border-radius:999px;background:transparent;color:var(--text2);font:500 .76rem Poppins,sans-serif;cursor:pointer}
+.pe3d.pe-phone .tabs button[aria-selected=true] {background:rgba(180,155,248,.16);color:var(--text)}
+.pe3d.pe-phone .params, .pe3d.pe-phone .state {left:12px;right:12px;bottom:12px;top:auto;width:auto;height:calc(50% - 40px);max-height:none;padding:12px}
+.pe3d.pe-phone .state .meters, .pe3d.pe-phone .state .hint {display:none}
+.pe3d.pe-phone:not(.tab-state) .state {display:none}
+.pe3d.pe-phone.tab-state .params {display:none}
+.pe3d.pe-phone .lab {font-size:.56rem;letter-spacing:.12em}
 
-    50% {
-        opacity: 1;
-        transform: scale(1.2)
-    }
-}
-
-@media(max-width:700px) {
-    .pes-app .pes-grid {
-        grid-template-columns: 1fr
-    }
-
-    .pes-app .hdr-sub {
-        display: none
-    }
+@media (prefers-reduced-motion: reduce) {
+    .pe3d .sl.on .more {animation:none}
 }

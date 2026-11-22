@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Body World Mirror Mockup</title>
+</head>
+<body>
+<div id="stage"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+<script src="../cybernetic-loop-data.js"></script>
+<script src="mock-common.js"></script>
+<script>
+/* Concept 2: Body <-> World Mirror
+   A particle figure (left) and a small VR world (right) linked by a ribbon of light.
+   Data leaves the active organ, passes the Sensor and Algorithm gates into the world,
+   then returns through the Learner gate back into the body. Stress makes the body
+   tremble and the world stormy; calm makes both clear. */
+(function () {
+    const M = CLMock.create({
+        eyebrow: 'Concept 2 · Body ↔ World',
+        title: 'The Biofeedback Loop',
+        sub: 'Your body on the left, the VR world on the right. Watch data travel the ribbon. Click any gate to fly in.',
+        home: { pos: [0, 140, 780], target: [0, 70, 0] }
+    });
+    const { THREE, scene, BRAND } = M;
+    const BODY_X = -270, WORLD_X = 270;
+    const rnd = () => Math.random() * 2 - 1;
+
+    // ---------- particle body (sampled from simple shapes) ----------
+    const parts = [
+        // [cx, cy, cz, rx, ry, rz, share]
+        [0, 175, 0, 26, 30, 26, .14],     // head
+        [0, 138, 0, 10, 10, 10, .02],     // neck
+        [0, 80, 0, 46, 56, 24, .34],      // torso
+        [0, 10, 0, 38, 22, 20, .08],      // hips
+        [-60, 78, 0, 10, 50, 10, .07], [60, 78, 0, 10, 50, 10, .07],     // arms
+        [-20, -60, 0, 13, 62, 13, .14], [20, -60, 0, 13, 62, 13, .14]    // legs
+    ];
+    const BN = 2600, home = new Float32Array(BN * 3);
+    let k = 0;
+    parts.forEach(p => {
+        const n = Math.round(BN * p[6]);
+        for (let i = 0; i < n && k < BN; i++, k++) {
+            const u = rnd(), th = Math.random() * 6.283, r = Math.sqrt(1 - u * u), s = 0.82 + Math.random() * 0.18;
+            home.set([p[0] + r * Math.cos(th) * p[3] * s, p[1] + u * p[4] * s, p[2] + r * Math.sin(th) * p[5] * s], k * 3);
+        }
+    });
+    const bodyGeo = new THREE.BufferGeometry();
+    bodyGeo.setAttribute('position', new THREE.BufferAttribute(home.slice(), 3));
+    const bodyMat = new THREE.PointsMaterial({ size: 2.4, color: 0xB49BF8, opacity: 0.75, ...M.additive });
+    const body = new THREE.Points(bodyGeo, bodyMat);
+    const bodyG = new THREE.Group();
+    bodyG.position.x = BODY_X;
+    bodyG.rotation.y = 0.35;
+    bodyG.add(body);
+    scene.add(bodyG);
+
+    // organ hotspot moves with the signal tab
+    const ORGAN = { eeg: [0, 182, 6, 'Brain'], hrv: [-12, 98, 14, 'Heart'], gsr: [-62, 30, 8, 'Skin · hand'], respiration: [0, 92, 10, 'Lungs'] };
+    const organ = new THREE.Group();
+    const organOrb = new THREE.Mesh(new THREE.SphereGeometry(12, 24, 16), M.orbMaterial(BRAND.body));
+    const organGlow = M.glow(BRAND.body, 90, 0.6);
+    organ.add(organOrb, organGlow);
+    bodyG.add(organ);
+    M.pickable(organOrb, 0);
+
+    // ---------- VR world: dome + ground + motes ----------
+    const worldG = new THREE.Group();
+    worldG.position.set(WORLD_X, 40, 0);
+    scene.add(worldG);
+    const WR = 120;
+    const dome = new THREE.Mesh(new THREE.SphereGeometry(WR, 18, 7, 0, Math.PI * 2, 0, Math.PI / 2),
+        new THREE.MeshBasicMaterial({ color: BRAND.vr, wireframe: true, opacity: 0.12, ...M.additive }));
+    const ground = new THREE.Mesh(new THREE.CircleGeometry(WR, 64),
+        new THREE.MeshBasicMaterial({ color: 0x4CDCEF, opacity: 0.1, side: THREE.DoubleSide, ...M.additive }));
+    ground.rotation.x = -Math.PI / 2;
+    const rim = new THREE.Mesh(new THREE.TorusGeometry(WR, 1, 8, 96),
+        new THREE.MeshBasicMaterial({ color: BRAND.vr, opacity: 0.6, ...M.additive }));
+    rim.rotation.x = Math.PI / 2;
+    const sky = M.glow(0x4CDCEF, 300, 0.25);
+    sky.position.y = 60;
+    worldG.add(dome, ground, rim, sky);
+    // a few "trees" so the world reads as a place
+    const trees = [];
+    for (let i = 0; i < 7; i++) {
+        const a = i / 7 * 6.283 + 0.4, r = 40 + (i % 3) * 22;
+        const t = new THREE.Mesh(new THREE.ConeGeometry(9, 34 + (i % 2) * 14, 6),
+            new THREE.MeshBasicMaterial({ color: 0x5FDFA6, wireframe: true, opacity: 0.3, ...M.additive }));
+        t.position.set(Math.cos(a) * r, 18, Math.sin(a) * r);
+        worldG.add(t);
+        trees.push(t);
+    }
+    const MN = 500, motes = new Float32Array(MN * 3), moteSeed = [];
+    for (let i = 0; i < MN; i++) {
+        const a = Math.random() * 6.283, r = Math.sqrt(Math.random()) * WR * 0.9, y = Math.random() * WR * 0.8;
+        motes.set([Math.cos(a) * r, y, Math.sin(a) * r], i * 3);
+        moteSeed.push(Math.random());
+    }
+    const moteGeo = new THREE.BufferGeometry();
+    moteGeo.setAttribute('position', new THREE.BufferAttribute(motes, 3));
+    const moteMat = new THREE.PointsMaterial({ size: 2.6, color: 0x4CDCEF, opacity: 0.8, ...M.additive });
+    worldG.add(new THREE.Points(moteGeo, moteMat));
+    const worldHit = new THREE.Mesh(new THREE.SphereGeometry(WR, 16, 12), new THREE.MeshBasicMaterial({ visible: false }));
+    worldG.add(worldHit);
+    M.pickable(worldHit, 3);
+
+    // ---------- gates ----------
+    function gate(id, pos, idx) {
+        const g = new THREE.Group();
+        g.position.set(...pos);
+        const ring = new THREE.Mesh(new THREE.TorusGeometry(26, 2, 12, 64),
+            new THREE.MeshBasicMaterial({ color: BRAND[id], opacity: 0.9, ...M.additive }));
+        const hit = new THREE.Mesh(new THREE.SphereGeometry(30, 12, 8), new THREE.MeshBasicMaterial({ visible: false }));
+        g.add(ring, M.glow(BRAND[id], 120, 0.3), hit);
+        scene.add(g);
+        M.pickable(hit, idx);
+        return { g, ring, heat: 0 };
+    }
+    const gates = {
+        sensor: gate('sensor', [-110, 250, 0], 1),
+        algorithm: gate('algorithm', [100, 250, 0], 2),
+        adjustment: gate('adjustment', [0, -90, 40], 4)
+    };
+
+    // ---------- the ribbon: organ -> sensor -> algorithm -> world -> learner gate -> body ----------
+    const organW = new THREE.Vector3(), worldTop = new THREE.Vector3(WORLD_X, 40 + WR * 0.7, 0);
+    let ribbon = null, glowRibbon = null, curve = null;
+    function buildRibbon() {
+        organ.getWorldPosition(organW);
+        curve = new THREE.CatmullRomCurve3([
+            organW.clone(),
+            new THREE.Vector3(-200, 240, 10),
+            gates.sensor.g.position.clone(),
+            gates.algorithm.g.position.clone(),
+            worldTop.clone(),
+            new THREE.Vector3(WORLD_X - 20, 0, 50),
+            new THREE.Vector3(160, -80, 50),
+            gates.adjustment.g.position.clone(),
+            new THREE.Vector3(BODY_X + 60, 0, 40),
+            new THREE.Vector3(BODY_X + 20, 140, 30)    // back in through the eyes / head
+        ], true, 'centripetal');
+        [ribbon, glowRibbon].forEach(m => m && (scene.remove(m), m.geometry.dispose()));
+        ribbon = M.tube(curve, 0xB49BF8, 1.4, 0.4, 300, true);
+        glowRibbon = M.tube(curve, 0x4CDCEF, 5, 0.05, 300, true);
+        scene.add(ribbon, glowRibbon);    }
+    // where each step sits along the ribbon (rough u values, for lighting gates)
+    const STEP_U = [0, 0.2, 0.32, 0.45, 0.72];
+
+    // data packets flowing along the ribbon
+    const PN = 90, pU = Float32Array.from({ length: PN }, (_, i) => i / PN);
+    const pGeo = new THREE.BufferGeometry();
+    pGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(PN * 3), 3));
+    pGeo.setAttribute('color', new THREE.BufferAttribute(new Float32Array(PN * 3), 3));
+    const packets = new THREE.Points(pGeo, new THREE.PointsMaterial({ size: 7, vertexColors: true, opacity: 0.95, ...M.additive }));
+    scene.add(packets);
+    const stepCols = ['body', 'sensor', 'algorithm', 'vr', 'adjustment'].map(id => new THREE.Color(BRAND[id]));
+    const colAt = u => { let s = 0; for (let i = 0; i < 5; i++) if (u >= STEP_U[i]) s = i; return stepCols[s]; };
+
+    // ---------- labels ----------
+    const anchors = [organ, gates.sensor.g, gates.algorithm.g, worldG, gates.adjustment.g];
+    const offs = [26, 38, 38, WR * 0.15, 38];
+    const labs = anchors.map((a, i) => M.addLabel(a, '', BRAND[['body', 'sensor', 'algorithm', 'vr', 'adjustment'][i]], () => M.openStep(i), offs[i]));
+    const youA = new THREE.Object3D(); youA.position.set(0, -150, 0); bodyG.add(youA);
+    const worldA = new THREE.Object3D(); worldA.position.set(0, -40, 0); worldG.add(worldA);
+    M.addLabel(youA, 'You', null, null, 0, true);
+    const worldLab = M.addLabel(worldA, 'VR world', null, null, 0, true);
+
+    M.onSignal(id => {
+        const o = ORGAN[id];
+        organ.position.set(o[0], o[1], o[2]);
+        bodyG.updateMatrixWorld(true);
+        buildRibbon();
+        labs.forEach((l, i) => { l.el.textContent = M.nodes()[i].label; });
+        labs[0].el.textContent = M.nodes()[0].label + '\n(' + o[3] + ')';
+    });
+
+    // ---------- frame ----------
+    const calmC = new THREE.Color(0x4CDCEF), hotC = new THREE.Color(0xFF5C72), violet = new THREE.Color(0xB49BF8), tmp = new THREE.Color();
+    const pv = new THREE.Vector3();
+    M.onFrame((dt, t) => {
+        const s = M.state.stress;
+
+        // body: breathe when calm, tremble when stressed
+        const arr = bodyGeo.attributes.position.array, breath = 1 + Math.sin(t * (1.2 + s * 2)) * 0.015 * (1 - s);
+        const tremble = s * s * 5;
+        for (let i = 0; i < BN; i++) {
+            const j = i * 3;
+            arr[j] = home[j] * breath + Math.sin(t * 23 + i) * tremble;
+            arr[j + 1] = home[j + 1] + Math.cos(t * 19 + i * 1.3) * tremble;
+            arr[j + 2] = home[j + 2] * breath + Math.sin(t * 17 + i * .7) * tremble;
+        }
+        bodyGeo.attributes.position.needsUpdate = true;
+        tmp.copy(violet).lerp(hotC, Math.max(0, s - 0.4) * 1.4);
+        bodyMat.color.copy(tmp);
+        const beat = M.state.signal === 'hrv' ? Math.pow(Math.max(0, Math.sin(t * (4 + s * 5))), 8) : (Math.sin(t * 2) * .5 + .5) * .4;
+        organGlow.material.opacity = 0.35 + beat * 0.6;
+        organOrb.material.uniforms.uBoost.value = beat + (M.state.open === 0 ? .6 : 0);
+
+        // world: clear and slow when calm, stormy and fast when stressed
+        tmp.copy(calmC).lerp(hotC, s);
+        moteMat.color.copy(tmp);
+        sky.material.color.copy(tmp);
+        sky.material.opacity = 0.12 + s * 0.25;
+        dome.material.opacity = 0.05 + s * 0.08;
+        const ma = moteGeo.attributes.position.array, fall = 10 + s * s * 160;
+        for (let i = 0; i < MN; i++) {
+            const j = i * 3;
+            ma[j + 1] -= dt * fall * (0.4 + moteSeed[i]);
+            ma[j] += Math.sin(t * (1 + s * 6) + i) * dt * (4 + s * 40);
+            if (ma[j + 1] < 0) ma[j + 1] = WR * 0.8;
+        }
+        moteGeo.attributes.position.needsUpdate = true;
+        trees.forEach((tr, i) => {
+            tr.rotation.z = Math.sin(t * (1 + s * 8) + i) * s * 0.35;
+            tr.scale.y = 0.6 + (1 - s) * 0.6;
+        });
+        worldG.rotation.y += dt * 0.08;
+
+        // packets along the ribbon (stress makes data choppier, not faster)
+        if (curve) {
+            const pa = pGeo.attributes.position.array, ca = pGeo.attributes.color.array;
+            for (let i = 0; i < PN; i++) {
+                pU[i] = (pU[i] + dt * 0.06) % 1;
+                curve.getPointAt(pU[i], pv);
+                const j = i * 3, jit = s * 6;
+                pa[j] = pv.x + Math.sin(t * 13 + i) * jit; pa[j + 1] = pv.y + Math.cos(t * 11 + i) * jit; pa[j + 2] = pv.z;
+                const c = colAt(pU[i]); ca[j] = c.r; ca[j + 1] = c.g; ca[j + 2] = c.b;
+            }
+            pGeo.attributes.position.needsUpdate = true;
+            pGeo.attributes.color.needsUpdate = true;
+        }
+
+        // gates face the camera a little and spin gently
+        Object.entries(gates).forEach(([id, g], n) => {
+            g.ring.rotation.y = Math.sin(t * 0.6 + n) * 0.5;
+            g.ring.material.opacity = 0.6 + Math.sin(t * 2 + n) * 0.2 + (M.state.open === [1, 2, 4][n] ? .3 : 0);
+        });
+    });
+
+    // fly-in per step
+    const wp = new THREE.Vector3();
+    M.onOpen = i => {
+        anchors[i].getWorldPosition(wp);
+        const dist = i === 3 ? 380 : 260;
+        M.flyTo(wp.clone().add(new THREE.Vector3(i === 0 ? 60 : 0, 40, dist)), wp.clone());
+    };
+    M.start();
+})();
+</script>
+</body>
+</html>

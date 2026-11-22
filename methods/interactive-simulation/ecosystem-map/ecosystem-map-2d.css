@@ -1,0 +1,600 @@
+/* ============================================
+   ECOSYSTEM MAP - Simulation Styles
+   Tier 3 Full Redesign: Accordion Sidebar,
+   Ripple Trace, Connection Descriptions
+   ============================================ */
+
+/* Wrapper: SVG + panel side by side */
+.ecosystem-map-wrapper {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    gap: 0;
+    align-items: stretch;
+    background: radial-gradient(circle at center, rgba(6, 182, 212, 0.06) 0%, rgba(2, 6, 12, 1) 100%), #02060c;
+    border: 1px solid rgba(0, 217, 255, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* SVG takes up left portion */
+.ecosystem-map-svg-container {
+    flex: 1 1 60%;
+    min-width: 0;
+    position: relative;
+    /* Transparent so the wrapper's background glows through seamlessly */
+    background: transparent;
+}
+
+.ecosystem-map-svg-container svg {
+    width: 100%;
+    height: 100%;
+    cursor: default;
+}
+
+/* Detail panel — hidden until a node is selected */
+.ecosystem-map-panel {
+    flex: 0 0 40%;
+    max-width: 380px;
+    background: #0a1628;
+    border-left: 1px solid #1e293b;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transform: translateX(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.ecosystem-map-panel.visible {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+}
+
+/* ── Panel Header ───────────────────────────── */
+.em-panel-header {
+    padding: 12px 14px;
+    border-bottom: 1px solid #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.em-panel-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.em-panel-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    flex: 1;
+}
+
+.em-panel-subtitle {
+    color: #475569;
+    font-size: 12px;
+    margin-top: 2px;
+}
+
+/* ── Scrollable Panel Body ──────────────────── */
+.em-panel-body {
+    flex: 1;
+    padding: 0;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #1e293b #0a1628;
+}
+
+.em-panel-body::-webkit-scrollbar {
+    width: 5px;
+}
+
+.em-panel-body::-webkit-scrollbar-track {
+    background: #0a1628;
+}
+
+.em-panel-body::-webkit-scrollbar-thumb {
+    background: #1e293b;
+    border-radius: 3px;
+}
+
+/* ── Accordion Sections ─────────────────────── */
+.em-accordion-section {
+    border-bottom: 1px solid #1e293b;
+}
+
+.em-accordion-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+}
+
+.em-accordion-header:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.em-accordion-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #64748b;
+    transition: color 0.2s;
+}
+
+.em-accordion-section.open .em-accordion-title {
+    color: #94a3b8;
+}
+
+.em-accordion-arrow {
+    font-size: 10px;
+    color: #334155;
+    transition: transform 0.3s ease, color 0.2s;
+    flex-shrink: 0;
+}
+
+.em-accordion-section.open .em-accordion-arrow {
+    transform: rotate(180deg);
+    color: #64748b;
+}
+
+.em-accordion-preview {
+    font-size: 12px;
+    color: #334155;
+    margin-left: 8px;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: right;
+    padding-right: 8px;
+}
+
+.em-accordion-section.open .em-accordion-preview {
+    display: none;
+}
+
+.em-accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.35s ease;
+    padding: 0 14px;
+}
+
+.em-accordion-section.open .em-accordion-body {
+    max-height: 1200px;
+    padding: 0 14px 12px;
+}
+
+/* ── Content Styles ─────────────────────────── */
+.em-role-text {
+    color: #94a3b8;
+    font-size: 14px;
+    line-height: 1.65;
+}
+
+/* Key Players list */
+.em-player-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.em-player-item {
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(30, 41, 59, 0.5);
+}
+
+.em-player-item:last-child {
+    border-bottom: none;
+}
+
+.em-player-name {
+    font-family: 'Orbitron', monospace;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.em-player-detail {
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.5;
+    margin-top: 2px;
+}
+
+/* Landmark Studies */
+.em-study-item {
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(30, 41, 59, 0.5);
+}
+
+.em-study-item:last-child {
+    border-bottom: none;
+}
+
+.em-study-name {
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 0.3px;
+}
+
+.em-study-finding {
+    color: #64748b;
+    font-size: 11px;
+    line-height: 1.5;
+    margin-top: 2px;
+}
+
+/* Generic detail list (used for funding sources, FDA pathway, etc.) */
+.em-detail-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.em-detail-list li {
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(30, 41, 59, 0.5);
+    color: #94a3b8;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.em-detail-list li:last-child {
+    border-bottom: none;
+}
+
+.em-detail-label {
+    font-family: 'Orbitron', monospace;
+    font-size: 10px;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.em-detail-text {
+    color: #64748b;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+/* Challenge / Opportunity cards */
+.em-challenge-card {
+    background: rgba(248, 113, 113, 0.07);
+    border: 1px solid rgba(248, 113, 113, 0.2);
+    border-radius: 6px;
+    padding: 10px;
+    color: #fca5a5;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.em-opportunity-card {
+    background: rgba(52, 211, 153, 0.07);
+    border: 1px solid rgba(52, 211, 153, 0.2);
+    border-radius: 6px;
+    padding: 10px;
+    color: #6ee7b7;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* Connection descriptions in sidebar */
+.em-connection-item {
+    display: flex;
+    gap: 8px;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(30, 41, 59, 0.5);
+    align-items: flex-start;
+}
+
+.em-connection-item:last-child {
+    border-bottom: none;
+}
+
+.em-connection-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 3px;
+}
+
+.em-connection-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.em-connection-name {
+    font-family: 'Orbitron', monospace;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+.em-connection-desc {
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+/* Player chips (legacy, still used for compact lists) */
+.em-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.em-chip {
+    background: #1e293b;
+    border: 1px solid #334155;
+    color: #94a3b8;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 11px;
+}
+
+/* ── Ripple Trace ───────────────────────────── */
+.em-ripple-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(6, 182, 212, 0.1);
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    color: #06b6d4;
+    font-family: 'Orbitron', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, transform 0.15s;
+    margin-top: 4px;
+}
+
+.em-ripple-btn:hover {
+    background: rgba(6, 182, 212, 0.2);
+    border-color: rgba(6, 182, 212, 0.5);
+    transform: scale(1.02);
+}
+
+.em-ripple-btn:active {
+    transform: scale(0.98);
+}
+
+.em-ripple-btn.playing {
+    background: rgba(6, 182, 212, 0.25);
+    border-color: #06b6d4;
+    pointer-events: none;
+    animation: em-ripple-btn-pulse 1.5s ease infinite;
+}
+
+@keyframes em-ripple-btn-pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+}
+
+.em-ripple-options {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* Ripple step overlay on SVG */
+.em-ripple-label {
+    position: absolute;
+    pointer-events: none;
+    z-index: 50;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 11px;
+    color: #e2e8f0;
+    background: rgba(10, 22, 40, 0.92);
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    padding: 4px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    max-width: 220px;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.3;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.em-ripple-label.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Ripple step badge on node */
+.em-ripple-badge {
+    font-family: 'Orbitron', monospace;
+    font-size: 8px;
+    font-weight: bold;
+    fill: #080d14;
+    pointer-events: none;
+}
+
+.em-ripple-badge-bg {
+    pointer-events: all;
+    cursor: pointer;
+    transform-origin: center;
+}
+
+.em-ripple-badge-bg.ripple-complete {
+    animation: em-badge-glow 1.2s infinite alternate ease-in-out;
+}
+
+@keyframes em-badge-glow {
+    0% {
+        filter: drop-shadow(0 0 2px #06b6d4);
+    }
+
+    100% {
+        filter: drop-shadow(0 0 10px #06b6d4);
+    }
+}
+
+/* ── Panel Footer (ripple summary) ──────────── */
+.em-panel-footer {
+    padding: 10px 14px;
+    border-top: 1px solid #1e293b;
+    background: #060d1a;
+    font-size: 12px;
+    line-height: 1.5;
+    flex-shrink: 0;
+    color: #64748b;
+}
+
+/* ── Progress bar ───────────────────────────── */
+.em-progress-bar-container {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    right: 8px;
+    background: #1e293b;
+    border-radius: 4px;
+    height: 4px;
+    overflow: hidden;
+}
+
+.em-progress-bar-fill {
+    height: 100%;
+    background: #06b6d4;
+    border-radius: 4px;
+    width: 0%;
+    transition: width 0.4s ease, background 0.3s ease;
+}
+
+.em-progress-bar-fill.complete {
+    background: #34d399;
+}
+
+/* Progress label */
+.em-progress-label {
+    position: absolute;
+    bottom: 16px;
+    left: 8px;
+    font-size: 9px;
+    color: #475569;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* ── Node Styles ────────────────────────────── */
+.ecosystem-node {
+    cursor: pointer;
+}
+
+.ecosystem-node circle {
+    transition: fill-opacity 0.2s, stroke-width 0.2s;
+}
+
+.ecosystem-node.dimmed {
+    opacity: 0.12;
+    pointer-events: none;
+}
+
+.ecosystem-node.active circle {
+    stroke-width: 3;
+    fill-opacity: 0.3;
+}
+
+/* Ripple trace active state — node pulses */
+.ecosystem-node.ripple-active circle {
+    stroke-width: 3;
+    fill-opacity: 0.4;
+}
+
+.ecosystem-node.ripple-source circle {
+    stroke-width: 4;
+    fill-opacity: 0.5;
+    animation: em-node-ripple-glow 0.8s ease-out;
+}
+
+@keyframes em-node-ripple-glow {
+    0% {
+        stroke-width: 2;
+        fill-opacity: 0.15;
+    }
+
+    50% {
+        stroke-width: 5;
+        fill-opacity: 0.6;
+    }
+
+    100% {
+        stroke-width: 3;
+        fill-opacity: 0.4;
+    }
+}
+
+/* Instruction hint */
+.em-hint {
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    color: #334155;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    pointer-events: none;
+    transition: opacity 0.5s;
+}
+
+/* Hidden badge (legacy, kept for backward compat) */
+.em-visited-badge {
+    display: none !important;
+}
+
+/* ── Mobile: stack panel below SVG ──────────── */
+@media (max-width: 600px) {
+    .ecosystem-map-wrapper {
+        flex-direction: column;
+    }
+
+    .ecosystem-map-svg-container {
+        flex: 0 0 55%;
+    }
+
+    .ecosystem-map-panel {
+        flex: 0 0 45%;
+        max-width: 100%;
+        border-left: none;
+        border-top: 1px solid #1e293b;
+        transform: translateY(20px);
+    }
+
+    .ecosystem-map-panel.visible {
+        transform: translateY(0);
+    }
+}

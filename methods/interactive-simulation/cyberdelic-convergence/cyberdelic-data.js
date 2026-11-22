@@ -10,37 +10,37 @@
             {
                 id: 'psychedelic',
                 name: 'Psychedelic\nResearch',
-                color: '#a855f7',
+                color: '#B49BF8',
                 angle: 0
             },
             {
                 id: 'vr-tech',
                 name: 'VR/AR\nTechnology',
-                color: '#06b6d4',
+                color: '#4CDCEF',
                 angle: 60
             },
             {
                 id: 'neuroscience',
                 name: 'Neuroscience',
-                color: '#ec4899',
+                color: '#E562A4',
                 angle: 120
             },
             {
                 id: 'contemplative',
                 name: 'Contemplative\nPractices',
-                color: '#f59e0b',
+                color: '#DDB049',
                 angle: 180
             },
             {
                 id: 'gaming',
                 name: 'Gaming',
-                color: '#10b981',
+                color: '#5FDFA6',
                 angle: 240
             },
             {
                 id: 'digital-art',
                 name: 'Digital Art',
-                color: '#e879f9',
+                color: '#B964F5',
                 angle: 300
             }
         ],
@@ -821,7 +821,7 @@
             {
                 id: 'domains',
                 title: 'Explore the Domains',
-                text: 'Click on any colored circle to zoom in and see detailed information about that field\'s contributions. Notice that the Examples within link to pages with their real-world examples.',
+                text: 'Click any glowing orb to fly in and see that field\'s contributions, key people, technologies, and examples. Drag to orbit the nebula. The examples link to real-world projects.',
                 target: '.domain-node[data-id="psychedelic"] .node-circle',
                 position: 'center',
                 spotlightShape: 'circle',
@@ -830,12 +830,11 @@
             {
                 id: 'timeline',
                 title: 'Travel Through Time',
-                text: 'Use the timeline on the right side to see how connections formed over the years. Try scrubbing it now!',
-                target: '.sim-controls',
+                text: 'Use the timeline at the bottom to see how connections formed over the years. Drag the slider or press play.',
+                target: '.cn3d-dock',
                 position: 'center',
                 spotlightShape: 'rect',
-                spotlightWidth: 90,
-                spotlightHeight: 520
+                spotlightPadding: 10
             }
         ]
     };
